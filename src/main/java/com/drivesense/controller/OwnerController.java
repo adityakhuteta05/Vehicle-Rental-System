@@ -2,11 +2,7 @@ package com.drivesense.controller;
 
 import com.drivesense.entity.*;
 import com.drivesense.enums.*;
-import com.drivesense.repository.CarRepository;
-import com.drivesense.repository.LocationRepository;
-import com.drivesense.repository.ReviewRepository;
 import com.drivesense.repository.UserRepository;
-import com.drivesense.service.DcrService;
 import com.drivesense.service.OwnerService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

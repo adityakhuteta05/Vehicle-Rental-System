@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Import Fleet | DriveSense Operations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="admin-layout">
+    <div th:replace="~{fragments/admin-sidebar :: admin-sidebar}"></div>
+
+    <main class="admin-main">
+        <!-- Header -->
+        <div style="margin-bottom: 2.5rem;">
+            <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">
+                DATA INGESTION PIPELINE
+            </div>
+            <h1 style="font-size: 2.25rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 0.5rem;">
+                Import Fleet
+            </h1>
+            <p style="color: var(--text-secondary); font-size: 0.95rem; max-width: 680px; margin: 0;">
+                Upload a validated XML fleet file to add vehicles in bulk.
+            </p>
+        </div>
+
+        <!-- Processing Results Report -->
+        <div th:if="${importResult != null}" class="ds-card" style="padding: 2rem; margin-bottom: 2.5rem; border: 1px solid var(--border-medium);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle); padding-bottom: 1.25rem; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem;">
+                        Ingestion Execution Report
+                    </h3>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">JAXB Schema Validation & Transaction Summary</p>
+                </div>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <div style="background: var(--bg-surface-elevated); padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--border-subtle); font-size: 0.88rem;">
+                        <span style="color: var(--text-muted);">Imported:</span>
+                        <strong style="color: var(--text-primary); margin-left: 0.35rem;" th:text="${importResult.importedCount + ' vehicles'}">10 vehicles</strong>
+                    </div>
+                    <div style="background: var(--bg-surface-elevated); padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--border-subtle); font-size: 0.88rem;">
+                        <span style="color: var(--text-muted);">Rejected:</span>
+                        <strong style="color: var(--text-secondary); margin-left: 0.35rem;" th:text="${importResult.skippedCount + ' vehicles'}">2 vehicles</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ingested Vehicles List -->
+            <div th:if="${!importResult.successMessages.empty}" style="margin-bottom: 1.5rem;">
+                <div style="font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem;">
+                    Successfully Registered Vehicles
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div th:each="msg : ${importResult.successMessages}" 
+                         style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: 8px; font-size: 0.86rem; color: var(--text-primary);">
+                        <i class="fa-solid fa-check" style="font-size: 0.85rem; color: var(--text-secondary);"></i>
+                        <span th:text="${msg}">Registered vehicle successfully</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Errors & Validation Warnings -->
+            <div th:if="${!importResult.errors.empty}">
+                <div style="font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem;">
+                    Validation Errors & Skipped Records
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div th:each="err : ${importResult.errors}" 
+                         style="display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.85rem 1rem; background: var(--bg-surface-elevated); border-left: 3px solid var(--text-primary); border-top: 1px solid var(--border-subtle); border-right: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); border-radius: 4px; font-size: 0.86rem; color: var(--text-secondary);">
+                        <i class="fa-solid fa-circle-exclamation" style="margin-top: 0.2rem; font-size: 0.85rem; color: var(--text-primary);"></i>
+                        <span th:text="${err}">Validation failure</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${errorMessage != null}" class="ds-card" style="padding: 1.5rem; margin-bottom: 2rem; border-left: 3px solid #73777B;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-primary); font-size: 0.9rem;">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span th:text="${errorMessage}">Error processing file.</span>
+            </div>
+        </div>
+
+        <!-- Ingestion Form & Specifications Grid -->
+        <div style="display: grid; grid-template-columns: 1.25fr 1fr; gap: 2rem; align-items: start;">
+            
+            <!-- Professional Upload Dropzone Card -->
+            <div class="ds-card" style="padding: 2.5rem;">
+                <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem;">
+                    XML Fleet Upload
+                </h3>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 2rem;">
+                    Attach an XML document compliant with the DriveSense automotive fleet schema.
+                </p>
+
+                <form th:action="@{/admin/fleet/import-xml}" method="post" enctype="multipart/form-data" id="xmlUploadForm">
+                    <div id="dropzone" 
+                         style="border: 1px dashed var(--border-medium); border-radius: 12px; padding: 3rem 1.5rem; text-align: center; background: var(--bg-surface-elevated); cursor: pointer; transition: all 0.2s ease;">
+                        <input type="file" name="file" id="fileInput" accept=".xml,text/xml" style="display: none;" required />
+                        
+                        <div style="width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--border-subtle); background: var(--bg-surface); display: inline-flex; align-items: center; justify-content: center; font-size: 1.25rem; color: var(--text-primary); margin-bottom: 1.25rem;">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        
+                        <div style="font-size: 1.05rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.35rem;" id="dropzoneText">
+                            Drag &amp; drop XML file
+                        </div>
+                        <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+                            or
+                        </div>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('fileInput').click()">
+                            Choose file
+                        </button>
+
+                        <div id="selectedFileName" style="display: none; margin-top: 1rem; font-size: 0.85rem; font-family: monospace; color: var(--text-primary); background: var(--bg-surface); padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--border-subtle);"></div>
+                    </div>
+
+                    <div style="margin-top: 1.75rem;">
+                        <button type="submit" class="btn btn-primary btn-block" style="padding: 0.9rem; font-weight: 600; font-size: 0.9rem;">
+                            Process &amp; Ingest Fleet
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Schema Specifications & Guidelines -->
+            <div class="ds-card" style="padding: 2.25rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary);">
+                        Schema Contract
+                    </h3>
+                    <span style="font-size: 0.72rem; font-family: monospace; padding: 0.25rem 0.6rem; border-radius: 4px; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); color: var(--text-muted);">
+                        fleet.xsd
+                    </span>
+                </div>
+                <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.25rem;">
+                    Each vehicle entry must supply unique registration numbers, validated powertrain classification, and commercial daily pricing rates.
+                </p>
+
+                <div style="background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 1.25rem; font-family: 'SF Mono', Consolas, Monaco, monospace; font-size: 0.78rem; line-height: 1.5; color: var(--text-secondary); overflow-x: auto;">
+&lt;fleet&gt;
+  &lt;car&gt;
+    &lt;brand&gt;Audi&lt;/brand&gt;
+    &lt;model&gt;A6 Matrix&lt;/model&gt;
+    &lt;regNumber&gt;MH-01-AX-9920&lt;/regNumber&gt;
+    &lt;type&gt;LUXURY&lt;/type&gt;
+    &lt;fuelType&gt;PETROL&lt;/fuelType&gt;
+    &lt;transmission&gt;AUTOMATIC&lt;/transmission&gt;
+    &lt;seats&gt;5&lt;/seats&gt;
+    &lt;bootSize&gt;L&lt;/bootSize&gt;
+    &lt;pricePerDay&gt;7500.00&lt;/pricePerDay&gt;
+    &lt;pricePerHour&gt;450.00&lt;/pricePerHour&gt;
+    &lt;features&gt;
+      &lt;feature&gt;Adaptive Air Suspension&lt;/feature&gt;
+      &lt;feature&gt;Bose Audio&lt;/feature&gt;
+    &lt;/features&gt;
+  &lt;/car&gt;
+&lt;/fleet&gt;
+                </div>
+
+                <div style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle); font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Pre-validated with JAXB unmarshaller</span>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+<script>
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const selectedFileName = document.getElementById('selectedFileName');
+
+    dropzone.addEventListener('click', (e) => {
+        if (e.target !== fileInput && !e.target.closest('button')) {
+            fileInput.click();
+        }
+    });
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.style.borderColor = 'var(--text-primary)';
+            dropzone.style.background = 'var(--bg-surface)';
+        }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.style.borderColor = 'var(--border-medium)';
+            dropzone.style.background = 'var(--bg-surface-elevated)';
+        }, false);
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files.length) {
+            fileInput.files = files;
+            displayFilename(files[0].name);
+        }
+    });
+
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length) {
+            displayFilename(fileInput.files[0].name);
+        }
+    });
+
+    function displayFilename(name) {
+        selectedFileName.style.display = 'block';
+        selectedFileName.innerHTML = '<i class="fa-solid fa-file-code" style="margin-right:0.4rem;"></i> ' + name;
+    }
+</script>
+</body>
+</html>

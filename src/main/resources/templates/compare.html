@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Vehicles | DriveSense</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main style="padding-top: 4rem; padding-bottom: 5rem;">
+    <div class="container">
+        <!-- Header -->
+        <div style="text-align: center; max-width: 680px; margin: 0 auto 3rem auto;">
+            <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.5rem;">
+                TECHNICAL BENCHMARK
+            </div>
+            <h1 style="font-size: 2.75rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.75rem;">
+                Side-by-Side Comparison
+            </h1>
+            <p style="color: var(--text-secondary); font-size: 1rem; line-height: 1.6; margin: 0;">
+                Evaluate powertrain performance, boot volume, daily pricing rates, and carbon efficiency.
+            </p>
+        </div>
+
+        <!-- Vehicle Selection Bar -->
+        <form th:action="@{/cars/compare}" method="get" class="ds-card" style="padding: 1.75rem; margin-bottom: 2.5rem; display: grid; grid-template-columns: 1fr 1fr auto; gap: 1.5rem; align-items: end;">
+            <div class="form-group" style="margin-bottom: 0;">
+                <label class="ds-label">First Vehicle</label>
+                <select name="car1Id" class="ds-input">
+                    <option th:each="c : ${allCars}"
+                            th:value="${c.id}"
+                            th:text="${c.displayName + ' — ₹' + #numbers.formatDecimal(c.pricePerDay, 0, 'COMMA', 0, 'POINT') + ' / day'}"
+                            th:selected="${car1 != null && car1.id == c.id}"></option>
+                </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+                <label class="ds-label">Second Vehicle</label>
+                <select name="car2Id" class="ds-input">
+                    <option th:each="c : ${allCars}"
+                            th:value="${c.id}"
+                            th:text="${c.displayName + ' — ₹' + #numbers.formatDecimal(c.pricePerDay, 0, 'COMMA', 0, 'POINT') + ' / day'}"
+                            th:selected="${car2 != null && car2.id == c.id}"></option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="height: 44px; padding: 0 1.5rem;">
+                Compare
+            </button>
+        </form>
+
+        <!-- Technical Comparison Matrix -->
+        <div th:if="${car1 != null && car2 != null}" class="ds-card" style="padding: 2rem; overflow-x: auto;">
+            <table class="ds-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+                <thead>
+                    <tr style="border-bottom: 1px solid var(--border-medium);">
+                        <th style="padding: 1.5rem 1rem; width: 28%; color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em;">
+                            Specification
+                        </th>
+                        <th style="padding: 1.5rem 1rem; width: 36%; text-align: center;">
+                            <div style="width: 100%; height: 160px; border-radius: 8px; overflow: hidden; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); margin-bottom: 1rem;">
+                                <img th:src="${car1.imageUrl}" style="width: 100%; height: 100%; object-fit: cover;" alt="Car 1" />
+                            </div>
+                            <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);" th:text="${car1.brand}">HYUNDAI</div>
+                            <h3 style="font-size: 1.35rem; font-weight: 800; margin: 0.2rem 0 0.5rem 0;" th:text="${car1.model}">Creta</h3>
+                            <div style="font-size: 1.5rem; font-weight: 800; color: var(--text-primary); margin-bottom: 1rem;" th:text="${'₹' + #numbers.formatDecimal(car1.pricePerDay, 0, 'COMMA', 0, 'POINT') + ' / day'}">
+                                ₹2,900 / day
+                            </div>
+                            <a th:href="@{/book/{id}(id=${car1.id})}" class="btn btn-primary btn-sm btn-block">
+                                Book This Car
+                            </a>
+                        </th>
+                        <th style="padding: 1.5rem 1rem; width: 36%; text-align: center;">
+                            <div style="width: 100%; height: 160px; border-radius: 8px; overflow: hidden; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); margin-bottom: 1rem;">
+                                <img th:src="${car2.imageUrl}" style="width: 100%; height: 100%; object-fit: cover;" alt="Car 2" />
+                            </div>
+                            <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);" th:text="${car2.brand}">MAHINDRA</div>
+                            <h3 style="font-size: 1.35rem; font-weight: 800; margin: 0.2rem 0 0.5rem 0;" th:text="${car2.model}">XUV700</h3>
+                            <div style="font-size: 1.5rem; font-weight: 800; color: var(--text-primary); margin-bottom: 1rem;" th:text="${'₹' + #numbers.formatDecimal(car2.pricePerDay, 0, 'COMMA', 0, 'POINT') + ' / day'}">
+                                ₹4,300 / day
+                            </div>
+                            <a th:href="@{/book/{id}(id=${car2.id})}" class="btn btn-primary btn-sm btn-block">
+                                Book This Car
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 1.1rem 1rem; color: var(--text-secondary); font-weight: 600;">Vehicle Class</td>
+                        <td style="padding: 1.1rem 1rem; text-align: center;" th:text="${car1.type.displayName}">SUV</td>
+                        <td style="padding: 1.1rem 1rem; text-align: center;" th:text="${car2.type.displayName}">SUV</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 1.1rem 1rem; color: var(--text-secondary); font-weight: 600;">Powertrain / Fuel</td>
+                        <td style="padding: 1.1rem 1rem; text-align: center;" th:text="${car1.fuelType.displayName}">Petrol</td>
+                        <td style="padding: 1.1rem 1rem; text-align: center;" th:text="${car2.fuelType.displayName}">Diesel</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 1.1rem 1rem; color: var(--text-secondary); font-weight: 600;">Transmission</td>
+                        <td style="padding: 1.1rem 1rem; text-align: center;" th:text="${car1.transmission}">AUTOMATIC</td>
+                        <td style="padding: 1.1rem 1rem; text-align: center;" th:text="${car2.transmission}">AUTOMATIC</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 1.1rem 1rem; color: var(--text-secondary); font-weight: 600;">Seating Capacity</td>
+                        <td style="padding: 1.1rem 1rem; text-align: center; font-weight: 700; color: var(--text-primary);" th:text="${car1.seats + ' Seats'}">5 Seats</td>
+                        <td style="padding: 1.1rem 1rem; text-align: center; font-weight: 700; color: var(--text-primary);" th:text="${car2.seats + ' Seats'}">7 Seats</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 1.1rem 1rem; color: var(--text-secondary); font-weight: 600;">Boot Space</td>
+                        <td style="padding: 1.1rem 1rem; text-align: center;" th:text="${car1.bootSize.description}">Medium</td>
+                        <td style="padding: 1.1rem 1rem; text-align: center;" th:text="${car2.bootSize.description}">Large</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 1.1rem 1rem; color: var(--text-secondary); font-weight: 600;">Daily Free KM Limit</td>
+                        <td style="padding: 1.1rem 1rem; text-align: center;" th:text="${car1.kmPerDayLimit + ' km / day'}">300 km / day</td>
+                        <td style="padding: 1.1rem 1rem; text-align: center;" th:text="${car2.kmPerDayLimit + ' km / day'}">300 km / day</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 1.1rem 1rem; color: var(--text-secondary); font-weight: 600;">Extra KM Surcharge</td>
+                        <td style="padding: 1.1rem 1rem; text-align: center;" th:text="${'₹' + car1.extraKmRate + ' / km'}">₹12 / km</td>
+                        <td style="padding: 1.1rem 1rem; text-align: center;" th:text="${'₹' + car2.extraKmRate + ' / km'}">₹15 / km</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 1.1rem 1rem; color: var(--text-secondary); font-weight: 600;">CO2 Emissions</td>
+                        <td style="padding: 1.1rem 1rem; text-align: center;" th:text="${car1.co2GPerKm + ' g/km'}">135 g/km</td>
+                        <td style="padding: 1.1rem 1rem; text-align: center;" th:text="${car2.co2GPerKm + ' g/km'}">165 g/km</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 1.1rem 1rem; color: var(--text-secondary); font-weight: 600;">Customer Rating</td>
+                        <td style="padding: 1.1rem 1rem; text-align: center; font-weight: 700; color: var(--text-primary);" th:text="${'★ ' + car1.avgRating}">★ 4.8</td>
+                        <td style="padding: 1.1rem 1rem; text-align: center; font-weight: 700; color: var(--text-primary);" th:text="${'★ ' + car2.avgRating}">★ 4.9</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

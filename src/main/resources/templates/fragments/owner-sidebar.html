@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<aside th:fragment="owner-sidebar" class="admin-sidebar">
+    <div>
+        <!-- Host Profile Card Header -->
+        <div style="padding: 0 0.5rem 1.5rem; border-bottom: 1px solid var(--border-subtle); margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.65rem;">
+                <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #D4A017; background: rgba(212, 160, 23, 0.12); padding: 0.2rem 0.5rem; border-radius: 9999px; border: 1px solid rgba(212, 160, 23, 0.3);">
+                    <i class="fa-solid fa-circle" style="font-size: 0.35rem;"></i> Host Partner
+                </span>
+                <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">90% Payout</span>
+            </div>
+            <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); margin: 0 0 0.2rem 0; letter-spacing: -0.01em;">
+                Fleet Operations
+            </h4>
+            <div style="font-size: 0.8rem; color: var(--text-secondary); display: flex; align-items: center; gap: 0.4rem;">
+                <span sec:authentication="name" style="max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Rajesh Singhania</span>
+            </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <ul class="admin-nav">
+            <li>
+                <a th:href="@{/owner/dashboard}" class="admin-nav-item" th:classappend="${activeNav == 'dashboard' ? 'active' : ''}">
+                    <i class="fa-solid fa-gauge-high"></i>
+                    <span>Overview</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/owner/vehicles}" class="admin-nav-item" th:classappend="${activeNav == 'vehicles' ? 'active' : ''}">
+                    <i class="fa-solid fa-car-side"></i>
+                    <span>Vehicles</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/owner/bookings}" class="admin-nav-item" th:classappend="${activeNav == 'bookings' ? 'active' : ''}">
+                    <i class="fa-regular fa-calendar-check"></i>
+                    <span>Bookings</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/owner/condition-reports}" class="admin-nav-item" th:classappend="${activeNav == 'dcr' ? 'active' : ''}">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Condition Reports</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/owner/earnings}" class="admin-nav-item" th:classappend="${activeNav == 'earnings' ? 'active' : ''}">
+                    <i class="fa-solid fa-sack-dollar"></i>
+                    <span>Revenue &amp; Payouts</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/owner/calendar}" class="admin-nav-item" th:classappend="${activeNav == 'calendar' ? 'active' : ''}">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>Calendar Schedule</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/owner/reviews}" class="admin-nav-item" th:classappend="${activeNav == 'reviews' ? 'active' : ''}">
+                    <i class="fa-regular fa-star"></i>
+                    <span>Reviews &amp; Ratings</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/owner/profile}" class="admin-nav-item" th:classappend="${activeNav == 'profile' ? 'active' : ''}">
+                    <i class="fa-solid fa-sliders"></i>
+                    <span>Fleet Settings</span>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Quick Action Button -->
+        <div style="margin-top: 1.75rem; padding: 0 0.25rem;">
+            <a th:href="@{/owner/vehicles/add}" class="btn btn-primary btn-block btn-sm" style="height: 42px; font-weight: 700; background: linear-gradient(135deg, #1C1917 0%, #292524 100%); border-color: rgba(251, 191, 36, 0.4); color: #FBBF24;">
+                <i class="fa-solid fa-plus" style="margin-right: 0.35rem;"></i> Enrol New Vehicle
+            </a>
+        </div>
+    </div>
+
+    <!-- Bottom Actions -->
+    <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 0.35rem;">
+        <a th:href="@{/}" class="admin-nav-item" style="color: var(--text-secondary);">
+            <i class="fa-solid fa-compass"></i>
+            <span>Customer Showroom</span>
+        </a>
+        <form th:action="@{/logout}" method="post" style="margin: 0;">
+            <button type="submit" class="admin-nav-item" style="background: none; border: none; width: 100%; text-align: left; cursor: pointer; color: var(--status-danger-text); font-size: 0.88rem; font-weight: 600; padding: 0.75rem 1rem; border-radius: var(--radius-md);">
+                <i class="fa-solid fa-arrow-right-from-bracket" style="color: var(--status-danger-text);"></i>
+                <span>Sign Out Command</span>
+            </button>
+        </form>
+    </div>
+</aside>
+</body>
+</html>

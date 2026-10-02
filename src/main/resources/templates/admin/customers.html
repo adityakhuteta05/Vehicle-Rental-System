@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Reliability Directory | DriveSense Operations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="admin-layout">
+    <div th:replace="~{fragments/admin-sidebar :: admin-sidebar}"></div>
+
+    <main class="admin-main">
+        <!-- Header -->
+        <div style="margin-bottom: 2.5rem;">
+            <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">
+                CUSTOMER IDENTITY &amp; INTEGRITY
+            </div>
+            <h1 style="font-size: 2.25rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 0.4rem;">
+                Customer Management
+            </h1>
+            <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">
+                Verified renter profiles, driving licence records, algorithmic trust ratings, and tier privileges.
+            </p>
+        </div>
+
+        <!-- Customer Table Card -->
+        <div class="ds-card" style="padding: 1.5rem; overflow-x: auto;">
+            <table class="ds-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem;">
+                <thead>
+                    <tr style="border-bottom: 1px solid var(--border-medium); color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em;">
+                        <th style="padding: 1rem 1.25rem;">Customer</th>
+                        <th style="padding: 1rem 1.25rem;">Contact</th>
+                        <th style="padding: 1rem 1.25rem;">Driving Licence</th>
+                        <th style="padding: 1rem 1.25rem;">DOB / Age</th>
+                        <th style="padding: 1rem 1.25rem;">Trust Score</th>
+                        <th style="padding: 1rem 1.25rem;">Tier</th>
+                        <th style="padding: 1rem 1.25rem;">Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="c : ${customers}" style="border-bottom: 1px solid var(--border-subtle); transition: background 0.15s ease;">
+                        <td style="padding: 1.1rem 1.25rem; font-weight: 600; color: var(--text-primary);">
+                            <div th:text="${c.fullName}">Aaditya Sharma</div>
+                        </td>
+                        <td style="padding: 1.1rem 1.25rem;">
+                            <div style="color: var(--text-primary);" th:text="${c.email}">user@example.com</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem;" th:text="${c.phone != null ? c.phone : 'Not provided'}">+91 98765 43210</div>
+                        </td>
+                        <td style="padding: 1.1rem 1.25rem; font-family: 'SF Mono', Consolas, Monaco, monospace; font-size: 0.82rem; color: var(--text-secondary);" th:text="${c.licenceNo}">
+                            DL-042015001234
+                        </td>
+                        <td style="padding: 1.1rem 1.25rem; color: var(--text-secondary);" th:text="${c.dob != null ? c.dob : '—'}">
+                            1998-08-20
+                        </td>
+                        <td style="padding: 1.1rem 1.25rem;">
+                            <div style="display: flex; align-items: baseline; gap: 0.25rem;">
+                                <strong style="font-size: 1.05rem; font-weight: 700; color: var(--text-primary);" th:text="${c.trustScore}">78</strong>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">/ 100</span>
+                            </div>
+                        </td>
+                        <td style="padding: 1.1rem 1.25rem;">
+                            <span class="badge" 
+                                  style="background: var(--bg-surface-elevated); border: 1px solid var(--border-medium); color: var(--text-primary); font-size: 0.75rem; text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em;"
+                                  th:text="${c.trustTier.name()}">
+                                GOLD
+                            </span>
+                        </td>
+                        <td style="padding: 1.1rem 1.25rem;">
+                            <span class="badge"
+                                  th:classappend="${c.role == 'ROLE_ADMIN' ? 'status-rented' : 'status-available'}"
+                                  th:text="${c.role == 'ROLE_ADMIN' ? 'ADMIN' : (c.role == 'ROLE_OWNER' ? 'HOST' : 'RENTER')}">
+                                RENTER
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

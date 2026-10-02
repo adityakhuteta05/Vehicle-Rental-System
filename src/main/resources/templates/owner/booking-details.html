@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Specification | DriveSense Fleet Command</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="admin-layout">
+    <div th:replace="~{fragments/owner-sidebar :: owner-sidebar}"></div>
+
+    <main class="admin-main">
+        <div style="max-width: 900px; margin: 0 auto;">
+            <!-- Header -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <a th:href="@{/owner/bookings}" class="btn btn-secondary btn-sm" style="margin-bottom: 1.25rem;">
+                        <i class="fa-solid fa-arrow-left"></i> Back to Bookings
+                    </a>
+                    <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">
+                        RESERVATION CONTRACT
+                    </div>
+                    <h1 style="font-size: 2.25rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 0.4rem;">
+                        Booking <span th:text="${booking.bookingCode}">DS-2026-000123</span>
+                    </h1>
+                </div>
+
+                <span class="badge"
+                      th:classappend="${booking.status.name() == 'ACTIVE' ? 'status-rented' : (booking.status.name() == 'CONFIRMED' ? 'status-available' : '')}"
+                      style="font-size: 0.75rem; text-transform: uppercase; font-weight: 600;"
+                      th:text="${booking.status.name()}">
+                    CONFIRMED
+                </span>
+            </div>
+
+            <!-- Flash Messages -->
+            <div th:if="${successMessage}" class="ds-card" style="padding: 1rem 1.25rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; border-left: 3px solid var(--text-primary);">
+                <i class="fa-solid fa-circle-check"></i>
+                <span style="font-size: 0.88rem; color: var(--text-primary);" th:text="${successMessage}"></span>
+            </div>
+
+            <!-- Grid: Vehicle & Customer -->
+            <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.75rem; margin-bottom: 1.75rem;">
+                <!-- Vehicle & Trip -->
+                <div class="ds-card" style="padding: 1.75rem;">
+                    <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--text-primary);">
+                        Vehicle &amp; Schedule
+                    </h3>
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="width: 100px; height: 68px; border-radius: 6px; overflow: hidden; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); flex-shrink: 0;">
+                            <img th:src="${booking.car.imageUrl != null ? booking.car.imageUrl : 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=400&q=80'}"
+                                 style="width: 100%; height: 100%; object-fit: cover;" />
+                        </div>
+                        <div>
+                            <strong style="font-size: 1.05rem; color: var(--text-primary);" th:text="${booking.car.displayName}">Hyundai Creta</strong>
+                            <div style="font-size: 0.78rem; font-family: 'SF Mono', Consolas, monospace; color: var(--text-muted); margin-top: 0.15rem;" th:text="${'Reg: ' + booking.car.regNumber}">DL04-CC-1024</div>
+                            <span class="badge status-available" style="margin-top: 0.35rem; font-size: 0.7rem;" th:text="${booking.car.type.displayName}">SUV</span>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border-top: 1px solid var(--border-subtle); padding-top: 1rem; font-size: 0.85rem;">
+                        <div>
+                            <div style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase;">PICKUP</div>
+                            <strong style="color: var(--text-primary);" th:text="${#temporals.format(booking.startTime, 'dd MMM yyyy, HH:mm')}">10 Oct 2026, 09:00</strong>
+                        </div>
+                        <div>
+                            <div style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase;">RETURN</div>
+                            <strong style="color: var(--text-primary);" th:text="${#temporals.format(booking.endTime, 'dd MMM yyyy, HH:mm')}">12 Oct 2026, 18:00</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Details -->
+                <div class="ds-card" style="padding: 1.75rem;">
+                    <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--text-primary);">
+                        Customer Verification
+                    </h3>
+                    <div style="margin-bottom: 1.25rem;">
+                        <div style="font-size: 1.05rem; font-weight: 700; color: var(--text-primary);" th:text="${booking.user.fullName}">Aaditya Sharma</div>
+                        <div style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.2rem;" th:text="${booking.user.email}">user@example.com</div>
+                        <div style="font-size: 0.82rem; color: var(--text-muted);" th:text="${booking.user.phone}">+91 98765 43210</div>
+                    </div>
+
+                    <div style="border-top: 1px solid var(--border-subtle); padding-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;">
+                            <span style="font-size: 0.82rem; color: var(--text-muted);">Trust Score</span>
+                            <span style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary);" th:text="${booking.user.trustScore + ' / 100 (' + booking.user.trustTier.name() + ')'}">78 / 100 (GOLD)</span>
+                        </div>
+                        <div style="font-size: 0.78rem; color: var(--text-muted);">
+                            Licence: <span style="font-family: 'SF Mono', Consolas, monospace; color: var(--text-primary);" th:text="${booking.user.licenceNo}">DL-042015001234</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Commercial Breakdown -->
+            <div class="ds-card" style="padding: 2rem; margin-bottom: 2rem;">
+                <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--text-primary);">
+                    Commercial Settlement Breakdown
+                </h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; font-size: 0.9rem;">
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase;">Gross Total (Renter)</div>
+                        <div style="font-size: 1.5rem; font-weight: 800; color: var(--text-primary); margin-top: 0.25rem;" th:text="${'₹' + #numbers.formatDecimal(booking.totalAmount, 0, 'COMMA', 0, 'POINT')}">₹10,779</div>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase;">Platform Fee (10%)</div>
+                        <div style="font-size: 1.5rem; font-weight: 800; color: var(--text-secondary); margin-top: 0.25rem;" th:text="${'₹' + #numbers.formatDecimal(booking.platformFee, 0, 'COMMA', 0, 'POINT')}">₹1,078</div>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase;">Host Net Earning (90%)</div>
+                        <div style="font-size: 1.5rem; font-weight: 800; color: var(--text-primary); margin-top: 0.25rem;" th:text="${'₹' + #numbers.formatDecimal(booking.ownerEarnings, 0, 'COMMA', 0, 'POINT')}">₹9,701</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions Bar -->
+            <div style="display: flex; justify-content: flex-end; gap: 1rem; border-top: 1px solid var(--border-subtle); padding-top: 1.75rem;">
+                <form th:if="${booking.status.name() == 'PENDING'}" th:action="@{/owner/bookings/{id}/approve(id=${booking.id})}" method="post">
+                    <button type="submit" class="btn btn-primary">
+                        Approve Reservation
+                    </button>
+                </form>
+                <form th:if="${booking.status.name() == 'CONFIRMED'}" th:action="@{/owner/bookings/{id}/start(id=${booking.id})}" method="post">
+                    <button type="submit" class="btn btn-primary">
+                        Handover Vehicle (Start Trip)
+                    </button>
+                </form>
+                <form th:if="${booking.status.name() == 'ACTIVE'}" th:action="@{/owner/bookings/{id}/complete(id=${booking.id})}" method="post">
+                    <button type="submit" class="btn btn-primary">
+                        Complete Return Check-in
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

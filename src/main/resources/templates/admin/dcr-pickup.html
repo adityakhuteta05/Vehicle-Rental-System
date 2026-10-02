@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Condition Report (Pickup) | DriveSense</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body style="background-color: var(--bg-primary);">
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="admin-shell">
+    <div th:replace="~{fragments/admin-sidebar :: admin-sidebar}"></div>
+
+    <main class="admin-body">
+        <div style="margin-bottom: 2.5rem;">
+            <a th:href="@{/admin/bookings}" style="font-size: 0.85rem; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 0.4rem; margin-bottom: 1rem;">
+                <i class="fa-solid fa-arrow-left"></i> Back to Booking Management
+            </a>
+            <div class="section-eyebrow">
+                <i class="fa-solid fa-circle" style="font-size: 0.45rem;"></i> Inspection Protocol &bull; Stage: Pickup
+            </div>
+            <h1 style="font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em;">Vehicle Condition Report</h1>
+            <p style="color: var(--text-secondary); font-size: 0.92rem;">
+                Verify initial fuel, departure odometer reading, and pre-existing blemishes before vehicle release.
+            </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 2.5rem; align-items: start;">
+            <!-- Left: Inspection Form -->
+            <div style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 2.5rem; box-shadow: var(--shadow-sm);">
+                <form th:action="@{/admin/bookings/{id}/dcr/pickup(id=${booking.id})}" method="post">
+                    <input type="hidden" name="damageZones" id="damageZonesInput" th:value="${report != null ? report.damageZones : ''}" />
+
+                    <!-- Fuel Level Slider -->
+                    <div style="background-color: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <label class="form-label" style="margin: 0; font-size: 0.85rem; color: var(--text-primary);">
+                                Initial Fuel Level
+                            </label>
+                            <span id="fuelPercentDisplay" style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary);"
+                                  th:text="${report != null ? report.fuelPercent + '%' : '100%'}">100%</span>
+                        </div>
+                        <input type="range" name="fuelPercent" id="fuelPercentSlider" min="0" max="100" step="5"
+                               th:value="${report != null ? report.fuelPercent : 100}"
+                               style="width: 100%; cursor: pointer;" />
+                    </div>
+
+                    <!-- Departure Odometer -->
+                    <div class="form-group" style="margin-bottom: 2rem;">
+                        <label class="form-label" for="odometerKm">Departure Odometer (KM)</label>
+                        <input type="number" id="odometerKm" name="odometerKm" class="form-control" placeholder="14500"
+                               th:value="${report != null ? report.odometerKm : 14500}" required />
+                    </div>
+
+                    <!-- 6-Zone Inspection Selector (Requirement 28) -->
+                    <div style="margin-bottom: 2rem;">
+                        <label class="form-label" style="margin-bottom: 0.5rem;">
+                            Inspection Zones (Click to tag pre-existing damage)
+                        </label>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+                            Select zones with visible scratches, dents, or scuffs prior to trip start.
+                        </p>
+
+                        <div class="zone-selector-grid">
+                            <button type="button" class="zone-btn" data-zone="FRONT">Front Bumper & Hood</button>
+                            <button type="button" class="zone-btn" data-zone="ROOF">Roof & Glass</button>
+                            <button type="button" class="zone-btn" data-zone="REAR">Rear Bumper & Trunk</button>
+                            <button type="button" class="zone-btn" data-zone="LEFT">Left Doors & Panels</button>
+                            <button type="button" class="zone-btn" data-zone="INTERIOR">Interior Cabin</button>
+                            <button type="button" class="zone-btn" data-zone="RIGHT">Right Doors & Panels</button>
+                        </div>
+                    </div>
+
+                    <!-- Inspector Notes -->
+                    <div class="form-group" style="margin-bottom: 2.5rem;">
+                        <label class="form-label" for="notes">Inspector Notes</label>
+                        <textarea id="notes" name="notes" class="form-control" rows="3" placeholder="Note minor blemishes, tyre condition, or interior cleanliness..." th:text="${report != null ? report.notes : ''}"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">
+                        CONFIRM PICKUP & ACTIVATE TRIP
+                    </button>
+                </form>
+            </div>
+
+            <!-- Right: Booking Summary Reference -->
+            <div style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 2.5rem; position: sticky; top: 96px; box-shadow: var(--shadow-sm);">
+                <div style="width: 100%; height: 160px; border-radius: var(--radius-md); overflow: hidden; margin-bottom: 1.5rem; background-color: var(--bg-subtle);">
+                    <img th:src="${booking.car.imageUrl}" th:alt="${booking.car.displayName}" style="width: 100%; height: 100%; object-fit: cover;" />
+                </div>
+
+                <div style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted);">
+                    HANDOVER VEHICLE
+                </div>
+                <h3 style="font-size: 1.35rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem;" th:text="${booking.car.displayName}">
+                    Hyundai Creta
+                </h3>
+                <div style="font-size: 0.85rem; font-family: monospace; color: var(--text-secondary); margin-bottom: 1.5rem;" th:text="${booking.car.regNumber}">
+                    DL04-CC-1024
+                </div>
+
+                <div style="border-top: 1px solid var(--border-subtle); padding-top: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-muted);">Customer:</span>
+                        <strong style="color: var(--text-primary);" th:text="${booking.user.fullName}">Customer Name</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-muted);">Booking Ref:</span>
+                        <strong style="font-family: monospace; color: var(--text-primary);" th:text="${booking.bookingCode}">DS-2026-000123</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-muted);">Pickup Hub:</span>
+                        <span style="color: var(--text-secondary);" th:text="${booking.pickupLocation != null ? booking.pickupLocation.name : 'Executive Hub'}">Hub</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+<script th:src="@{/js/dcr.js}"></script>
+</body>
+</html>

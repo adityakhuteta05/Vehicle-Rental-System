@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notice | DriveSense</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body style="display: flex; flex-direction: column; min-height: 100vh;">
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 5rem 1.5rem;">
+    <div class="ds-card" style="max-width: 540px; width: 100%; padding: 3.5rem 2.5rem; text-align: center;">
+        <div style="width: 56px; height: 56px; border-radius: 50%; border: 1px solid var(--border-medium); background: var(--bg-surface-elevated); display: flex; align-items: center; justify-content: center; font-size: 1.35rem; color: var(--text-primary); margin: 0 auto 1.75rem auto;">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+
+        <div style="font-size: 3.5rem; font-weight: 800; letter-spacing: -0.04em; color: var(--text-primary); line-height: 1; margin-bottom: 0.5rem;"
+             th:text="${errorCode != null ? errorCode : '404'}">404</div>
+
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem;" th:text="${errorTitle != null ? errorTitle : 'Page Not Located'}">
+            Page Not Located
+        </h2>
+        
+        <p style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; margin-bottom: 2.25rem;"
+           th:text="${errorMessage != null ? errorMessage : 'The requested vehicle specification or destination could not be resolved.'}">
+            The requested vehicle specification or destination could not be resolved.
+        </p>
+
+        <div style="display: flex; gap: 0.85rem; justify-content: center;">
+            <a th:href="@{/}" class="btn btn-secondary">
+                Return Home
+            </a>
+            <a th:href="@{/cars}" class="btn btn-primary">
+                View Showroom
+            </a>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

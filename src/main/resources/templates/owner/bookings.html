@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Management | DriveSense Fleet Command</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="admin-layout">
+    <div th:replace="~{fragments/owner-sidebar :: owner-sidebar}"></div>
+
+    <main class="admin-main">
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">
+                    RESERVATION SCHEDULE
+                </div>
+                <h1 style="font-size: 2.25rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 0.4rem;">
+                    Booking Management
+                </h1>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">
+                    Manage upcoming reservation handovers, condition inspections, and trip completions.
+                </p>
+            </div>
+
+            <!-- Filters (Requirement 27: All, Pending, Confirmed, Active, Completed, Cancelled) -->
+            <div style="display: flex; gap: 0.4rem; background: var(--bg-surface-elevated); padding: 0.3rem; border-radius: 10px; border: 1px solid var(--border-subtle); flex-wrap: wrap;">
+                <a th:href="@{/owner/bookings}" 
+                   class="btn btn-sm" 
+                   th:classappend="${currentStatus == null ? 'btn-primary' : 'btn-ghost'}"
+                   style="font-size: 0.8rem; padding: 0.4rem 0.8rem;">All</a>
+                <a th:href="@{/owner/bookings(status='PENDING')}" 
+                   class="btn btn-sm" 
+                   th:classappend="${currentStatus?.name() == 'PENDING' ? 'btn-primary' : 'btn-ghost'}"
+                   style="font-size: 0.8rem; padding: 0.4rem 0.8rem;">Pending</a>
+                <a th:href="@{/owner/bookings(status='CONFIRMED')}" 
+                   class="btn btn-sm" 
+                   th:classappend="${currentStatus?.name() == 'CONFIRMED' ? 'btn-primary' : 'btn-ghost'}"
+                   style="font-size: 0.8rem; padding: 0.4rem 0.8rem;">Confirmed</a>
+                <a th:href="@{/owner/bookings(status='ACTIVE')}" 
+                   class="btn btn-sm" 
+                   th:classappend="${currentStatus?.name() == 'ACTIVE' ? 'btn-primary' : 'btn-ghost'}"
+                   style="font-size: 0.8rem; padding: 0.4rem 0.8rem;">Active</a>
+                <a th:href="@{/owner/bookings(status='COMPLETED')}" 
+                   class="btn btn-sm" 
+                   th:classappend="${currentStatus?.name() == 'COMPLETED' ? 'btn-primary' : 'btn-ghost'}"
+                   style="font-size: 0.8rem; padding: 0.4rem 0.8rem;">Completed</a>
+                <a th:href="@{/owner/bookings(status='CANCELLED')}" 
+                   class="btn btn-sm" 
+                   th:classappend="${currentStatus?.name() == 'CANCELLED' ? 'btn-primary' : 'btn-ghost'}"
+                   style="font-size: 0.8rem; padding: 0.4rem 0.8rem;">Cancelled</a>
+            </div>
+        </div>
+
+        <!-- Flash Messages -->
+        <div th:if="${successMessage}" class="ds-card" style="padding: 1rem 1.25rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; border-left: 3px solid var(--text-primary);">
+            <i class="fa-solid fa-circle-check"></i>
+            <span style="font-size: 0.88rem; color: var(--text-primary);" th:text="${successMessage}"></span>
+        </div>
+
+        <!-- Booking Table (Requirement 27) -->
+        <div class="ds-card" style="padding: 1.5rem; overflow-x: auto;">
+            <table class="ds-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem;">
+                <thead>
+                    <tr style="border-bottom: 1px solid var(--border-medium); color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em;">
+                        <th style="padding: 1rem;">Booking ID</th>
+                        <th style="padding: 1rem;">Customer</th>
+                        <th style="padding: 1rem;">Vehicle</th>
+                        <th style="padding: 1rem;">Pickup</th>
+                        <th style="padding: 1rem;">Return</th>
+                        <th style="padding: 1rem;">Amount</th>
+                        <th style="padding: 1rem;">Status</th>
+                        <th style="padding: 1rem;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="b : ${bookings}" style="border-bottom: 1px solid var(--border-subtle);">
+                        <!-- Booking ID -->
+                        <td style="padding: 1.1rem 1rem; font-family: 'SF Mono', Consolas, Monaco, monospace; font-size: 0.82rem; font-weight: 700; color: var(--text-primary);" th:text="${b.bookingCode}">
+                            DS-2026-000123
+                        </td>
+
+                        <!-- Customer -->
+                        <td style="padding: 1.1rem 1rem;">
+                            <div style="font-weight: 600; color: var(--text-primary);" th:text="${b.user.fullName}">Aaditya Sharma</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);" th:text="${'Score: ' + b.user.trustScore + ' • ' + b.user.trustTier.name()}">Score: 78 • GOLD</div>
+                        </td>
+
+                        <!-- Vehicle -->
+                        <td style="padding: 1.1rem 1rem;">
+                            <div style="font-weight: 600; color: var(--text-primary);" th:text="${b.car.displayName}">Hyundai Creta</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);" th:text="${b.car.regNumber}">DL04-CC-1024</div>
+                        </td>
+
+                        <!-- Pickup -->
+                        <td style="padding: 1.1rem 1rem; font-size: 0.82rem; color: var(--text-secondary);" th:text="${#temporals.format(b.startTime, 'dd MMM yyyy, HH:mm')}">
+                            10 Oct 2026, 09:00
+                        </td>
+
+                        <!-- Return -->
+                        <td style="padding: 1.1rem 1rem; font-size: 0.82rem; color: var(--text-secondary);" th:text="${#temporals.format(b.endTime, 'dd MMM yyyy, HH:mm')}">
+                            12 Oct 2026, 18:00
+                        </td>
+
+                        <!-- Amount -->
+                        <td style="padding: 1.1rem 1rem;">
+                            <div style="font-weight: 700; color: var(--text-primary);" th:text="${'₹' + #numbers.formatDecimal(b.totalAmount, 0, 'COMMA', 0, 'POINT')}">₹10,779</div>
+                            <div style="font-size: 0.72rem; color: var(--text-muted);" th:text="${'Net: ₹' + #numbers.formatDecimal(b.ownerEarnings, 0, 'COMMA', 0, 'POINT')}">Net: ₹9,701</div>
+                        </td>
+
+                        <!-- Status -->
+                        <td style="padding: 1.1rem 1rem;">
+                            <span class="badge"
+                                  th:classappend="${b.status.name() == 'ACTIVE' ? 'status-rented' : (b.status.name() == 'CONFIRMED' ? 'status-available' : '')}"
+                                  style="font-size: 0.72rem; text-transform: uppercase; font-weight: 600;"
+                                  th:text="${b.status.name()}">
+                                PENDING
+                            </span>
+                        </td>
+
+                        <!-- Actions (Requirement 27: Approve, Start Trip, Complete, Cancel) -->
+                        <td style="padding: 1.1rem 1rem;">
+                            <div style="display: flex; gap: 0.35rem; align-items: center; flex-wrap: wrap;">
+                                <!-- Approve Action -->
+                                <th:block th:if="${b.status.name() == 'PENDING'}">
+                                    <form th:action="@{/owner/bookings/{id}/approve(id=${b.id})}" method="post" style="display: inline;">
+                                        <button type="submit" class="btn btn-primary btn-sm" style="padding: 0.3rem 0.65rem; font-size: 0.78rem;" title="Approve Reservation">
+                                            Approve
+                                        </button>
+                                    </form>
+                                    <form th:action="@{/owner/bookings/{id}/reject(id=${b.id})}" method="post" style="display: inline;">
+                                        <button type="submit" class="btn btn-secondary btn-sm" style="padding: 0.3rem 0.65rem; font-size: 0.78rem;" title="Decline">
+                                            Cancel
+                                        </button>
+                                    </form>
+                                </th:block>
+
+                                <!-- Start Trip Action -->
+                                <th:block th:if="${b.status.name() == 'CONFIRMED'}">
+                                    <form th:action="@{/owner/bookings/{id}/start(id=${b.id})}" method="post" style="display: inline;">
+                                        <button type="submit" class="btn btn-primary btn-sm" style="padding: 0.3rem 0.65rem; font-size: 0.78rem;">
+                                            Start Trip
+                                        </button>
+                                    </form>
+                                    <form th:action="@{/owner/bookings/{id}/reject(id=${b.id})}" method="post" style="display: inline;">
+                                        <button type="submit" class="btn btn-secondary btn-sm" style="padding: 0.3rem 0.65rem; font-size: 0.78rem;">
+                                            Cancel
+                                        </button>
+                                    </form>
+                                </th:block>
+
+                                <!-- Complete Action -->
+                                <th:block th:if="${b.status.name() == 'ACTIVE'}">
+                                    <form th:action="@{/owner/bookings/{id}/complete(id=${b.id})}" method="post" style="display: inline;">
+                                        <button type="submit" class="btn btn-secondary btn-sm" style="padding: 0.3rem 0.65rem; font-size: 0.78rem;">
+                                            Complete
+                                        </button>
+                                    </form>
+                                </th:block>
+
+                                <!-- View Details link -->
+                                <a th:href="@{/owner/bookings/{id}(id=${b.id})}" class="btn btn-ghost btn-sm" style="padding: 0.3rem 0.5rem; font-size: 0.78rem;" title="View Specification">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${bookings.empty}">
+                        <td colspan="8" style="text-align: center; padding: 4rem 1rem; color: var(--text-muted);">
+                            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;"><i class="fa-regular fa-calendar-xmark"></i></div>
+                            <div style="font-size: 0.95rem; color: var(--text-primary); margin-bottom: 0.25rem;">No bookings found</div>
+                            <div style="font-size: 0.82rem;">There are no reservations matching this status filter.</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

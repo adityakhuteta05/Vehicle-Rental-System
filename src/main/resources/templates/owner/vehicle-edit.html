@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Vehicle | DriveSense Fleet Command</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="admin-layout">
+    <div th:replace="~{fragments/owner-sidebar :: owner-sidebar}"></div>
+
+    <main class="admin-main">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <!-- Header -->
+            <div style="margin-bottom: 2rem;">
+                <a th:href="@{/owner/vehicles}" class="btn btn-secondary btn-sm" style="margin-bottom: 1.25rem;">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Fleet
+                </a>
+                <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">
+                    FLEET INVENTORY MODIFICATION
+                </div>
+                <h1 style="font-size: 2.25rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 0.4rem;">
+                    Edit <span th:text="${car.displayName}">Hyundai Creta</span>
+                </h1>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;" th:text="${'Registration: ' + car.regNumber}">
+                    DL04-CC-1024
+                </p>
+            </div>
+
+            <!-- Form Card -->
+            <div class="ds-card" style="padding: 2.5rem;">
+                <form th:action="@{/owner/vehicles/{id}/edit(id=${car.id})}" method="post" th:object="${car}">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
+                        <div class="form-group">
+                            <label class="ds-label">Brand</label>
+                            <input type="text" th:field="*{brand}" class="ds-input" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="ds-label">Model</label>
+                            <input type="text" th:field="*{model}" class="ds-input" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="ds-label">Daily Rental Rate (₹)</label>
+                            <input type="number" step="50" th:field="*{pricePerDay}" class="ds-input" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="ds-label">Hourly Rate (₹)</label>
+                            <input type="number" step="10" th:field="*{pricePerHour}" class="ds-input" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="ds-label">Daily KM Allowance</label>
+                            <input type="number" th:field="*{kmPerDayLimit}" class="ds-input" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="ds-label">Extra KM Fee (₹/km)</label>
+                            <input type="number" step="1" th:field="*{extraKmRate}" class="ds-input" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="ds-label">Operational Status</label>
+                            <select th:field="*{status}" class="ds-input">
+                                <option th:each="s : ${carStatuses}" th:value="${s}" th:text="${s.name()}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="ds-label">Seating Capacity</label>
+                            <input type="number" th:field="*{seats}" class="ds-input" min="2" max="10" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 2rem;">
+                        <label class="ds-label">Automotive Photo URL</label>
+                        <input type="url" th:field="*{imageUrl}" class="ds-input" required />
+                    </div>
+
+                    <div style="border-top: 1px solid var(--border-subtle); padding-top: 1.5rem; display: flex; justify-content: flex-end; gap: 1rem;">
+                        <a th:href="@{/owner/vehicles}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

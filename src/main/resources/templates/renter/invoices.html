@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Invoices & Billing | DriveSense</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body style="background: var(--bg-dark); color: var(--text-primary);">
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container" style="padding-top: 2.5rem; padding-bottom: 4rem;">
+
+    <!-- Header -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+            <div style="font-size: 0.85rem; font-weight: 600; color: var(--primary-blue); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem;">
+                Tax Invoices & Financial Records
+            </div>
+            <h1 style="font-size: 2.2rem; font-weight: 800; color: #fff;">Invoices & Billing</h1>
+            <p style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 0.2rem;">
+                Download printable GST-compliant tax invoices and machine-readable JAXB/XSD validated XML receipts.
+            </p>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem;">
+            <span class="badge badge-eco" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+                <i class="fa-solid fa-code"></i> XSD Schema Validated (JAXB)
+            </span>
+        </div>
+    </div>
+
+    <!-- Empty State -->
+    <div th:if="${#lists.isEmpty(bookings)}" class="card text-center" style="padding: 4rem 2rem; border: 1px solid var(--border-dark); background: var(--surface-dark);">
+        <i class="fa-solid fa-file-invoice-dollar" style="font-size: 3.5rem; color: var(--text-muted); margin-bottom: 1.25rem;"></i>
+        <h3 style="color: #fff; font-size: 1.35rem; margin-bottom: 0.5rem;">No Invoices Generated Yet</h3>
+        <p style="color: var(--text-muted); font-size: 0.92rem; max-width: 480px; margin: 0 auto 1.5rem auto;">
+            When you complete a car rental reservation, certified tax invoices with carbon offset estimates will be accessible here.
+        </p>
+        <a th:href="@{/cars}" class="btn btn-primary">
+            <i class="fa-solid fa-magnifying-glass"></i> Explore Cars
+        </a>
+    </div>
+
+    <!-- Invoice Table -->
+    <div th:unless="${#lists.isEmpty(bookings)}" class="card" style="border: 1px solid var(--border-dark); background: var(--surface-dark); overflow: hidden;">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Invoice / Booking Ref</th>
+                        <th>Vehicle & Host</th>
+                        <th>Trip Period</th>
+                        <th>GST (18%)</th>
+                        <th>Total Paid</th>
+                        <th>Status</th>
+                        <th>Downloads & Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="b : ${bookings}">
+                        <td>
+                            <strong style="color: #fff; font-family: monospace;" th:text="${b.bookingCode}">DS-2026-000123</strong>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);" 
+                                 th:text="${#temporals.format(b.createdAt, 'dd MMM yyyy')}">10 Oct 2026</div>
+                        </td>
+                        <td>
+                            <div style="font-weight: 700; color: #fff;" th:text="${b.car.displayName}">Hyundai Creta</div>
+                            <div style="font-size: 0.78rem; color: var(--text-secondary);">
+                                Host: <span th:text="${b.car.owner != null ? b.car.owner.fullName : 'DriveSense'}">Rajesh Singhania</span>
+                            </div>
+                        </td>
+                        <td style="font-size: 0.82rem; color: var(--text-secondary);">
+                            <span th:text="${#temporals.format(b.startTime, 'dd MMM, HH:mm')}">10 Oct, 10:00</span> &rarr;
+                            <span th:text="${#temporals.format(b.endTime, 'dd MMM, HH:mm')}">12 Oct, 18:00</span>
+                        </td>
+                        <td style="color: var(--text-muted); font-family: monospace;" 
+                            th:text="'₹' + ${#numbers.formatDecimal(b.taxAmount, 1, 'COMMA', 2, 'POINT')}">₹1,327.00</td>
+                        <td>
+                            <strong style="color: var(--success); font-family: monospace; font-size: 0.95rem;" 
+                                    th:text="'₹' + ${#numbers.formatDecimal(b.totalAmount, 1, 'COMMA', 2, 'POINT')}">₹8,700.00</strong>
+                        </td>
+                        <td>
+                            <span class="badge" 
+                                  th:classappend="${b.status.name() == 'COMPLETED' ? 'badge-eco' : (b.status.name() == 'CANCELLED' ? 'badge-danger' : 'badge-confirmed')}"
+                                  th:text="${b.status}">CONFIRMED</span>
+                        </td>
+                        <td>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <a th:href="@{'/bookings/' + ${b.id} + '/invoice'}" target="_blank" class="btn btn-secondary btn-sm" title="View Printable Tax Invoice">
+                                    <i class="fa-solid fa-print"></i> HTML
+                                </a>
+                                <a th:href="@{'/bookings/' + ${b.id} + '/invoice.xml'}" target="_blank" class="btn btn-outline btn-sm" title="Download XSD-Validated XML">
+                                    <i class="fa-solid fa-file-code"></i> XML
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

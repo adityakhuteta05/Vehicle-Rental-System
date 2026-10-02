@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fleet>
+    <car>
+        <brand>Tesla</brand>
+        <model>Model 3 Performance</model>
+        <regNumber>DL01-EV-2026</regNumber>
+        <type>EV</type>
+        <fuelType>EV</fuelType>
+        <transmission>AUTOMATIC</transmission>
+        <seats>5</seats>
+        <bootSize>M</bootSize>
+        <pricePerDay>6500.00</pricePerDay>
+        <pricePerHour>350.00</pricePerHour>
+        <kmPerDayLimit>350</kmPerDayLimit>
+        <extraKmRate>18.00</extraKmRate>
+        <co2GPerKm>0</co2GPerKm>
+        <imageUrl>https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&amp;fit=crop&amp;w=800&amp;q=80</imageUrl>
+        <features>
+            <feature>Autopilot</feature>
+            <feature>15-inch Touchscreen</feature>
+            <feature>Glass Roof</feature>
+            <feature>Supercharging</feature>
+        </features>
+    </car>
+    <car>
+        <brand>BMW</brand>
+        <model>3 Series Gran Limousine</model>
+        <regNumber>MH12-BM-3300</regNumber>
+        <type>LUXURY</type>
+        <fuelType>PETROL</fuelType>
+        <transmission>AUTOMATIC</transmission>
+        <seats>5</seats>
+        <bootSize>L</bootSize>
+        <pricePerDay>8500.00</pricePerDay>
+        <pricePerHour>450.00</pricePerHour>
+        <kmPerDayLimit>300</kmPerDayLimit>
+        <extraKmRate>25.00</extraKmRate>
+        <co2GPerKm>155</co2GPerKm>
+        <imageUrl>https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&amp;fit=crop&amp;w=800&amp;q=80</imageUrl>
+        <features>
+            <feature>Panoramic Sunroof</feature>
+            <feature>Harman Kardon Audio</feature>
+            <feature>Ambient Lighting</feature>
+            <feature>Executive Lounge Seating</feature>
+        </features>
+    </car>
+    <car>
+        <brand>Toyota</brand>
+        <model>Innova Hycross Hybrid</model>
+        <regNumber>KA05-TY-7788</regNumber>
+        <type>SUV</type>
+        <fuelType>PETROL</fuelType>
+        <transmission>AUTOMATIC</transmission>
+        <seats>7</seats>
+        <bootSize>L</bootSize>
+        <pricePerDay>5200.00</pricePerDay>
+        <pricePerHour>290.00</pricePerHour>
+        <kmPerDayLimit>300</kmPerDayLimit>
+        <extraKmRate>16.00</extraKmRate>
+        <co2GPerKm>112</co2GPerKm>
+        <imageUrl>https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&amp;fit=crop&amp;w=800&amp;q=80</imageUrl>
+        <features>
+            <feature>Captain Seats</feature>
+            <feature>Ottoman Recliners</feature>
+            <feature>ADAS Level 2</feature>
+            <feature>Dual Sunroof</feature>
+        </features>
+    </car>
+</fleet>

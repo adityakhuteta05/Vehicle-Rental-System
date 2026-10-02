@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Vehicle | DriveSense Fleet Command</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="admin-layout">
+    <div th:replace="~{fragments/owner-sidebar :: owner-sidebar}"></div>
+
+    <main class="admin-main">
+        <div style="max-width: 840px; margin: 0 auto;">
+            <!-- Header -->
+            <div style="margin-bottom: 2rem;">
+                <a th:href="@{/owner/vehicles}" class="btn btn-secondary btn-sm" style="margin-bottom: 1.25rem;">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Fleet
+                </a>
+                <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">
+                    FLEET INVENTORY ONBOARDING
+                </div>
+                <h1 style="font-size: 2.25rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 0.4rem;">
+                    List a New Vehicle
+                </h1>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">
+                    Complete specifications, pricing schedule, and verification details to enroll your asset.
+                </p>
+            </div>
+
+            <!-- Form Card -->
+            <div class="ds-card" style="padding: 2.5rem;">
+                <form th:action="@{/owner/vehicles/add}" method="post" th:object="${car}">
+                    <!-- Section 1: Identification -->
+                    <div style="margin-bottom: 2.5rem;">
+                        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+                            1. Vehicle Identity
+                        </h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                            <div class="form-group">
+                                <label class="ds-label">Brand / Make</label>
+                                <input type="text" th:field="*{brand}" class="ds-input" placeholder="e.g. Audi, BMW, Hyundai" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="ds-label">Model &amp; Specification</label>
+                                <input type="text" th:field="*{model}" class="ds-input" placeholder="e.g. A6 Matrix or Creta SX(O)" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="ds-label">Registration Number</label>
+                                <input type="text" th:field="*{regNumber}" class="ds-input" placeholder="e.g. DL01-AB-1234" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="ds-label">Model Year</label>
+                                <input type="number" th:field="*{year}" class="ds-input" placeholder="2024" min="2018" max="2027" value="2024" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Technical Specifications -->
+                    <div style="margin-bottom: 2.5rem; border-top: 1px solid var(--border-subtle); padding-top: 2rem;">
+                        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+                            2. Technical Specifications
+                        </h3>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;">
+                            <div class="form-group">
+                                <label class="ds-label">Vehicle Class</label>
+                                <select th:field="*{type}" class="ds-input" required>
+                                    <option th:each="t : ${carTypes}" th:value="${t}" th:text="${t.displayName}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="ds-label">Powertrain / Fuel</label>
+                                <select th:field="*{fuelType}" class="ds-input" required>
+                                    <option th:each="f : ${fuelTypes}" th:value="${f}" th:text="${f.displayName}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="ds-label">Transmission</label>
+                                <select th:field="*{transmission}" class="ds-input" required>
+                                    <option th:each="tr : ${transmissions}" th:value="${tr}" th:text="${tr.name()}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="ds-label">Seating Capacity</label>
+                                <input type="number" th:field="*{seats}" class="ds-input" min="2" max="10" value="5" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="ds-label">Cargo / Boot Capacity</label>
+                                <select th:field="*{bootSize}" class="ds-input" required>
+                                    <option th:each="b : ${bootSizes}" th:value="${b}" th:text="${b.displayName}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="ds-label">CO2 Rating (g/km)</label>
+                                <input type="number" th:field="*{co2GPerKm}" class="ds-input" placeholder="135" value="135" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Commercial Rates -->
+                    <div style="margin-bottom: 2.5rem; border-top: 1px solid var(--border-subtle); padding-top: 2rem;">
+                        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+                            3. Commercial Pricing
+                        </h3>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;">
+                            <div class="form-group">
+                                <label class="ds-label">Daily Rental Rate (₹)</label>
+                                <input type="number" step="50" th:field="*{pricePerDay}" class="ds-input" placeholder="2900" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="ds-label">Hourly Rate (₹)</label>
+                                <input type="number" step="10" th:field="*{pricePerHour}" class="ds-input" placeholder="165" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="ds-label">Security Deposit (₹)</label>
+                                <input type="number" step="500" th:field="*{securityDeposit}" class="ds-input" placeholder="5000" value="5000" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="ds-label">Daily KM Allowance</label>
+                                <input type="number" th:field="*{kmPerDayLimit}" class="ds-input" placeholder="300" value="300" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="ds-label">Extra KM Fee (₹/km)</label>
+                                <input type="number" step="1" th:field="*{extraKmRate}" class="ds-input" placeholder="12" value="12" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Photography -->
+                    <div style="margin-bottom: 2.5rem; border-top: 1px solid var(--border-subtle); padding-top: 2rem;">
+                        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+                            4. Automotive Photography
+                        </h3>
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label class="ds-label">Direct Image URL</label>
+                            <input type="url" th:field="*{imageUrl}" class="ds-input" placeholder="https://images.unsplash.com/..." required />
+                            <small style="color: var(--text-muted); font-size: 0.78rem; margin-top: 0.35rem; display: block;">Clean, natural-light automotive photography without watermarks.</small>
+                        </div>
+
+                        <label class="ds-label" style="margin-bottom: 0.75rem; display: block;">Standard Amenities</label>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; font-size: 0.88rem; color: var(--text-secondary);">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="featureList" value="Panoramic Sunroof" checked /> Sunroof
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="featureList" value="Ventilated Seats" checked /> Ventilated Seats
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="featureList" value="Wireless Apple CarPlay" checked /> Apple CarPlay
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="featureList" value="ADAS Level 2 Safety" /> ADAS Level 2
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="featureList" value="360 Degree Surround Camera" /> 360 Camera
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="featureList" value="Connected Car Tech" /> Connected Telematics
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div style="border-top: 1px solid var(--border-subtle); padding-top: 1.75rem; display: flex; justify-content: flex-end; gap: 1rem;">
+                        <a th:href="@{/owner/vehicles}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary" style="padding: 0.85rem 1.75rem;">
+                            Publish to Showroom
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

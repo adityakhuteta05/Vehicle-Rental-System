@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pricingRules>
+    <rule name="WEEKEND" type="SURCHARGE" percent="10"/>
+    <rule name="FESTIVAL" type="SURCHARGE" percent="15">
+        <range from="2026-10-18" to="2026-10-24"/>
+        <range from="2026-12-24" to="2026-12-31"/>
+    </rule>
+    <rule name="LONG_RENTAL_3" type="DISCOUNT" percent="5" minDays="3"/>
+    <rule name="LONG_RENTAL_7" type="DISCOUNT" percent="12" minDays="7"/>
+    <rule name="EARLY_BIRD" type="DISCOUNT" percent="7" minAdvanceDays="14"/>
+    <tax gstPercent="18"/>
+</pricingRules>

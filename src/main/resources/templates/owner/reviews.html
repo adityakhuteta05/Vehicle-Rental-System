@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Reviews &amp; Feedback | DriveSense Fleet Command</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="admin-layout">
+    <div th:replace="~{fragments/owner-sidebar :: owner-sidebar}"></div>
+
+    <main class="admin-main">
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">
+                    QUALITY &amp; SATISFACTION INDEX
+                </div>
+                <h1 style="font-size: 2.25rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 0.4rem;">
+                    Customer Reviews
+                </h1>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">
+                    Verified renter feedback, fleet condition ratings, and operational satisfaction scores.
+                </p>
+            </div>
+
+            <span style="font-size: 0.78rem; color: var(--text-muted); padding: 0.4rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-subtle); background: var(--bg-surface-elevated);">
+                Verified Trips Only
+            </span>
+        </div>
+
+        <!-- Rating Overview KPI + Star Distribution -->
+        <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 2rem; margin-bottom: 2.5rem;">
+            <!-- Left Score Box -->
+            <div class="ds-card" style="padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem;">
+                    Fleet Quality Score
+                </div>
+                <div style="font-size: 3.5rem; font-weight: 800; color: var(--text-primary); line-height: 1; letter-spacing: -0.03em;">
+                    4.8 <span style="font-size: 1.5rem; color: var(--text-muted); font-weight: 400;">/ 5.0</span>
+                </div>
+                <div style="color: var(--text-primary); font-size: 1.1rem; margin: 0.75rem 0;">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <div style="font-size: 0.82rem; color: var(--text-secondary);">
+                    Calculated from 48 verified customer returns
+                </div>
+            </div>
+
+            <!-- Right Distribution Bars (Monochromatic) -->
+            <div class="ds-card" style="padding: 2rem;">
+                <div style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 1.25rem;">
+                    Score Breakdown
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 0.85rem; font-size: 0.85rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span style="width: 50px; color: var(--text-muted); font-weight: 600;">5 Stars</span>
+                        <div style="flex: 1; height: 6px; background: var(--bg-surface-elevated); border-radius: 3px; overflow: hidden;">
+                            <div style="width: 82%; height: 100%; background: var(--text-primary); border-radius: 3px;"></div>
+                        </div>
+                        <span style="width: 35px; text-align: right; color: var(--text-primary); font-weight: 600;">82%</span>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span style="width: 50px; color: var(--text-muted); font-weight: 600;">4 Stars</span>
+                        <div style="flex: 1; height: 6px; background: var(--bg-surface-elevated); border-radius: 3px; overflow: hidden;">
+                            <div style="width: 14%; height: 100%; background: var(--text-secondary); border-radius: 3px;"></div>
+                        </div>
+                        <span style="width: 35px; text-align: right; color: var(--text-primary); font-weight: 600;">14%</span>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span style="width: 50px; color: var(--text-muted); font-weight: 600;">3 Stars</span>
+                        <div style="flex: 1; height: 6px; background: var(--bg-surface-elevated); border-radius: 3px; overflow: hidden;">
+                            <div style="width: 4%; height: 100%; background: var(--text-muted); border-radius: 3px;"></div>
+                        </div>
+                        <span style="width: 35px; text-align: right; color: var(--text-primary); font-weight: 600;">4%</span>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span style="width: 50px; color: var(--text-muted); font-weight: 600;">2 Stars</span>
+                        <div style="flex: 1; height: 6px; background: var(--bg-surface-elevated); border-radius: 3px; overflow: hidden;">
+                            <div style="width: 0%; height: 100%; background: var(--text-muted); border-radius: 3px;"></div>
+                        </div>
+                        <span style="width: 35px; text-align: right; color: var(--text-secondary); font-weight: 600;">0%</span>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span style="width: 50px; color: var(--text-muted); font-weight: 600;">1 Star</span>
+                        <div style="flex: 1; height: 6px; background: var(--bg-surface-elevated); border-radius: 3px; overflow: hidden;">
+                            <div style="width: 0%; height: 100%; background: var(--text-muted); border-radius: 3px;"></div>
+                        </div>
+                        <span style="width: 35px; text-align: right; color: var(--text-secondary); font-weight: 600;">0%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vehicle Performance Ratings Table -->
+        <div class="ds-card" style="padding: 1.5rem; overflow-x: auto;">
+            <div style="padding-bottom: 1.25rem; border-bottom: 1px solid var(--border-subtle); margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin: 0;">
+                    Vehicle Feedback by Asset
+                </h3>
+                <span style="font-size: 0.8rem; color: var(--text-muted);" th:text="${vehicles.size()} + ' vehicles'">8 vehicles</span>
+            </div>
+
+            <table class="ds-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem;">
+                <thead>
+                    <tr style="border-bottom: 1px solid var(--border-medium); color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em;">
+                        <th style="padding: 0.9rem 1rem;">Vehicle</th>
+                        <th style="padding: 0.9rem 1rem;">Registration</th>
+                        <th style="padding: 0.9rem 1rem;">Category</th>
+                        <th style="padding: 0.9rem 1rem;">Average Rating</th>
+                        <th style="padding: 0.9rem 1rem;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="v : ${vehicles}" style="border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 0.85rem;">
+                                <div style="width: 52px; height: 36px; border-radius: 4px; overflow: hidden; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); flex-shrink: 0;">
+                                    <img th:src="${v.imageUrl}" th:alt="${v.displayName}" style="width: 100%; height: 100%; object-fit: cover;" />
+                                </div>
+                                <strong style="color: var(--text-primary);" th:text="${v.displayName}">Hyundai Creta</strong>
+                            </div>
+                        </td>
+                        <td style="padding: 1rem; font-family: 'SF Mono', Consolas, Monaco, monospace; font-size: 0.82rem; color: var(--text-secondary);" th:text="${v.regNumber}">
+                            DL-01-AB-1234
+                        </td>
+                        <td style="padding: 1rem; color: var(--text-secondary);" th:text="${v.type.displayName}">
+                            SUV
+                        </td>
+                        <td style="padding: 1rem;">
+                            <span style="font-weight: 700; color: var(--text-primary);">★ <span th:text="${v.avgRating}">4.8</span></span>
+                        </td>
+                        <td style="padding: 1rem;">
+                            <a th:href="@{/cars/{id}(id=${v.id})}" target="_blank" class="btn btn-secondary btn-sm" style="padding: 0.35rem 0.7rem; font-size: 0.78rem;">
+                                Showroom View
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

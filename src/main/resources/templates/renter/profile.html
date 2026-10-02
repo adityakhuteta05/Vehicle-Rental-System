@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust Profile | DriveSense</title>
+    <meta name="description" content="Customer trust score and verified account credentials.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="section-spacing">
+    <div class="container" style="max-width: 1080px;">
+        
+        <!-- Header -->
+        <div style="margin-bottom: 3rem;">
+            <div class="section-eyebrow">
+                <i class="fa-solid fa-circle" style="font-size: 0.45rem;"></i> Customer Account
+            </div>
+            <h1 class="section-title">Verified Profile & Standing</h1>
+            <p class="section-subtitle">Transparent driving reputation metrics and loyalty privileges.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 360px 1fr; gap: 3rem; align-items: start;">
+            
+            <!-- LEFT: Elegant Circular Trust Gauge (Requirement 20) -->
+            <div class="trust-gauge-card">
+                <!-- Circular Gauge -->
+                <div class="gauge-circle">
+                    <div class="gauge-score" th:text="${user.trustScore}">78</div>
+                    <div class="gauge-label">TRUST SCORE</div>
+                </div>
+
+                <!-- Loyalty Tier Badge -->
+                <div style="margin-bottom: 2rem;">
+                    <span class="status-pill available" style="padding: 0.4rem 1rem; font-size: 0.82rem;" th:text="${user.trustTier}">
+                        GOLD
+                    </span>
+                </div>
+
+                <!-- Point Adjustment Rules -->
+                <div style="width: 100%; text-align: left; border-top: 1px solid var(--border-subtle); padding-top: 1.5rem;">
+                    <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem;">
+                        Score System
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.88rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: var(--text-secondary);">On-time return</span>
+                            <span style="font-weight: 700; color: var(--status-success-text); font-variant-numeric: tabular-nums;">+5</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: var(--text-secondary);">5-star review</span>
+                            <span style="font-weight: 700; color: var(--status-success-text); font-variant-numeric: tabular-nums;">+1</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: var(--text-secondary);">Late return</span>
+                            <span style="font-weight: 700; color: var(--status-danger-text); font-variant-numeric: tabular-nums;">−5</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: var(--text-secondary);">New damage</span>
+                            <span style="font-weight: 700; color: var(--status-danger-text); font-variant-numeric: tabular-nums;">−10</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Member Profile & Ledger History -->
+            <div>
+                <!-- Personal Details Card -->
+                <div style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow-sm);">
+                    <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 0.06em;">
+                        Credentials & Legal Info
+                    </h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; font-size: 0.9rem;">
+                        <div>
+                            <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Legal Full Name</div>
+                            <div style="font-weight: 600; color: var(--text-primary); margin-top: 0.25rem;" th:text="${user.fullName}">Aaditya Sharma</div>
+                        </div>
+
+                        <div>
+                            <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Email Address</div>
+                            <div style="font-weight: 600; color: var(--text-primary); margin-top: 0.25rem;" th:text="${user.email}">user@example.com</div>
+                        </div>
+
+                        <div>
+                            <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Driving Licence Number</div>
+                            <div style="font-weight: 600; font-family: monospace; color: var(--text-primary); margin-top: 0.25rem;" th:text="${user.licenceNo}">DL-042015001234</div>
+                        </div>
+
+                        <div>
+                            <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Verification Status</div>
+                            <div style="display: flex; align-items: center; gap: 0.4rem; font-weight: 600; color: var(--status-success-text); margin-top: 0.25rem;">
+                                <i class="fa-solid fa-check"></i> Verified (18+ Validated)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trust Event History Ledger -->
+                <div style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 2rem; box-shadow: var(--shadow-sm);">
+                    <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 0.06em;">
+                        Reputation Event Ledger
+                    </h3>
+
+                    <div th:if="${trustEvents.empty}" style="color: var(--text-muted); font-size: 0.9rem; padding: 1rem 0;">
+                        No event activity recorded yet.
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 1rem;" th:unless="${trustEvents.empty}">
+                        <div th:each="e : ${trustEvents}" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--border-subtle);">
+                            <div>
+                                <div style="font-size: 0.92rem; font-weight: 600; color: var(--text-primary);" th:text="${e.reason}">
+                                    Completed Goa road trip on time with clean car
+                                </div>
+                                <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.2rem;" th:text="${#temporals.format(e.createdAt, 'dd MMM yyyy, HH:mm')}">
+                                    01 Oct 2026, 14:30
+                                </div>
+                            </div>
+
+                            <div style="text-align: right;">
+                                <div style="font-size: 1rem; font-weight: 800; font-variant-numeric: tabular-nums;"
+                                     th:classappend="${e.delta >= 0 ? 'text-success' : 'text-danger'}"
+                                     th:text="${(e.delta >= 0 ? '+' : '') + e.delta}">+5</div>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">Score: <strong th:text="${e.resultingScore}">55</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

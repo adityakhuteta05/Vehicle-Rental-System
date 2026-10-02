@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works | DriveSense</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Minimal Navigation Bar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main>
+    <!-- Section 1: Hero Editorial Header -->
+    <section class="section" style="padding-top: 5rem; padding-bottom: 3.5rem;">
+        <div class="container" style="max-width: 860px; text-align: center;">
+            <div style="font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem;">
+                THE DRIVESENSE STANDARD
+            </div>
+            <h1 style="font-size: 3.25rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1.25rem;">
+                A simpler, more transparent way to drive.
+            </h1>
+            <p style="font-size: 1.15rem; color: var(--text-secondary); line-height: 1.6; max-width: 680px; margin: 0 auto 2.5rem auto;">
+                No hidden waivers. No opaque surcharges. An automotive rental ecosystem designed around algorithmic matching, verifiable telemetry, and professional vehicle hosts.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <a th:href="@{/cars}" class="btn btn-primary" style="padding: 0.85rem 1.75rem;">
+                    Explore Fleet
+                </a>
+                <a th:href="@{/vibe-match}" class="btn btn-secondary" style="padding: 0.85rem 1.75rem;">
+                    Find Your Match
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: 5-Stage Rental Progression Architecture -->
+    <section class="section" style="background: var(--bg-surface); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); padding: 4.5rem 0;">
+        <div class="container">
+            <div style="text-align: center; max-width: 600px; margin: 0 auto 3.5rem auto;">
+                <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.5rem;">
+                    OPERATIONAL PROTOCOL
+                </div>
+                <h2 style="font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em;">
+                    The 5-Stage Rental Lifecycle
+                </h2>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.75rem;">
+                <!-- Step 01 -->
+                <div class="ds-card" style="padding: 2.25rem 1.75rem; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1.25rem;">
+                            01 / DISCOVERY
+                        </div>
+                        <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.75rem;">Select &amp; Match</h3>
+                        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+                            Browse curated vehicles or complete a 4-step consultation to match capacity, luggage volume, and terrain requirements.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 02 -->
+                <div class="ds-card" style="padding: 2.25rem 1.75rem; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1.25rem;">
+                            02 / FAIR FARE
+                        </div>
+                        <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.75rem;">Transparent Fare</h3>
+                        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+                            Live pricing engine provides itemized breakdowns: daily rate, duration discount, GST, and security deposits upfront.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 03 -->
+                <div class="ds-card" style="padding: 2.25rem 1.75rem; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1.25rem;">
+                            03 / PROTOCOL
+                        </div>
+                        <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.75rem;">Guaranteed Hold</h3>
+                        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+                            Pessimistic database locking protects your reservation instantly. No double-bookings, even under concurrent peak demand.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 04 -->
+                <div class="ds-card" style="padding: 2.25rem 1.75rem; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1.25rem;">
+                            04 / HANDOVER
+                        </div>
+                        <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.75rem;">Digital Condition</h3>
+                        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+                            Verify 6 exterior and interior zones, fuel levels, and initial odometer reading with photographic documentation.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 05 -->
+                <div class="ds-card" style="padding: 2.25rem 1.75rem; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1.25rem;">
+                            05 / RETURN
+                        </div>
+                        <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.75rem;">Settlement &amp; Trust</h3>
+                        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+                            Check-in return audit releases security deposit escrow immediately and updates your Trust Score for upcoming journeys.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Dual-Audience Pillars: Renters & Vehicle Hosts -->
+    <section class="section" style="padding: 5rem 0;">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;">
+                <!-- Renter Pillar -->
+                <div class="ds-card" style="padding: 3rem;">
+                    <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem;">
+                        FOR DRIVERS
+                    </div>
+                    <h2 style="font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1rem;">
+                        Premium cars. Clear agreements.
+                    </h2>
+                    <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 2rem;">
+                        Enjoy impeccably maintained automobiles without lengthy counter paperwork or surprise insurance charges upon arrival.
+                    </p>
+
+                    <div style="display: flex; flex-direction: column; gap: 1.25rem; font-size: 0.9rem; color: var(--text-primary); margin-bottom: 2.5rem;">
+                        <div style="display: flex; gap: 0.85rem; align-items: baseline;">
+                            <i class="fa-solid fa-check" style="font-size: 0.85rem; color: var(--text-secondary);"></i>
+                            <span>All fares include standard comprehensive insurance and 24/7 highway telematics roadside support.</span>
+                        </div>
+                        <div style="display: flex; gap: 0.85rem; align-items: baseline;">
+                            <i class="fa-solid fa-check" style="font-size: 0.85rem; color: var(--text-secondary);"></i>
+                            <span>Earn trust points for on-time returns to unlock lowered security deposit requirements.</span>
+                        </div>
+                        <div style="display: flex; gap: 0.85rem; align-items: baseline;">
+                            <i class="fa-solid fa-check" style="font-size: 0.85rem; color: var(--text-secondary);"></i>
+                            <span>Instant corporate tax invoices generated in compliant PDF and XML formats upon completion.</span>
+                        </div>
+                    </div>
+
+                    <a th:href="@{/cars}" class="btn btn-primary">
+                        Browse Available Showroom
+                    </a>
+                </div>
+
+                <!-- Host Pillar -->
+                <div class="ds-card" style="padding: 3rem;">
+                    <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem;">
+                        FOR VEHICLE HOSTS
+                    </div>
+                    <h2 style="font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1rem;">
+                        Turn idle automobiles into productive assets.
+                    </h2>
+                    <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 2rem;">
+                        Enroll single vehicles or entire commercial fleets into our managed marketplace. Review renter trust ratings before confirming reservations.
+                    </p>
+
+                    <div style="display: flex; flex-direction: column; gap: 1.25rem; font-size: 0.9rem; color: var(--text-primary); margin-bottom: 2.5rem;">
+                        <div style="display: flex; gap: 0.85rem; align-items: baseline;">
+                            <i class="fa-solid fa-check" style="font-size: 0.85rem; color: var(--text-secondary);"></i>
+                            <span>90% net payout retained by host with transparent 10% platform administration fee.</span>
+                        </div>
+                        <div style="display: flex; gap: 0.85rem; align-items: baseline;">
+                            <i class="fa-solid fa-check" style="font-size: 0.85rem; color: var(--text-secondary);"></i>
+                            <span>Digital condition reports protect hosts against undocumented body scratches and excessive mileage.</span>
+                        </div>
+                        <div style="display: flex; gap: 0.85rem; align-items: baseline;">
+                            <i class="fa-solid fa-check" style="font-size: 0.85rem; color: var(--text-secondary);"></i>
+                            <span>XML bulk fleet import allows instant ingestion of hundreds of vehicles conforming to fleet.xsd.</span>
+                        </div>
+                    </div>
+
+                    <a th:href="@{/owner/register}" class="btn btn-secondary">
+                        List Your Vehicle
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

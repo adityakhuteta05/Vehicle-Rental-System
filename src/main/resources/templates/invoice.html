@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${'Invoice ' + booking.bookingCode + ' | DriveSense'}">Tax Invoice | DriveSense</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .invoice-sheet {
+            background-color: #FFFFFF;
+            color: #111315;
+            max-width: 820px;
+            margin: 2.5rem auto 4rem auto;
+            padding: 3.5rem;
+            border: 1px solid #E3E4E2;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        @media print {
+            body {
+                background: #FFFFFF !important;
+                color: #111315 !important;
+                padding: 0 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .invoice-sheet {
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                max-width: 100% !important;
+            }
+        }
+    </style>
+</head>
+<body style="background-color: var(--bg-primary);">
+
+<!-- Navbar (Hidden on print) -->
+<div class="no-print">
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+</div>
+
+<main>
+    <!-- Action Toolbar (Hidden on print) -->
+    <div class="container no-print" style="max-width: 820px; margin-top: 2rem; display: flex; justify-content: space-between; align-items: center;">
+        <a th:href="@{/my-bookings}" class="btn btn-secondary btn-sm">
+            <i class="fa-solid fa-arrow-left"></i> Back to My Journeys
+        </a>
+
+        <div style="display: flex; gap: 0.75rem;">
+            <a th:href="@{'/bookings/' + ${booking.id} + '/invoice.xml'}" class="btn btn-secondary btn-sm" download>
+                <i class="fa-solid fa-download"></i> Download XML
+            </a>
+            <button onclick="window.print()" class="btn btn-primary btn-sm">
+                <i class="fa-solid fa-print"></i> Print Invoice
+            </button>
+        </div>
+    </div>
+
+    <!-- Corporate Tax Invoice Sheet -->
+    <div class="invoice-sheet">
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 2rem; border-bottom: 1px solid #E3E4E2; margin-bottom: 2.5rem;">
+            <div>
+                <div class="brand-logo" style="margin-bottom: 0.5rem; color: #111315;">
+                    <span class="brand-emblem" style="background-color: #111315; color: #FFFFFF;">
+                        <i class="fa-solid fa-compass"></i>
+                    </span>
+                    <span>DriveSense</span>
+                </div>
+                <div style="font-size: 0.82rem; color: #686C70; line-height: 1.5;">
+                    DriveSense Platforms Inc.<br>
+                    Terminal 3 Arrival Hub, IGI Airport, New Delhi 110037<br>
+                    GSTIN: 07AAACD1234E1Z5 &bull; support@drivesense.com
+                </div>
+            </div>
+
+            <div style="text-align: right;">
+                <div style="font-size: 1.75rem; font-weight: 800; letter-spacing: -0.02em; color: #111315;">INVOICE</div>
+                <div style="font-family: monospace; font-size: 1rem; font-weight: 700; color: #111315; margin-top: 0.2rem;" th:text="${booking.bookingCode}">
+                    DS-2026-000123
+                </div>
+                <div style="font-size: 0.82rem; color: #686C70; margin-top: 0.35rem;">
+                    Date: <span th:text="${#temporals.format(booking.createdAt, 'dd MMMM yyyy')}">10 October 2026</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer & Vehicle Meta Grid -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 2.5rem; font-size: 0.88rem;">
+            <div>
+                <div style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #8E9296; margin-bottom: 0.5rem;">
+                    Billed To
+                </div>
+                <div style="font-size: 1.05rem; font-weight: 700; color: #111315; margin-bottom: 0.2rem;" th:text="${user.fullName}">
+                    Aaditya Sharma
+                </div>
+                <div style="color: #686C70;" th:text="${user.email}">user@example.com</div>
+                <div style="color: #686C70;" th:text="${'Licence: ' + user.licenceNo}">DL-042015001234</div>
+                <div style="color: #686C70; margin-top: 0.25rem;">
+                    Trust Tier: <strong style="color: #111315;" th:text="${user.trustTier != null ? user.trustTier : 'GOLD'}">GOLD</strong>
+                </div>
+            </div>
+
+            <div>
+                <div style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #8E9296; margin-bottom: 0.5rem;">
+                    Vehicle & Rental Period
+                </div>
+                <div style="font-size: 1.05rem; font-weight: 700; color: #111315; margin-bottom: 0.2rem;" th:text="${car.displayName}">
+                    Hyundai Creta SX(O)
+                </div>
+                <div style="color: #686C70;" th:text="${'Reg No: ' + car.regNumber + ' (' + car.fuelType.displayName + ' ' + car.transmission + ')'}">
+                    DL04-CC-1024
+                </div>
+                <div style="color: #686C70; margin-top: 0.35rem;">
+                    Pickup: <span style="color: #111315;" th:text="${#temporals.format(booking.startTime, 'dd MMM yyyy, HH:mm')}">10 Oct 2026, 09:00</span><br>
+                    Return: <span style="color: #111315;" th:text="${#temporals.format(booking.endTime, 'dd MMM yyyy, HH:mm')}">12 Oct 2026, 18:00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Line Item Charges Table -->
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;">
+            <thead>
+                <tr style="border-bottom: 1px solid #E3E4E2; text-align: left;">
+                    <th style="padding: 0.75rem 0; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #8E9296;">Description</th>
+                    <th style="padding: 0.75rem 0; text-align: right; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #8E9296;">Amount (₹)</th>
+                </tr>
+            </thead>
+            <tbody style="font-size: 0.92rem; color: #111315;">
+                <tr style="border-bottom: 1px solid #E3E4E2;">
+                    <td style="padding: 1rem 0;">Vehicle Base Rental Rate</td>
+                    <td style="padding: 1rem 0; text-align: right; font-variant-numeric: tabular-nums;" th:text="${'₹' + #numbers.formatDecimal(booking.baseAmount, 0, 'COMMA', 0, 'POINT')}">₹7,000</td>
+                </tr>
+
+                <tr th:if="${booking.surchargeAmount != null && booking.surchargeAmount > 0}" style="border-bottom: 1px solid #E3E4E2;">
+                    <td style="padding: 0.85rem 0;">Peak / Weekend Dynamic Surcharge</td>
+                    <td style="padding: 0.85rem 0; text-align: right; font-variant-numeric: tabular-nums;" th:text="${'+₹' + #numbers.formatDecimal(booking.surchargeAmount, 0, 'COMMA', 0, 'POINT')}">+₹700</td>
+                </tr>
+
+                <tr th:if="${booking.discountAmount != null && booking.discountAmount > 0}" style="border-bottom: 1px solid #E3E4E2;">
+                    <td style="padding: 0.85rem 0; color: #20572F;">Duration & Loyalty Tier Discount</td>
+                    <td style="padding: 0.85rem 0; text-align: right; color: #20572F; font-variant-numeric: tabular-nums;" th:text="${'−₹' + #numbers.formatDecimal(booking.discountAmount, 0, 'COMMA', 0, 'POINT')}">−₹385</td>
+                </tr>
+
+                <tr th:if="${booking.extraCharges != null && booking.extraCharges > 0}" style="border-bottom: 1px solid #E3E4E2;">
+                    <td style="padding: 0.85rem 0;">Extras & Optional Services</td>
+                    <td style="padding: 0.85rem 0; text-align: right; font-variant-numeric: tabular-nums;" th:text="${'₹' + #numbers.formatDecimal(booking.extraCharges, 0, 'COMMA', 0, 'POINT')}">₹500</td>
+                </tr>
+
+                <tr style="border-bottom: 1px solid #E3E4E2;">
+                    <td style="padding: 0.85rem 0;">Goods & Services Tax (GST @ 18%)</td>
+                    <td style="padding: 0.85rem 0; text-align: right; font-variant-numeric: tabular-nums;" th:text="${'₹' + #numbers.formatDecimal(booking.taxAmount, 0, 'COMMA', 0, 'POINT')}">₹1,323</td>
+                </tr>
+
+                <!-- Dominant Total -->
+                <tr style="border-top: 2px solid #111315; border-bottom: 2px solid #111315;">
+                    <td style="padding: 1.15rem 0; font-size: 1.25rem; font-weight: 800;">TOTAL PAID</td>
+                    <td style="padding: 1.15rem 0; text-align: right; font-size: 1.45rem; font-weight: 800; font-variant-numeric: tabular-nums;"
+                        th:text="${'₹' + #numbers.formatDecimal(booking.totalAmount, 0, 'COMMA', 0, 'POINT')}">₹9,138</td>
+                </tr>
+
+                <!-- Security Deposit -->
+                <tr>
+                    <td style="padding: 0.85rem 0; font-size: 0.85rem; color: #686C70;">Refundable Security Deposit</td>
+                    <td style="padding: 0.85rem 0; text-align: right; font-size: 0.85rem; font-weight: 600; color: #111315;"
+                        th:text="${booking.depositAmount == 0 ? '₹0.00 (Waived via Loyalty Standing)' : '₹' + #numbers.formatDecimal(booking.depositAmount, 0, 'COMMA', 0, 'POINT')}">₹5,000</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Carbon Footprint & Environmental Estimate -->
+        <div style="background-color: #F5F5F3; border: 1px solid #E3E4E2; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; color: #686C70;">
+            <span>Estimated Trip Carbon Emissions</span>
+            <strong style="color: #111315;" th:text="${booking.estCo2Kg + ' kg CO₂ (~' + booking.estDistanceKm + ' km)'}">14.2 kg CO₂</strong>
+        </div>
+
+        <!-- Footer / Legal Terms -->
+        <div style="font-size: 0.75rem; color: #8E9296; line-height: 1.6; border-top: 1px solid #E3E4E2; padding-top: 1.5rem;">
+            This is an electronically generated tax invoice unmarshaled from DriveSense dynamic XML rules. All vehicles are subjected to pre-pickup and return Digital Condition Reports. For corporate queries, contact accounting@drivesense.com.
+        </div>
+    </div>
+</main>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

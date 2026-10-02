@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Owner Sign In | Fleet Host Portal | DriveSense</title>
+    <meta name="description" content="Sign in to your DriveSense vehicle owner portal to manage your automotive fleet, view bookings, and track earnings.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body style="background-color: var(--bg-primary);">
+
+<!-- Split Screen Layout -->
+<div class="auth-split-wrapper">
+    <!-- LEFT: Fleet Management & Sovereign Host Experience -->
+    <div class="auth-media-pane">
+        <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1600&q=85"
+             alt="DriveSense Fleet Host Command" />
+        
+        <div class="auth-media-overlay">
+            <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.5rem; color: #FCD34D;">
+                DRIVESENSE • FLEET PARTNER COMMAND
+            </div>
+            <h2 style="font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.75rem; color: #FFFFFF;">
+                Your fleet. Total control.
+            </h2>
+            <p style="font-size: 0.95rem; color: #A7AAAD; max-width: 440px;">
+                Monitor real-time vehicle allocation, approve incoming reservations, and receive 90% net earnings settlements directly.
+            </p>
+
+            <ul class="auth-perks-list">
+                <li class="auth-perk-item">
+                    <span class="auth-perk-icon" style="background-color: rgba(251, 191, 36, 0.25); color: #FBBF24;"><i class="fa-solid fa-sack-dollar"></i></span>
+                    <span>Industry-leading 90% net payout on all completed journeys</span>
+                </li>
+                <li class="auth-perk-item">
+                    <span class="auth-perk-icon" style="background-color: rgba(251, 191, 36, 0.25); color: #FBBF24;"><i class="fa-solid fa-clipboard-check"></i></span>
+                    <span>6-Zone condition audit before departure and upon return</span>
+                </li>
+                <li class="auth-perk-item">
+                    <span class="auth-perk-icon" style="background-color: rgba(251, 191, 36, 0.25); color: #FBBF24;"><i class="fa-solid fa-chart-line"></i></span>
+                    <span>Live vehicle telemetry, calendar blackout controls, and analytics</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- RIGHT: Vehicle Owner / Fleet Host Sign-In Form -->
+    <div class="auth-form-pane">
+        <div class="auth-form-box">
+            <!-- Brand Wordmark -->
+            <a th:href="@{/}" class="brand-logo" style="margin-bottom: 1.75rem; display: inline-flex;">
+                <span class="brand-emblem"><i class="fa-solid fa-compass"></i></span>
+                <span>DriveSense</span>
+            </a>
+
+            <!-- TWO-PORTAL ROLE SWITCHER: Renter vs Owner -->
+            <div class="auth-role-tabs">
+                <a th:href="@{/login}" class="auth-role-tab" title="Switch to Rent a Vehicle / Driver Portal">
+                    <i class="fa-solid fa-car"></i>
+                    <span>Rent a Vehicle</span>
+                </a>
+                <a th:href="@{/owner/login}" class="auth-role-tab active active-owner" title="Vehicle Owner / Host Portal Active">
+                    <i class="fa-solid fa-key"></i>
+                    <span>Vehicle Owner</span>
+                </a>
+            </div>
+
+            <!-- Header & Badge -->
+            <div style="margin-bottom: 1.5rem;">
+                <div class="auth-badge auth-badge-owner">
+                    <i class="fa-solid fa-key"></i> Vehicle Owner & Fleet Host Portal
+                </div>
+                <h1 style="font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.35rem;">
+                    Fleet Host Command.
+                </h1>
+                <p style="font-size: 0.92rem; color: var(--text-secondary);">
+                    Sign in to manage your vehicles, review booking requests, and view payouts.
+                </p>
+            </div>
+
+            <!-- Demo Quick Selector Chips -->
+            <div class="auth-demo-panel">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted);">
+                        Demo Host Profiles
+                    </span>
+                    <span style="font-size: 0.7rem; color: var(--text-muted);">1-Click Fill</span>
+                </div>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="setDemo('owner@drivesense.com', 'owner123')" style="font-size: 0.8rem; padding: 0.35rem 0.75rem;">
+                        <i class="fa-solid fa-key" style="margin-right: 0.3rem; color: #D4A017;"></i> Vehicle Host (Rajesh)
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="setDemo('admin@drivesense.com', 'admin123')" style="font-size: 0.8rem; padding: 0.35rem 0.75rem;">
+                        <i class="fa-solid fa-shield-halved" style="margin-right: 0.3rem;"></i> Fleet Admin
+                    </button>
+                </div>
+            </div>
+
+            <!-- Flash Error / Success Alerts -->
+            <div th:if="${param.error}" style="padding: 0.85rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.85rem; background-color: var(--status-danger-bg); color: var(--status-danger-text); border: 1px solid var(--status-danger-border);">
+                <i class="fa-solid fa-circle-exclamation" style="margin-right: 0.35rem;"></i>
+                Invalid owner credentials. Please verify your partner email and password.
+            </div>
+            <div th:if="${param.logout}" style="padding: 0.85rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.85rem; background-color: var(--bg-subtle); color: var(--text-primary); border: 1px solid var(--border-strong);">
+                <i class="fa-solid fa-circle-check" style="margin-right: 0.35rem;"></i>
+                You have been signed out from Fleet Command.
+            </div>
+            <div th:if="${successMessage}" style="padding: 0.85rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.85rem; background-color: var(--status-success-bg); color: var(--status-success-text); border: 1px solid var(--status-success-border);" th:text="${successMessage}">
+                Account created successfully.
+            </div>
+
+            <!-- Form -->
+            <form th:action="@{/login}" method="post">
+                <input type="hidden" name="loginType" value="OWNER" />
+                <div class="form-group" style="margin-bottom: 1.25rem;">
+                    <label class="form-label" for="username">Partner Email</label>
+                    <input type="email" id="username" name="username" class="form-control" placeholder="partner@domain.com" value="owner@drivesense.com" required autofocus />
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.75rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                        <label class="form-label" for="password" style="margin-bottom: 0;">Password</label>
+                    </div>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" value="owner123" required />
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg" style="height: 50px; font-weight: 700; letter-spacing: 0.04em; background: linear-gradient(135deg, #1C1917 0%, #292524 100%); border-color: rgba(251, 191, 36, 0.3);">
+                    <i class="fa-solid fa-key" style="margin-right: 0.4rem; color: #FBBF24;"></i> ACCESS FLEET COMMAND
+                </button>
+            </form>
+
+            <!-- Links & Role Switching -->
+            <div class="auth-switch-box">
+                <div>
+                    <span>Want to list your vehicle?</span>
+                    <a th:href="@{/owner/register}" style="color: var(--text-primary); font-weight: 700; text-decoration: underline; margin-left: 0.25rem;">Register as Vehicle Partner</a>
+                </div>
+                <div style="padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); font-size: 0.83rem; background: var(--bg-surface-elevated); padding: 0.85rem; border-radius: var(--radius-md);">
+                    <span style="color: var(--text-secondary); display: block; margin-bottom: 0.35rem;">Looking to rent a vehicle instead?</span>
+                    <a th:href="@{/login}" style="color: var(--text-primary); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
+                        <i class="fa-solid fa-car"></i> Switch to Driver Login &rarr;
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function setDemo(email, pass) {
+    document.getElementById('username').value = email;
+    document.getElementById('password').value = pass;
+}
+</script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

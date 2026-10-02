@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Statements | DriveSense Fleet Command</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="admin-layout">
+    <div th:replace="~{fragments/owner-sidebar :: owner-sidebar}"></div>
+
+    <main class="admin-main">
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">
+                    FINANCIAL SETTLEMENTS
+                </div>
+                <h1 style="font-size: 2.25rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 0.4rem;">
+                    Earnings &amp; Payouts
+                </h1>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">
+                    Transparent breakdown of rental income, platform fees (10%), and bank settlements.
+                </p>
+            </div>
+
+            <button class="btn btn-secondary btn-sm" onclick="window.print()">
+                <i class="fa-solid fa-print"></i> Print Statement
+            </button>
+        </div>
+
+        <!-- 3 KPI Cards -->
+        <div class="kpi-row" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-bottom: 2.5rem;">
+            <div class="ds-card" style="padding: 1.5rem;">
+                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); font-weight: 700; margin-bottom: 0.5rem;">
+                    All-Time Net Earnings
+                </div>
+                <div style="font-size: 2rem; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 0.25rem;" th:text="${'₹' + #numbers.formatDecimal(stats.totalEarnings, 0, 'COMMA', 0, 'POINT')}">
+                    ₹1,84,500
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                    90% net payout after platform fees
+                </div>
+            </div>
+
+            <div class="ds-card" style="padding: 1.5rem;">
+                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); font-weight: 700; margin-bottom: 0.5rem;">
+                    Current Month Trajectory
+                </div>
+                <div style="font-size: 2rem; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 0.25rem;" th:text="${'₹' + #numbers.formatDecimal(stats.thisMonthEarnings, 0, 'COMMA', 0, 'POINT')}">
+                    ₹19,303
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                    Current accounting cycle
+                </div>
+            </div>
+
+            <div class="ds-card" style="padding: 1.5rem;">
+                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); font-weight: 700; margin-bottom: 0.5rem;">
+                    Settlement Account
+                </div>
+                <div style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.35rem;">
+                    HDFC Bank •••• 9924
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                    Automated weekly direct deposit
+                </div>
+            </div>
+        </div>
+
+        <!-- Payout Statement Table -->
+        <div class="ds-card" style="padding: 1.5rem;">
+            <div style="padding-bottom: 1.25rem; border-bottom: 1px solid var(--border-subtle); margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem;">
+                        Payout Ledger
+                    </h3>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Itemized transactions and platform fee deductions</p>
+                </div>
+                <span style="font-size: 0.75rem; color: var(--text-muted); border: 1px solid var(--border-subtle); padding: 0.25rem 0.6rem; border-radius: 4px;">
+                    10% Platform Model
+                </span>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="ds-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid var(--border-medium); color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em;">
+                            <th style="padding: 0.9rem 1rem;">Date</th>
+                            <th style="padding: 0.9rem 1rem;">Booking ID</th>
+                            <th style="padding: 0.9rem 1rem;">Vehicle</th>
+                            <th style="padding: 0.9rem 1rem;">Renter</th>
+                            <th style="padding: 0.9rem 1rem;">Gross</th>
+                            <th style="padding: 0.9rem 1rem;">Platform (10%)</th>
+                            <th style="padding: 0.9rem 1rem;">Net Payout</th>
+                            <th style="padding: 0.9rem 1rem;">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="b : ${bookings}" style="border-bottom: 1px solid var(--border-subtle);">
+                            <td style="padding: 1rem; font-size: 0.82rem; color: var(--text-secondary);" th:text="${#temporals.format(b.createdAt, 'dd MMM yyyy')}">
+                                10 Oct 2026
+                            </td>
+                            <td style="padding: 1rem; font-family: 'SF Mono', Consolas, Monaco, monospace; font-size: 0.82rem; font-weight: 600; color: var(--text-primary);" th:text="${b.bookingCode}">
+                                DS-2026-000123
+                            </td>
+                            <td style="padding: 1rem; color: var(--text-primary); font-weight: 600;" th:text="${b.car.displayName}">
+                                Hyundai Creta
+                            </td>
+                            <td style="padding: 1rem; color: var(--text-secondary);" th:text="${b.user.fullName}">
+                                Aaditya Sharma
+                            </td>
+                            <td style="padding: 1rem; color: var(--text-secondary);" th:text="${'₹' + #numbers.formatDecimal(b.totalAmount, 0, 'COMMA', 0, 'POINT')}">
+                                ₹10,779
+                            </td>
+                            <td style="padding: 1rem; color: var(--text-muted);" th:text="${'₹' + #numbers.formatDecimal(b.platformFee, 0, 'COMMA', 0, 'POINT')}">
+                                ₹1,078
+                            </td>
+                            <td style="padding: 1rem; font-weight: 700; color: var(--text-primary);" th:text="${'₹' + #numbers.formatDecimal(b.ownerEarnings, 0, 'COMMA', 0, 'POINT')}">
+                                ₹9,701
+                            </td>
+                            <td style="padding: 1rem;">
+                                <span class="badge" 
+                                      th:classappend="${b.status.name() == 'COMPLETED' ? 'status-available' : ''}"
+                                      style="font-size: 0.72rem; text-transform: uppercase; font-weight: 600;"
+                                      th:text="${b.status.name() == 'COMPLETED' ? 'SETTLED' : 'PENDING'}">
+                                    SETTLED
+                                </span>
+                            </td>
+                        </tr>
+                        <tr th:if="${bookings.empty}">
+                            <td colspan="8" style="text-align: center; padding: 3rem; color: var(--text-muted);">
+                                No earning transactions recorded yet.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

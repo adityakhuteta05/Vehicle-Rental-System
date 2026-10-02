@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Consultation | DriveSense</title>
+    <meta name="description" content="Intelligent vehicle consultation matching your journey, party size, terrain, and budget.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="section-spacing">
+    <div class="container" style="max-width: 1040px;">
+        <!-- Header -->
+        <div style="text-align: center; margin-bottom: 3.5rem;">
+            <div class="section-eyebrow" style="justify-content: center;">
+                <i class="fa-solid fa-circle" style="font-size: 0.45rem;"></i> Vehicle Consultation
+            </div>
+            <h1 class="section-title">Tell us about your journey.</h1>
+            <p class="section-subtitle" style="max-width: 600px; margin: 0 auto;">
+                Provide your travel context. Our algorithmic matching engine evaluates route demands, capacity, and budget to recommend the right vehicle.
+            </p>
+        </div>
+
+        <!-- Consultation Form -->
+        <div style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 3rem; box-shadow: var(--shadow-md); margin-bottom: 4rem;">
+            <form th:action="@{/vibe-match}" th:object="${vibeRequest}" method="post">
+                <!-- STEP 01: Journey -->
+                <div style="margin-bottom: 3rem;">
+                    <div style="display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 1.5rem;">
+                        <span style="font-size: 0.85rem; font-weight: 800; letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase;">01</span>
+                        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary);">Journey</h3>
+                    </div>
+
+                    <div class="vibe-options-grid">
+                        <th:block th:each="t : ${tripTypes}">
+                            <label class="vibe-option-card" th:classappend="${vibeRequest.tripType == t ? 'selected' : ''}">
+                                <input type="radio" th:field="*{tripType}" th:value="${t}" style="position: absolute; opacity: 0; pointer-events: none;" onchange="this.form.querySelectorAll('.vibe-option-card').forEach(c => c.classList.remove('selected')); this.closest('.vibe-option-card').classList.add('selected');" />
+                                <div class="vibe-option-title" th:text="${t.title}">Family Trip</div>
+                                <div class="vibe-option-desc" th:text="${t.description}">Comfortable space for everyone.</div>
+                            </label>
+                        </th:block>
+                    </div>
+                </div>
+
+                <!-- STEP 02 & 03: Passengers & Luggage -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-bottom: 3rem;">
+                    <!-- 02: Passengers -->
+                    <div>
+                        <div style="display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 1.25rem;">
+                            <span style="font-size: 0.85rem; font-weight: 800; letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase;">02</span>
+                            <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary);">Passengers</h3>
+                        </div>
+                        <div style="background-color: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <span style="font-size: 0.85rem; color: var(--text-secondary);">Traveller Count</span>
+                                <span id="paxDisplay" style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary);" th:text="*{passengers + ' Seats'}">4 Seats</span>
+                            </div>
+                            <input type="range" th:field="*{passengers}" min="1" max="8" step="1"
+                                   style="width: 100%; cursor: pointer;"
+                                   oninput="document.getElementById('paxDisplay').innerText = this.value + ' Seats';" />
+                        </div>
+                    </div>
+
+                    <!-- 03: Luggage -->
+                    <div>
+                        <div style="display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 1.25rem;">
+                            <span style="font-size: 0.85rem; font-weight: 800; letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase;">03</span>
+                            <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary);">Luggage</h3>
+                        </div>
+                        <div class="form-group">
+                            <select th:field="*{luggage}" class="form-control" style="height: 64px; font-weight: 600;">
+                                <option th:each="b : ${bootSizes}" th:value="${b}" th:text="${b.name() + ' Boot — ' + b.description}"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 04: Budget & Dates -->
+                <div style="margin-bottom: 3rem;">
+                    <div style="display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 1.25rem;">
+                        <span style="font-size: 0.85rem; font-weight: 800; letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase;">04</span>
+                        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary);">Budget & Schedule</h3>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 1.5rem; align-items: end;">
+                        <div class="form-group">
+                            <label class="form-label" for="maxDailyBudget">Daily Budget Limit (₹)</label>
+                            <input type="number" id="maxDailyBudget" th:field="*{maxDailyBudget}" class="form-control" placeholder="e.g. 5000" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="startTime">Pickup Date & Time</label>
+                            <input type="datetime-local" id="startTime" th:field="*{startTime}" class="form-control" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="endTime">Return Date & Time</label>
+                            <input type="datetime-local" id="endTime" th:field="*{endTime}" class="form-control" required />
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg" style="height: 54px;">
+                    FIND MATCHING VEHICLES
+                </button>
+            </form>
+        </div>
+
+        <!-- Vibe Match Results (Top 3 Recommendations) -->
+        <div th:if="${hasCalculated}" id="vibeResults">
+            <div style="margin-bottom: 2.5rem; text-align: left;">
+                <div class="section-eyebrow">Consultation Result</div>
+                <h2 class="section-title">Your recommended vehicles.</h2>
+                <p class="section-subtitle">Ranked by weighted vector alignment across party size, luggage, budget, and route characteristics.</p>
+            </div>
+
+            <!-- Empty State -->
+            <div th:if="${matches.empty}" style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 4rem 2rem; text-align: center;">
+                <h3 style="font-size: 1.4rem; margin-bottom: 0.5rem;">No vehicles matched your exact criteria</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Try expanding your daily budget or choosing alternative dates.</p>
+                <a th:href="@{/cars}" class="btn btn-secondary">Browse All Vehicles</a>
+            </div>
+
+            <!-- Top 3 Recommendations -->
+            <div style="display: flex; flex-direction: column; gap: 1.75rem;" th:unless="${matches.empty}">
+                <div th:each="m, iter : ${matches}"
+                     style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 2rem 2.5rem; display: grid; grid-template-columns: 110px 200px 1fr 200px; gap: 2rem; align-items: center; box-shadow: var(--shadow-sm); transition: transform 0.25s ease;"
+                     onmouseover="this.style.transform='translateY(-2px)'"
+                     onmouseout="this.style.transform='translateY(0)'">
+                    
+                    <!-- Circular Score Indicator (Strictly Monochrome) -->
+                    <div style="text-align: center;">
+                        <div style="width: 76px; height: 76px; border-radius: 50%; border: 3px solid var(--text-primary); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto;">
+                            <span style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 800; color: var(--text-primary);" th:text="${m.matchPercent + '%'}">94%</span>
+                        </div>
+                        <span style="font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-top: 0.4rem; display: block;">MATCH</span>
+                    </div>
+
+                    <!-- Vehicle Image -->
+                    <div style="height: 120px; border-radius: var(--radius-md); overflow: hidden; background-color: var(--bg-subtle);">
+                        <img th:src="${m.car.imageUrl}" th:alt="${m.car.displayName}" style="width: 100%; height: 100%; object-fit: cover;" />
+                    </div>
+
+                    <!-- Vehicle Name & Why It Matches -->
+                    <div>
+                        <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted);" th:text="${m.car.brand}">
+                            HYUNDAI
+                        </div>
+                        <h3 style="font-size: 1.35rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;" th:text="${m.car.model}">
+                            Creta SX(O)
+                        </h3>
+
+                        <!-- Reason String -->
+                        <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.55; margin-bottom: 0.85rem;" th:text="${m.reason}">
+                            Fits your passenger count and luggage requirements. Within your daily budget.
+                        </p>
+
+                        <div style="display: flex; gap: 1.25rem; font-size: 0.82rem; color: var(--text-muted);">
+                            <span><i class="fa-solid fa-user"></i> <strong style="color: var(--text-primary);" th:text="${m.car.seats}">5</strong> Seats</span>
+                            <span><i class="fa-solid fa-gear"></i> <strong style="color: var(--text-primary);" th:text="${m.car.transmission}">Auto</strong></span>
+                            <span><i class="fa-solid fa-suitcase"></i> <strong style="color: var(--text-primary);" th:text="${m.car.bootSize}">M</strong> Boot</span>
+                        </div>
+                    </div>
+
+                    <!-- Price & Reservation Action -->
+                    <div style="text-align: right; border-left: 1px solid var(--border-subtle); padding-left: 1.75rem;">
+                        <div style="font-size: 1.65rem; font-weight: 800; font-family: var(--font-heading); color: var(--text-primary);"
+                             th:text="${'₹' + #numbers.formatDecimal(m.car.pricePerDay, 0, 'COMMA', 0, 'POINT')}">₹2,900</div>
+                        <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1.25rem;">per day</div>
+                        
+                        <a th:href="@{/book/{id}(id=${m.car.id}, tripType=${vibeRequest.tripType}, start=${vibeRequest.startTime}, end=${vibeRequest.endTime})}"
+                           class="btn btn-primary btn-block">
+                            BOOK NOW
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

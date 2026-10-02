@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleet Overview | DriveSense Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body style="background-color: var(--bg-primary);">
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="admin-shell">
+    <!-- Admin Sidebar Navigation -->
+    <div th:replace="~{fragments/admin-sidebar :: admin-sidebar}"></div>
+
+    <!-- Admin Main Body -->
+    <main class="admin-body">
+        <!-- Top Title Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <div class="section-eyebrow">
+                    <i class="fa-solid fa-circle" style="font-size: 0.45rem;"></i> Fleet Operations
+                </div>
+                <h1 style="font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em;">Fleet Overview</h1>
+                <p style="color: var(--text-secondary); font-size: 0.92rem;">
+                    Real-time fleet metrics, active itineraries, and verified revenue volume.
+                </p>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem;">
+                <a th:href="@{/admin/fleet/import-xml}" class="btn btn-secondary btn-sm">
+                    <i class="fa-solid fa-file-code"></i> XML Bulk Import
+                </a>
+                <a th:href="@{/admin/cars}" class="btn btn-primary btn-sm">
+                    Add Vehicle
+                </a>
+            </div>
+        </div>
+
+        <!-- 5 Key KPI Metric Tiles (Requirement 25) -->
+        <div class="stat-kpi-grid" style="grid-template-columns: repeat(5, 1fr); margin-bottom: 2.5rem;">
+            <div class="kpi-tile">
+                <div class="kpi-num" th:text="${totalCars}">13</div>
+                <div class="kpi-lbl">Total Vehicles</div>
+            </div>
+
+            <div class="kpi-tile">
+                <div class="kpi-num" th:text="${carsOutNow}">2</div>
+                <div class="kpi-lbl">Currently Rented</div>
+            </div>
+
+            <div class="kpi-tile">
+                <div class="kpi-num" th:text="${totalCars - carsOutNow}">11</div>
+                <div class="kpi-lbl">Available Fleet</div>
+            </div>
+
+            <div class="kpi-tile">
+                <div class="kpi-num" th:text="${dueToday}">1</div>
+                <div class="kpi-lbl">Due Today</div>
+            </div>
+
+            <div class="kpi-tile">
+                <div class="kpi-num" th:text="${'₹' + #numbers.formatDecimal(monthlyRevenue, 0, 'COMMA', 0, 'POINT')}">₹1,94,500</div>
+                <div class="kpi-lbl">Monthly Revenue</div>
+            </div>
+        </div>
+
+        <!-- Monochrome Analytics Charts (Requirement 29) -->
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin-bottom: 3rem;">
+            <!-- Revenue Trend Chart -->
+            <div style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 2rem; box-shadow: var(--shadow-sm);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <div>
+                        <h3 style="font-size: 1.15rem; font-weight: 700;">Monthly Revenue</h3>
+                        <p style="font-size: 0.82rem; color: var(--text-muted);">Gross rental volume over the past 30 days</p>
+                    </div>
+                    <span class="status-pill available">Gross Bookings</span>
+                </div>
+                <div style="height: 260px; position: relative;">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Category Distribution Doughnut -->
+            <div style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 2rem; box-shadow: var(--shadow-sm);">
+                <div style="margin-bottom: 1.5rem;">
+                    <h3 style="font-size: 1.15rem; font-weight: 700;">Revenue by Vehicle Type</h3>
+                    <p style="font-size: 0.82rem; color: var(--text-muted);">Fleet category share</p>
+                </div>
+                <div style="height: 260px; position: relative;">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Booking Management Table -->
+        <div class="data-table-card">
+            <div style="padding: 1.5rem 1.75rem; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-size: 1.1rem; font-weight: 700;">Recent Reservation Activity</h3>
+                <a th:href="@{/admin/bookings}" class="btn btn-ghost btn-sm">View All Bookings</a>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Customer</th>
+                        <th>Vehicle</th>
+                        <th>Pickup Hub</th>
+                        <th>Duration</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="b : ${recentBookings}">
+                        <td style="font-family: monospace; font-weight: 700;" th:text="${b.bookingCode}">DS-2026-000123</td>
+                        <td th:text="${b.user.fullName}">Customer Name</td>
+                        <td>
+                            <strong th:text="${b.car.displayName}">Hyundai Creta</strong>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);" th:text="${b.car.regNumber}">DL04-CC-1024</div>
+                        </td>
+                        <td th:text="${b.pickupLocation != null ? b.pickupLocation.name : 'Executive Hub'}">Hub</td>
+                        <td th:text="${#temporals.format(b.startTime, 'dd MMM') + ' – ' + #temporals.format(b.endTime, 'dd MMM yyyy')}">Dates</td>
+                        <td style="font-weight: 700; font-variant-numeric: tabular-nums;" th:text="${'₹' + #numbers.formatDecimal(b.totalAmount, 0, 'COMMA', 0, 'POINT')}">₹9,138</td>
+                        <td>
+                            <span class="status-pill"
+                                  th:classappend="${b.status.name() == 'CONFIRMED' || b.status.name() == 'ACTIVE' ? 'available' : (b.status.name() == 'COMPLETED' ? 'rented' : 'retired')}"
+                                  th:text="${b.status}">CONFIRMED</span>
+                        </td>
+                        <td>
+                            <a th:href="@{'/bookings/' + ${b.id} + '/invoice'}" class="btn btn-secondary btn-sm" style="padding: 0.35rem 0.65rem;">
+                                Invoice
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+<script th:src="@{/js/admin-charts.js}"></script>
+</body>
+</html>

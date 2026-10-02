@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard | DriveSense</title>
+    <meta name="description" content="Personal mobility account and active journeys on DriveSense.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="section-spacing">
+    <div class="container" style="max-width: 1140px;">
+        
+        <!-- Header -->
+        <div style="margin-bottom: 3rem;">
+            <div class="section-eyebrow">
+                <i class="fa-solid fa-circle" style="font-size: 0.45rem;"></i> Personal Mobility Account
+            </div>
+            <h1 class="section-title">
+                Good morning, <span th:text="${user.fullName}">Aditya</span>.
+            </h1>
+            <p class="section-subtitle">Your next journey starts here.</p>
+        </div>
+
+        <!-- Top Statistics (Upcoming Trips, Completed Trips, Trust Score) -->
+        <div class="stat-kpi-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 3.5rem;">
+            <div class="kpi-tile">
+                <div class="kpi-num" th:text="${upcomingCount}">1</div>
+                <div class="kpi-lbl">Upcoming Trips</div>
+                <p style="font-size: 0.8rem; margin-top: 0.35rem; color: var(--text-muted);">Active & confirmed reservations</p>
+            </div>
+
+            <div class="kpi-tile">
+                <div class="kpi-num" th:text="${completedCount}">5</div>
+                <div class="kpi-lbl">Completed Trips</div>
+                <p style="font-size: 0.8rem; margin-top: 0.35rem; color: var(--text-muted);">Verified rental history</p>
+            </div>
+
+            <div class="kpi-tile">
+                <div style="display: flex; align-items: baseline; gap: 0.5rem;">
+                    <div class="kpi-num" th:text="${user.trustScore}">78</div>
+                    <span style="font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary);" th:text="${user.trustTier}">GOLD</span>
+                </div>
+                <div class="kpi-lbl">Trust Score</div>
+                <p style="font-size: 0.8rem; margin-top: 0.35rem; color: var(--text-muted);">Unlocks 50% deposit waiver privilege</p>
+            </div>
+        </div>
+
+        <!-- Main Section: NEXT JOURNEY -->
+        <div style="margin-bottom: 4rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.5rem;">
+                <h3 style="font-size: 0.88rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted);">
+                    NEXT JOURNEY
+                </h3>
+                <a th:href="@{/renter/bookings}" style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); text-decoration: underline;">
+                    All Journeys
+                </a>
+            </div>
+
+            <!-- Active / Upcoming Booking Card -->
+            <div th:if="${upcomingBooking != null}" style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 2.5rem; display: grid; grid-template-columns: 260px 1fr 180px; gap: 2.5rem; align-items: center; box-shadow: var(--shadow-sm);">
+                <!-- Vehicle Image -->
+                <div style="height: 160px; border-radius: var(--radius-md); overflow: hidden; background-color: var(--bg-subtle);">
+                    <img th:src="${upcomingBooking.car.imageUrl}" th:alt="${upcomingBooking.car.displayName}" style="width: 100%; height: 100%; object-fit: cover;" />
+                </div>
+
+                <!-- Info -->
+                <div>
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                        <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin: 0;" th:text="${upcomingBooking.car.displayName}">
+                            Hyundai Creta SX(O)
+                        </h2>
+                        <span class="status-pill available" th:text="${upcomingBooking.status}">CONFIRMED</span>
+                    </div>
+
+                    <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+                        Booking Code: <strong style="color: var(--text-primary); font-family: monospace;" th:text="${upcomingBooking.bookingCode}">DS-2026-000123</strong>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; font-size: 0.85rem;">
+                        <div>
+                            <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Pickup</div>
+                            <div style="font-weight: 600; color: var(--text-primary); margin-top: 0.2rem;" th:text="${#temporals.format(upcomingBooking.startTime, 'dd MMM yyyy, HH:mm')}">12 Oct 2026, 10:00</div>
+                        </div>
+
+                        <div>
+                            <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Return</div>
+                            <div style="font-weight: 600; color: var(--text-primary); margin-top: 0.2rem;" th:text="${#temporals.format(upcomingBooking.endTime, 'dd MMM yyyy, HH:mm')}">15 Oct 2026, 18:00</div>
+                        </div>
+
+                        <div>
+                            <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Location</div>
+                            <div style="font-weight: 600; color: var(--text-primary); margin-top: 0.2rem;" th:text="${upcomingBooking.pickupLocation != null ? upcomingBooking.pickupLocation.name : 'Airport T3 Hub'}">Airport T3 Hub</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Button Action -->
+                <div style="text-align: right;">
+                    <a th:href="@{'/bookings/' + ${upcomingBooking.id} + '/invoice'}" class="btn btn-primary btn-block">
+                        VIEW BOOKING
+                    </a>
+                </div>
+            </div>
+
+            <!-- Empty Next Journey State -->
+            <div th:unless="${upcomingBooking != null}" style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 3.5rem 2rem; text-align: center;">
+                <h4 style="font-size: 1.2rem; margin-bottom: 0.35rem;">No active reservations</h4>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem;">Ready for your next journey? Browse verified vehicles available today.</p>
+                <a th:href="@{/cars}" class="btn btn-primary">EXPLORE CARS</a>
+            </div>
+        </div>
+
+        <!-- Recommended Vehicles Section -->
+        <div style="margin-top: 4rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2rem;">
+                <h3 style="font-size: 1.35rem; font-weight: 700;">Selected for your next drive</h3>
+                <a th:href="@{/cars}" class="btn btn-secondary btn-sm">View All</a>
+            </div>
+
+            <div class="vehicle-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <th:block th:each="car, iter : ${recommendedCars}" th:if="${iter.index < 3}">
+                    <div th:replace="~{fragments/car-card :: car-card(car=${car})}"></div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

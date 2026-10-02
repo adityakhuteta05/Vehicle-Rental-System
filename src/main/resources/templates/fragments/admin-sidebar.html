@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<aside th:fragment="admin-sidebar" class="admin-sidebar">
+    <div style="padding: 0 0.5rem 1.5rem; border-bottom: 1px solid var(--border-subtle); margin-bottom: 1.25rem;">
+        <div style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.25rem;">
+            FLEET COMMAND
+        </div>
+        <h4 style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary);">Fleet Operations</h4>
+    </div>
+
+    <ul class="admin-nav">
+        <li>
+            <a th:href="@{/admin}" class="admin-nav-item" th:classappend="${adminTab == 'dashboard' ? 'active' : ''}">
+                <i class="fa-solid fa-gauge"></i>
+                <span>Overview</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/cars}" class="admin-nav-item" th:classappend="${adminTab == 'cars' ? 'active' : ''}">
+                <i class="fa-solid fa-car"></i>
+                <span>Vehicles</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/bookings}" class="admin-nav-item" th:classappend="${adminTab == 'bookings' ? 'active' : ''}">
+                <i class="fa-regular fa-calendar-check"></i>
+                <span>Bookings</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/customers}" class="admin-nav-item" th:classappend="${adminTab == 'customers' ? 'active' : ''}">
+                <i class="fa-regular fa-user"></i>
+                <span>Customers</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/reports}" class="admin-nav-item" th:classappend="${adminTab == 'reports' ? 'active' : ''}">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Revenue</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/fleet/import-xml}" class="admin-nav-item" th:classappend="${adminTab == 'import-xml' ? 'active' : ''}">
+                <i class="fa-solid fa-file-code"></i>
+                <span>XML Import</span>
+            </a>
+        </li>
+    </ul>
+
+    <div style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle);">
+        <a th:href="@{/}" class="admin-nav-item">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Public Showroom</span>
+        </a>
+    </div>
+</aside>
+</body>
+</html>

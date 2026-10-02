@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Partner Registration | DriveSense</title>
+    <meta name="description" content="List your premium vehicle on the DriveSense fleet management network with 90% net payouts and digital protection.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body style="background-color: var(--bg-primary);">
+
+<!-- Split Screen Layout -->
+<div class="auth-split-wrapper">
+    <!-- LEFT: Fleet Management & Sovereign Host Experience -->
+    <div class="auth-media-pane">
+        <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1600&q=85"
+             alt="DriveSense Fleet Management" />
+        
+        <div class="auth-media-overlay">
+            <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.5rem; color: #FCD34D;">
+                FLEET PARTNER PROGRAM
+            </div>
+            <h2 style="font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.75rem; color: #FFFFFF;">
+                Professional fleet command.
+            </h2>
+            <p style="font-size: 0.95rem; color: #A7AAAD; max-width: 440px;">
+                Complete scheduling sovereignty, guaranteed condition reports, and real-time revenue analytics.
+            </p>
+
+            <ul class="auth-perks-list">
+                <li class="auth-perk-item">
+                    <span class="auth-perk-icon" style="background-color: rgba(251, 191, 36, 0.25); color: #FBBF24;"><i class="fa-solid fa-percent"></i></span>
+                    <span>Industry leading 90% net revenue share direct to your account</span>
+                </li>
+                <li class="auth-perk-item">
+                    <span class="auth-perk-icon" style="background-color: rgba(251, 191, 36, 0.25); color: #FBBF24;"><i class="fa-solid fa-camera"></i></span>
+                    <span>High-resolution 6-zone timestamped damage logs before every trip</span>
+                </li>
+                <li class="auth-perk-item">
+                    <span class="auth-perk-icon" style="background-color: rgba(251, 191, 36, 0.25); color: #FBBF24;"><i class="fa-solid fa-sliders"></i></span>
+                    <span>Set custom pricing, dynamic deposit tiers, and availability calendars</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- RIGHT: Owner Registration Form -->
+    <div class="auth-form-pane">
+        <div class="auth-form-box">
+            <!-- Brand Wordmark -->
+            <a th:href="@{/}" class="brand-logo" style="margin-bottom: 1.75rem; display: inline-flex;">
+                <span class="brand-emblem"><i class="fa-solid fa-compass"></i></span>
+                <span>DriveSense</span>
+            </a>
+
+            <!-- TWO-PORTAL ROLE SWITCHER: Renter vs Owner -->
+            <div class="auth-role-tabs">
+                <a th:href="@{/register}" class="auth-role-tab" title="Switch to Driver Registration">
+                    <i class="fa-solid fa-car"></i>
+                    <span>Rent a Vehicle</span>
+                </a>
+                <a th:href="@{/owner/register}" class="auth-role-tab active active-owner" title="Vehicle Owner Registration Active">
+                    <i class="fa-solid fa-key"></i>
+                    <span>Vehicle Owner</span>
+                </a>
+            </div>
+
+            <!-- Header & Badge -->
+            <div style="margin-bottom: 1.5rem;">
+                <div class="auth-badge auth-badge-owner">
+                    <i class="fa-solid fa-warehouse"></i> Vehicle Owner Registration
+                </div>
+                <h1 style="font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.35rem;">
+                    Register vehicle fleet.
+                </h1>
+                <p style="font-size: 0.92rem; color: var(--text-secondary);">
+                    Onboard your private or commercial vehicles onto DriveSense and start earning.
+                </p>
+            </div>
+
+            <!-- Error Alerts -->
+            <div th:if="${errorMessage != null}" style="padding: 0.85rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.85rem; background-color: var(--status-danger-bg); color: var(--status-danger-text); border: 1px solid var(--status-danger-border);">
+                <i class="fa-solid fa-triangle-exclamation" style="margin-right: 0.35rem;"></i>
+                <span th:text="${errorMessage}">Error</span>
+            </div>
+
+            <!-- Form -->
+            <form th:action="@{/owner/register}" method="post">
+                <div class="form-group" style="margin-bottom: 1.15rem;">
+                    <label class="form-label" for="ownerName">Legal Entity / Full Name</label>
+                    <input type="text" id="ownerName" name="fullName" class="form-control" placeholder="Rajesh Singhania" required autofocus />
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.15rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="ownerEmail">Business Email</label>
+                        <input type="email" id="ownerEmail" name="email" class="form-control" placeholder="partner@domain.com" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ownerPhone">Phone Number</label>
+                        <input type="tel" id="ownerPhone" name="phone" class="form-control" placeholder="+91 98100 55443" required />
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.15rem;">
+                    <label class="form-label" for="ownerPass">Account Password</label>
+                    <input type="password" id="ownerPass" name="password" class="form-control" placeholder="Minimum 8 characters" required />
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.75rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="govtId">Company Reg. / Govt ID</label>
+                        <input type="text" id="govtId" name="governmentId" class="form-control" placeholder="CORP-ID-4492" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="city">Base Operating Hub</label>
+                        <input type="text" id="city" name="city" class="form-control" placeholder="New Delhi / Mumbai" required />
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg" style="height: 50px; font-weight: 700; letter-spacing: 0.04em; background: linear-gradient(135deg, #1C1917 0%, #292524 100%); border-color: rgba(251, 191, 36, 0.3);">
+                    <i class="fa-solid fa-key" style="margin-right: 0.4rem; color: #FBBF24;"></i> REGISTER FLEET ACCOUNT
+                </button>
+            </form>
+
+            <!-- Links & Role Switching -->
+            <div class="auth-switch-box">
+                <div>
+                    <span>Already registered as a vehicle owner?</span>
+                    <a th:href="@{/owner/login}" style="color: var(--text-primary); font-weight: 700; text-decoration: underline; margin-left: 0.25rem;">Sign In to Owner Portal</a>
+                </div>
+                <div style="padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); font-size: 0.83rem; background: var(--bg-surface-elevated); padding: 0.85rem; border-radius: var(--radius-md);">
+                    <span style="color: var(--text-secondary); display: block; margin-bottom: 0.35rem;">Looking to rent a vehicle instead?</span>
+                    <a th:href="@{/register}" style="color: var(--text-primary); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
+                        <i class="fa-solid fa-car"></i> Create Driver Account &rarr;
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

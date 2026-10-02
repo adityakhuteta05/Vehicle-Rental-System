@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Sign In | Rent a Vehicle | DriveSense</title>
+    <meta name="description" content="Sign in to your DriveSense driver account to rent premium vehicles with zero deposit and transparent pricing.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body style="background-color: var(--bg-primary);">
+
+<!-- Split Screen Layout -->
+<div class="auth-split-wrapper">
+    <!-- LEFT: Automotive Driving Experience (Personal Mobility) -->
+    <div class="auth-media-pane">
+        <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1600&q=85"
+             alt="DriveSense Personal Automotive Rental" />
+        
+        <div class="auth-media-overlay">
+            <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.5rem; color: #CACBCA;">
+                DRIVESENSE • PERSONAL MOBILITY
+            </div>
+            <h2 style="font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.75rem; color: #FFFFFF;">
+                Drive your way.
+            </h2>
+            <p style="font-size: 0.95rem; color: #A7AAAD; max-width: 440px;">
+                Verified luxury & executive vehicles, transparent pricing, and seamless automotive rentals across every journey.
+            </p>
+
+            <ul class="auth-perks-list">
+                <li class="auth-perk-item">
+                    <span class="auth-perk-icon"><i class="fa-solid fa-bolt"></i></span>
+                    <span>Zero-deposit vehicle access with Trust Score standing</span>
+                </li>
+                <li class="auth-perk-item">
+                    <span class="auth-perk-icon"><i class="fa-solid fa-shield-halved"></i></span>
+                    <span>6-Zone digital inspection protects your liability</span>
+                </li>
+                <li class="auth-perk-item">
+                    <span class="auth-perk-icon"><i class="fa-solid fa-location-dot"></i></span>
+                    <span>Direct pickup at airport terminals and flagship city hubs</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- RIGHT: Renter / Customer Sign-In Form -->
+    <div class="auth-form-pane">
+        <div class="auth-form-box">
+            <!-- Brand Wordmark -->
+            <a th:href="@{/}" class="brand-logo" style="margin-bottom: 1.75rem; display: inline-flex;">
+                <span class="brand-emblem"><i class="fa-solid fa-compass"></i></span>
+                <span>DriveSense</span>
+            </a>
+
+            <!-- TWO-PORTAL ROLE SWITCHER: Renter vs Owner -->
+            <div class="auth-role-tabs">
+                <a th:href="@{/login}" class="auth-role-tab active" title="Login as a customer renting vehicles">
+                    <i class="fa-solid fa-car"></i>
+                    <span>Rent a Vehicle</span>
+                </a>
+                <a th:href="@{/owner/login}" class="auth-role-tab" title="Switch to Vehicle Owner / Host Portal">
+                    <i class="fa-solid fa-key"></i>
+                    <span>Vehicle Owner</span>
+                </a>
+            </div>
+
+            <!-- Header & Badge -->
+            <div style="margin-bottom: 1.5rem;">
+                <div class="auth-badge auth-badge-renter">
+                    <i class="fa-solid fa-circle-check"></i> Driver & Renter Portal
+                </div>
+                <h1 style="font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.35rem;">
+                    Sign in to rent.
+                </h1>
+                <p style="font-size: 0.92rem; color: var(--text-secondary);">
+                    Access your reservations, digital pass, and Trust Score status.
+                </p>
+            </div>
+
+            <!-- Demo Quick Selector Chips -->
+            <div class="auth-demo-panel">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted);">
+                        Demo Driver Profiles
+                    </span>
+                    <span style="font-size: 0.7rem; color: var(--text-muted);">1-Click Fill</span>
+                </div>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="setDemo('user@example.com', 'user123')" style="font-size: 0.8rem; padding: 0.35rem 0.75rem;">
+                        <i class="fa-solid fa-user-check" style="margin-right: 0.3rem;"></i> Gold Customer
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="setDemo('vip@example.com', 'vip123')" style="font-size: 0.8rem; padding: 0.35rem 0.75rem;">
+                        <i class="fa-solid fa-crown" style="margin-right: 0.3rem; color: #D4A017;"></i> Platinum VIP
+                    </button>
+                </div>
+            </div>
+
+            <!-- Flash Error / Success Alerts -->
+            <div th:if="${param.error}" style="padding: 0.85rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.85rem; background-color: var(--status-danger-bg); color: var(--status-danger-text); border: 1px solid var(--status-danger-border);">
+                <i class="fa-solid fa-circle-exclamation" style="margin-right: 0.35rem;"></i>
+                Invalid email address or password. Please try again.
+            </div>
+            <div th:if="${param.logout}" style="padding: 0.85rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.85rem; background-color: var(--bg-subtle); color: var(--text-primary); border: 1px solid var(--border-strong);">
+                <i class="fa-solid fa-circle-check" style="margin-right: 0.35rem;"></i>
+                You have been safely signed out.
+            </div>
+            <div th:if="${successMessage}" style="padding: 0.85rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.85rem; background-color: var(--status-success-bg); color: var(--status-success-text); border: 1px solid var(--status-success-border);" th:text="${successMessage}">
+                Account created successfully.
+            </div>
+
+            <!-- Form -->
+            <form th:action="@{/login}" method="post">
+                <input type="hidden" name="loginType" value="RENTER" />
+                <div class="form-group" style="margin-bottom: 1.25rem;">
+                    <label class="form-label" for="username">Driver Email</label>
+                    <input type="email" id="username" name="username" class="form-control" placeholder="name@example.com" value="user@example.com" required autofocus />
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.75rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                        <label class="form-label" for="password" style="margin-bottom: 0;">Password</label>
+                    </div>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" value="user123" required />
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg" style="height: 50px; font-weight: 700; letter-spacing: 0.04em;">
+                    <i class="fa-solid fa-car" style="margin-right: 0.4rem;"></i> SIGN IN TO RENT
+                </button>
+            </form>
+
+            <!-- Links & Role Switching -->
+            <div class="auth-switch-box">
+                <div>
+                    <span>New driver?</span>
+                    <a th:href="@{/register}" style="color: var(--text-primary); font-weight: 700; text-decoration: underline; margin-left: 0.25rem;">Create Driver Account</a>
+                </div>
+                <div style="padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); font-size: 0.83rem; background: var(--bg-surface-elevated); padding: 0.85rem; border-radius: var(--radius-md);">
+                    <span style="color: var(--text-secondary); display: block; margin-bottom: 0.35rem;">Are you a vehicle owner or host?</span>
+                    <a th:href="@{/owner/login}" style="color: #B45309; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
+                        <i class="fa-solid fa-key"></i> Switch to Vehicle Owner Portal &rarr;
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function setDemo(email, pass) {
+    document.getElementById('username').value = email;
+    document.getElementById('password').value = pass;
+}
+</script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

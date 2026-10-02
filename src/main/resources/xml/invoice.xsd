@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xs:element name="invoice">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="customer">
+                    <xs:complexType>
+                        <xs:attribute name="name" type="xs:string" use="required"/>
+                        <xs:attribute name="email" type="xs:string" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="car">
+                    <xs:complexType>
+                        <xs:attribute name="brand" type="xs:string" use="required"/>
+                        <xs:attribute name="model" type="xs:string" use="required"/>
+                        <xs:attribute name="reg" type="xs:string" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="period">
+                    <xs:complexType>
+                        <xs:attribute name="from" type="xs:string" use="required"/>
+                        <xs:attribute name="to" type="xs:string" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="charges">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="base" type="xs:decimal"/>
+                            <xs:element name="surcharge" type="xs:decimal"/>
+                            <xs:element name="discount" type="xs:decimal"/>
+                            <xs:element name="gst" type="xs:decimal"/>
+                            <xs:element name="total" type="xs:decimal"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="carbon" minOccurs="0">
+                    <xs:complexType>
+                        <xs:attribute name="estimatedKg" type="xs:decimal" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="code" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

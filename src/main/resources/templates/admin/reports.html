@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revenue &amp; Analytics | DriveSense Operations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="admin-layout">
+    <div th:replace="~{fragments/admin-sidebar :: admin-sidebar}"></div>
+
+    <main class="admin-main">
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">
+                    FINANCIAL TELEMETRY &amp; VOLUME
+                </div>
+                <h1 style="font-size: 2.25rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 0.4rem;">
+                    Revenue Dashboard
+                </h1>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">
+                    Monochromatic fiscal analytics, fleet utilization benchmarks, and transactional volume.
+                </p>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem;">
+                <button class="btn btn-secondary btn-sm" onclick="window.print()">
+                    <i class="fa-solid fa-print"></i> Export Statement
+                </button>
+            </div>
+        </div>
+
+        <!-- 4 Monochromatic Executive Stats -->
+        <div class="kpi-row" style="margin-bottom: 2.5rem;">
+            <div class="ds-card" style="padding: 1.5rem;">
+                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); font-weight: 700; margin-bottom: 0.5rem;">
+                    Total Monthly Revenue
+                </div>
+                <div style="font-size: 1.85rem; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 0.25rem;">
+                    ₹1,58,400
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                    +18.2% from previous cycle
+                </div>
+            </div>
+
+            <div class="ds-card" style="padding: 1.5rem;">
+                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); font-weight: 700; margin-bottom: 0.5rem;">
+                    Fleet Utilization
+                </div>
+                <div style="font-size: 1.85rem; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 0.25rem;">
+                    92.4%
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                    High road-readiness index
+                </div>
+            </div>
+
+            <div class="ds-card" style="padding: 1.5rem;">
+                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); font-weight: 700; margin-bottom: 0.5rem;">
+                    Average Rental Duration
+                </div>
+                <div style="font-size: 1.85rem; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 0.25rem;">
+                    3.8 Days
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                    Typical reservation span
+                </div>
+            </div>
+
+            <div class="ds-card" style="padding: 1.5rem;">
+                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); font-weight: 700; margin-bottom: 0.5rem;">
+                    Ecological CO₂ Saved
+                </div>
+                <div style="font-size: 1.85rem; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 0.25rem;">
+                    5,455 kg
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                    Via zero-emission EV trips
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Grid 1: Monthly Revenue & Revenue by Vehicle Type -->
+        <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+            <!-- Monthly Revenue Line Chart -->
+            <div class="ds-card" style="padding: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <div>
+                        <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem;">
+                            Monthly Revenue
+                        </h3>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Gross marketplace billing trajectories</p>
+                    </div>
+                    <span style="font-size: 0.75rem; color: var(--text-muted); padding: 0.25rem 0.6rem; border: 1px solid var(--border-subtle); border-radius: 4px;">Trailing 6 Mo</span>
+                </div>
+                <div style="height: 270px; position: relative;">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Revenue by Vehicle Type Doughnut -->
+            <div class="ds-card" style="padding: 2rem;">
+                <div style="margin-bottom: 1.5rem;">
+                    <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem;">
+                        Revenue by Vehicle Type
+                    </h3>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Distribution across body classifications</p>
+                </div>
+                <div style="height: 220px; position: relative;">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Grid 2: Fleet Utilization & Booking Volume (Requirement 29) -->
+        <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 2rem; margin-bottom: 2rem;">
+            <!-- Fleet Utilization Doughnut -->
+            <div class="ds-card" style="padding: 2rem;">
+                <div style="margin-bottom: 1.5rem;">
+                    <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem;">
+                        Fleet Utilization
+                    </h3>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Operational status allocation</p>
+                </div>
+                <div style="height: 220px; position: relative;">
+                    <canvas id="utilizationChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Booking Volume Bar Chart -->
+            <div class="ds-card" style="padding: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <div>
+                        <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem;">
+                            Booking Volume
+                        </h3>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Total completed customer reservations per month</p>
+                    </div>
+                    <span style="font-size: 0.75rem; color: var(--text-muted); padding: 0.25rem 0.6rem; border: 1px solid var(--border-subtle); border-radius: 4px;">Completed Trips</span>
+                </div>
+                <div style="height: 240px; position: relative;">
+                    <canvas id="volumeChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+<script th:src="@{/js/admin-charts.js}"></script>
+</body>
+</html>

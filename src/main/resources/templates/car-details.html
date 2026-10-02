@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${car.brand + ' ' + car.model + ' | DriveSense'}">Vehicle Details | DriveSense</title>
+    <meta name="description" content="View specifications, verified availability, and reserve your vehicle with DriveSense.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="section-spacing">
+    <div class="container">
+        <!-- Breadcrumb -->
+        <div style="margin-bottom: 2rem; display: flex; align-items: center; gap: 0.65rem; font-size: 0.85rem; color: var(--text-muted);">
+            <a th:href="@{/cars}" style="color: var(--text-primary); font-weight: 500;">Fleet</a>
+            <span>/</span>
+            <span th:text="${car.brand}">Brand</span>
+            <span>/</span>
+            <span style="color: var(--text-secondary);" th:text="${car.model}">Model</span>
+        </div>
+
+        <!-- 2-Column Product Layout -->
+        <div class="car-details-grid">
+            <!-- LEFT: Vehicle Presentation & Specs -->
+            <div>
+                <!-- Large Vehicle Photography -->
+                <div class="vehicle-hero-gallery">
+                    <img th:src="${car.imageUrl != null ? car.imageUrl : 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1400&q=85'}"
+                         th:alt="${car.displayName}"
+                         loading="eager" />
+                </div>
+
+                <!-- Brand, Model & Subtitle -->
+                <div style="margin-bottom: 2.5rem;">
+                    <div class="vehicle-brand" style="font-size: 0.85rem; margin-bottom: 0.35rem;" th:text="${car.brand}">
+                        HYUNDAI
+                    </div>
+                    <h1 style="font-size: 2.8rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.5rem;" th:text="${car.model}">
+                        Creta SX(O) Turbo
+                    </h1>
+                    <p style="font-size: 1.1rem; color: var(--text-secondary);">
+                        Designed for comfortable everyday journeys.
+                    </p>
+                </div>
+
+                <!-- Technical Specifications -->
+                <div style="margin-bottom: 2.5rem;">
+                    <h3 style="font-size: 1.15rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1.25rem;">
+                        Specifications
+                    </h3>
+                    <div class="specs-table-grid">
+                        <div class="spec-tile">
+                            <div class="spec-tile-icon"><i class="fa-solid fa-users"></i></div>
+                            <div class="spec-tile-val" th:text="${car.seats + ' Seats'}">5 Seats</div>
+                            <div class="spec-tile-label">Capacity</div>
+                        </div>
+
+                        <div class="spec-tile">
+                            <div class="spec-tile-icon"><i class="fa-solid fa-gear"></i></div>
+                            <div class="spec-tile-val" th:text="${car.transmission}">Automatic</div>
+                            <div class="spec-tile-label">Transmission</div>
+                        </div>
+
+                        <div class="spec-tile">
+                            <div class="spec-tile-icon"><i class="fa-solid fa-gas-pump"></i></div>
+                            <div class="spec-tile-val" th:text="${car.fuelType.displayName}">Petrol</div>
+                            <div class="spec-tile-label">Powertrain</div>
+                        </div>
+
+                        <div class="spec-tile">
+                            <div class="spec-tile-icon"><i class="fa-solid fa-suitcase"></i></div>
+                            <div class="spec-tile-val" th:text="${car.bootSize + ' Boot'}">Large Boot</div>
+                            <div class="spec-tile-label">Luggage</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Features & Equipment (Monochrome Line Icons) -->
+                <div style="margin-bottom: 3rem;">
+                    <h3 style="font-size: 1.15rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1.25rem;">
+                        Features
+                    </h3>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <i class="fa-solid fa-snowflake"></i> Climate Control / AC
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa-solid fa-shield-halved"></i> ABS & Electronic Stability
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa-solid fa-bluetooth"></i> Bluetooth Audio & Wireless Connect
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa-solid fa-location-crosshairs"></i> GPS Satellite Navigation
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa-solid fa-plug"></i> High-Speed USB-C Ports
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa-solid fa-car-on"></i> Airbags & Passenger Safety Suite
+                        </div>
+                        <th:block th:each="feat : ${car.features}">
+                            <div class="feature-item">
+                                <i class="fa-solid fa-check"></i> <span th:text="${feat}">Feature</span>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+
+                <!-- Verified Customer Reviews -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-subtle);">
+                        <h3 style="font-size: 1.15rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;">
+                            Verified Reviews
+                        </h3>
+                        <div style="display: flex; align-items: center; gap: 0.4rem; font-weight: 700; font-size: 1.1rem;">
+                            <i class="fa-solid fa-star" style="font-size: 0.85rem;"></i>
+                            <span th:text="${car.avgRating != null ? car.avgRating : '4.8'}">4.8</span>
+                            <span style="font-size: 0.8rem; font-weight: 400; color: var(--text-muted);">/ 5.0</span>
+                        </div>
+                    </div>
+
+                    <div th:if="${reviews.empty}" style="padding: 2rem 0; color: var(--text-muted); font-size: 0.9rem;">
+                        No customer reviews recorded yet for this vehicle.
+                    </div>
+
+                    <div th:each="rev : ${reviews}" style="padding: 1.25rem 0; border-bottom: 1px solid var(--border-subtle);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <div style="font-weight: 600; font-size: 0.92rem;" th:text="${rev.user.fullName}">Customer Name</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">
+                                <span th:text="${rev.rating}">5</span>/5 Stars
+                            </div>
+                        </div>
+                        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;" th:text="${rev.comment}">
+                            Vehicle was delivered in immaculate condition. Seamless drive.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Sticky Reservation Panel -->
+            <div>
+                <div class="sticky-booking-card">
+                    <!-- Daily Rate Header -->
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.75rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border-subtle);">
+                        <div>
+                            <span style="font-size: 2.2rem; font-weight: 800; font-family: var(--font-heading); color: var(--text-primary);"
+                                  th:text="${'₹' + #numbers.formatDecimal(car.pricePerDay, 0, 'COMMA', 0, 'POINT')}">₹2,900</span>
+                            <span style="font-size: 0.85rem; color: var(--text-muted);">/ day</span>
+                        </div>
+                        <span style="font-size: 0.82rem; color: var(--text-secondary);">₹<span th:text="${car.pricePerHour}">165</span>/hr rate</span>
+                    </div>
+
+                    <!-- Live Availability Alert -->
+                    <div id="availabilityAlert" style="display: none; padding: 0.85rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.85rem; font-weight: 500;"></div>
+
+                    <!-- Form to Proceed to Booking Checkout -->
+                    <form th:action="@{/book/{id}(id=${car.id})}" method="get" id="detailsBookingForm">
+                        <div class="form-group" style="margin-bottom: 1.25rem;">
+                            <label class="form-label" for="widgetStart">
+                                <i class="fa-regular fa-calendar"></i> Pickup Date & Time
+                            </label>
+                            <input type="datetime-local" id="widgetStart" name="start" class="form-control" required />
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 1.75rem;">
+                            <label class="form-label" for="widgetEnd">
+                                <i class="fa-regular fa-calendar-check"></i> Return Date & Time
+                            </label>
+                            <input type="datetime-local" id="widgetEnd" name="end" class="form-control" required />
+                        </div>
+
+                        <button type="submit" id="btnBookNow" class="btn btn-primary btn-block btn-lg">
+                            BOOK NOW
+                        </button>
+                    </form>
+
+                    <!-- Trust Checklist -->
+                    <div style="margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.82rem; color: var(--text-muted);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fa-solid fa-shield-halved" style="color: var(--text-primary);"></i>
+                            <span>Pessimistic row lock — double booking impossible</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fa-solid fa-clipboard-check" style="color: var(--text-primary);"></i>
+                            <span>6-Zone digital inspection report at pickup & return</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fa-solid fa-clock-rotate-left" style="color: var(--text-primary);"></i>
+                            <span>Free cancellation up to 24 hours prior to trip</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const startInp = document.getElementById('widgetStart');
+    const endInp = document.getElementById('widgetEnd');
+    const carId = [[${car.id}]];
+    const alertBox = document.getElementById('availabilityAlert');
+    const btnBookNow = document.getElementById('btnBookNow');
+
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(10, 0, 0, 0);
+    startInp.value = tomorrow.toISOString().slice(0, 16);
+
+    const returnDate = new Date(tomorrow);
+    returnDate.setDate(returnDate.getDate() + 2);
+    endInp.value = returnDate.toISOString().slice(0, 16);
+
+    async function checkAvailability() {
+        if (!startInp.value || !endInp.value) return;
+        try {
+            const res = await fetch(`/api/cars/${carId}/availability?start=${encodeURIComponent(startInp.value)}&end=${encodeURIComponent(endInp.value)}`);
+            const data = await res.json();
+            alertBox.style.display = 'block';
+            if (data.available) {
+                alertBox.style.backgroundColor = 'var(--status-success-bg)';
+                alertBox.style.color = 'var(--status-success-text)';
+                alertBox.style.border = '1px solid var(--status-success-border)';
+                alertBox.innerHTML = '<i class="fa-solid fa-check"></i> ' + data.message;
+                if (btnBookNow) btnBookNow.disabled = false;
+            } else {
+                alertBox.style.backgroundColor = 'var(--status-danger-bg)';
+                alertBox.style.color = 'var(--status-danger-text)';
+                alertBox.style.border = '1px solid var(--status-danger-border)';
+                alertBox.innerHTML = '<i class="fa-solid fa-xmark"></i> ' + data.message;
+                if (btnBookNow) btnBookNow.disabled = true;
+            }
+        } catch (e) {
+            console.error('Availability check failed', e);
+        }
+    }
+
+    startInp.addEventListener('change', checkAvailability);
+    endInp.addEventListener('change', checkAvailability);
+    checkAvailability();
+});
+</script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

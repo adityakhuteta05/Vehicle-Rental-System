@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Availability Schedule | DriveSense Fleet Command</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="admin-layout">
+    <div th:replace="~{fragments/owner-sidebar :: owner-sidebar}"></div>
+
+    <main class="admin-main">
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">
+                    FLEET AVAILABILITY MATRIX
+                </div>
+                <h1 style="font-size: 2.25rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 0.4rem;">
+                    Availability Calendar
+                </h1>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">
+                    Monitor live vehicle readiness, active road journeys, and open reservation windows.
+                </p>
+            </div>
+
+            <!-- Monochromatic Legend -->
+            <div style="display: flex; gap: 0.75rem; align-items: center; font-size: 0.78rem;">
+                <span style="display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.75rem; border-radius: 6px; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); color: var(--text-primary);">
+                    <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--text-primary);"></span>
+                    Active Trip
+                </span>
+                <span style="display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.75rem; border-radius: 6px; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); color: var(--text-muted);">
+                    <span style="width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--text-muted);"></span>
+                    Showroom Open
+                </span>
+            </div>
+        </div>
+
+        <!-- Vehicle Schedule Rows -->
+        <div class="ds-card" style="padding: 1.75rem;">
+            <div style="padding-bottom: 1.25rem; border-bottom: 1px solid var(--border-subtle); margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin: 0;">
+                    October 2026 Fleet Timeline
+                </h3>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Real-time concurrency synced</span>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+                <div th:each="car : ${vehicles}" style="background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 1.25rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 52px; height: 36px; border-radius: 4px; overflow: hidden; background: var(--bg-surface); border: 1px solid var(--border-subtle); flex-shrink: 0;">
+                                <img th:src="${car.imageUrl != null ? car.imageUrl : 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=200&q=80'}"
+                                     alt="car"
+                                     style="width: 100%; height: 100%; object-fit: cover;" />
+                            </div>
+                            <div>
+                                <strong style="color: var(--text-primary); font-size: 0.95rem;" th:text="${car.displayName}">Hyundai Creta</strong>
+                                <span style="font-size: 0.75rem; font-family: 'SF Mono', Consolas, monospace; color: var(--text-muted); margin-left: 0.5rem;" th:text="${car.regNumber}">DL04-CC-1024</span>
+                            </div>
+                        </div>
+
+                        <span class="badge"
+                              th:classappend="${car.status.name() == 'AVAILABLE' ? 'status-available' : 'status-rented'}"
+                              style="font-size: 0.72rem; text-transform: uppercase; font-weight: 600;"
+                              th:text="${car.status.name()}">
+                            AVAILABLE
+                        </span>
+                    </div>
+
+                    <!-- 15-Day Timeline Bar -->
+                    <div style="display: grid; grid-template-columns: repeat(15, 1fr); gap: 0.35rem; text-align: center; font-size: 0.72rem;">
+                        <th:block th:each="day : ${#numbers.sequence(1, 15)}">
+                            <div style="border-radius: 6px; padding: 0.5rem 0.2rem; transition: all 0.15s ease;"
+                                 th:styleappend="${day >= 10 and day <= 12 and car.id == 1 ? 'background: var(--text-primary); color: var(--bg-primary); font-weight: 700;' : 'background: var(--bg-surface); border: 1px solid var(--border-subtle); color: var(--text-muted);'}">
+                                <div th:text="${'Oct ' + day}">Oct 1</div>
+                                <div style="font-size: 0.65rem; margin-top: 0.15rem;" th:text="${day >= 10 and day <= 12 and car.id == 1 ? 'BOOKED' : 'OPEN'}">OPEN</div>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

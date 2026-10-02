@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${'Reserve ' + car.displayName + ' | DriveSense'}">Reservation Checkout | DriveSense</title>
+    <meta name="description" content="Complete your vehicle reservation with transparent pricing and instant availability guarantee.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="section-spacing">
+    <div class="container" style="max-width: 1140px;">
+        
+        <!-- Header -->
+        <div style="margin-bottom: 2.5rem;">
+            <div class="section-eyebrow">
+                <i class="fa-solid fa-circle" style="font-size: 0.45rem;"></i> Secure Reservation
+            </div>
+            <h1 class="section-title">Reservation Checkout</h1>
+            <p class="section-subtitle">Complete your booking details and review transparent pricing.</p>
+        </div>
+
+        <!-- 3-Step Progress Stepper (Minimal Black / Grey) -->
+        <div class="stepper-header">
+            <div class="step-node active" id="stepNode1">
+                <div class="step-number">01</div>
+                <div>DETAILS</div>
+            </div>
+            <div style="flex: 1; height: 1px; background-color: var(--border-subtle); margin: 0 1rem;"></div>
+            <div class="step-node" id="stepNode2">
+                <div class="step-number">02</div>
+                <div>EXTRAS</div>
+            </div>
+            <div style="flex: 1; height: 1px; background-color: var(--border-subtle); margin: 0 1rem;"></div>
+            <div class="step-node" id="stepNode3">
+                <div class="step-number">03</div>
+                <div>PAYMENT</div>
+            </div>
+        </div>
+
+        <!-- Main 2-Column Checkout Layout -->
+        <div style="display: grid; grid-template-columns: 1.25fr 0.95fr; gap: 3rem; align-items: start;">
+            
+            <!-- Left: Form Steps -->
+            <div style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 2.5rem; box-shadow: var(--shadow-sm);">
+                <!-- Live Availability Banner -->
+                <div id="availabilityAlert" style="display: none; padding: 0.85rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.85rem; font-weight: 500;"></div>
+
+                <form th:action="@{/book/{id}(id=${car.id})}" th:object="${bookingRequest}" method="post" id="bookingForm" th:data-car-id="${car.id}">
+                    <input type="hidden" th:field="*{tripType}" />
+
+                    <!-- STEP 01: DETAILS -->
+                    <div class="step-content" data-step="1">
+                        <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.35rem;">
+                            Step 01 — Schedule & Pickup Point
+                        </h3>
+                        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 2rem;">
+                            Define your reservation window. Our database locks this slot during confirmation.
+                        </p>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
+                            <div class="form-group">
+                                <label class="form-label" for="startTime">Pickup Date & Time</label>
+                                <input type="datetime-local" th:field="*{startTime}" id="startTime" class="form-control" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="endTime">Return Date & Time</label>
+                                <input type="datetime-local" th:field="*{endTime}" id="endTime" class="form-control" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 2rem;">
+                            <label class="form-label" for="pickupLocationId">Mobility Hub Location</label>
+                            <select th:field="*{pickupLocationId}" id="pickupLocationId" class="form-control">
+                                <option th:each="loc : ${locations}" th:value="${loc.id}" th:text="${loc.name + ' (' + loc.city + ')'}"></option>
+                            </select>
+                        </div>
+
+                        <div style="background-color: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem; font-size: 0.82rem; color: var(--text-muted); display: flex; align-items: flex-start; gap: 0.75rem;">
+                            <i class="fa-solid fa-lock" style="color: var(--text-primary); margin-top: 2px;"></i>
+                            <div>
+                                <strong style="color: var(--text-primary);">Pessimistic DB Row Lock Protection:</strong>
+                                Overlapping reservation checks occur atomically within an exclusive transaction. Accidental double bookings are completely impossible.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 02: EXTRAS -->
+                    <div class="step-content" data-step="2" style="display: none;">
+                        <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.35rem;">
+                            Step 02 — Optional Extras & Protection
+                        </h3>
+                        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 2rem;">
+                            Select optional additions. Price breakdowns recalculate instantly.
+                        </p>
+
+                        <!-- Comprehensive Insurance -->
+                        <label style="background-color: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem; display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem; cursor: pointer;">
+                            <input type="checkbox" th:field="*{insuranceRequired}" id="insuranceRequired" style="margin-top: 0.3rem;" />
+                            <div style="flex: 1;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-weight: 700; color: var(--text-primary);">Zero-Liability Comprehensive Insurance</span>
+                                    <span style="font-size: 0.85rem; font-weight: 700;">+₹350 / day</span>
+                                </div>
+                                <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.35rem;">
+                                    Complete accidental and body blemish coverage. Reduces financial liability to ₹0.
+                                </p>
+                            </div>
+                        </label>
+
+                        <!-- Professional Chauffeur -->
+                        <label style="background-color: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem; display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem; cursor: pointer;">
+                            <input type="checkbox" th:field="*{driverRequired}" id="driverRequired" style="margin-top: 0.3rem;" />
+                            <div style="flex: 1;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-weight: 700; color: var(--text-primary);">Professional Chauffeur</span>
+                                    <span style="font-size: 0.85rem; font-weight: 700;">+₹800 / day</span>
+                                </div>
+                                <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.35rem;">
+                                    Background-verified driver assigned for the full rental duration.
+                                </p>
+                            </div>
+                        </label>
+
+                        <!-- Child Safety Seat -->
+                        <label style="background-color: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem; display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem; cursor: pointer;">
+                            <input type="checkbox" th:field="*{childSeatRequired}" id="childSeatRequired" style="margin-top: 0.3rem;" />
+                            <div style="flex: 1;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-weight: 700; color: var(--text-primary);">Certified Child Safety Seat</span>
+                                    <span style="font-size: 0.85rem; font-weight: 700;">+₹200 / day</span>
+                                </div>
+                                <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.35rem;">
+                                    ISOFIX compliant toddler car seat sanitised and fitted prior to collection.
+                                </p>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- STEP 03: PAYMENT -->
+                    <div class="step-content" data-step="3" style="display: none;">
+                        <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.35rem;">
+                            Step 03 — Payment
+                        </h3>
+                        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+                            Select payment method.
+                        </p>
+
+                        <!-- Required notice -->
+                        <div style="background-color: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.75rem; font-size: 0.85rem; color: var(--text-secondary);">
+                            <i class="fa-solid fa-circle-info" style="color: var(--text-primary); margin-right: 0.35rem;"></i>
+                            <strong>Demo payment — no real money will be charged.</strong>
+                        </div>
+
+                        <!-- Method Switcher -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.75rem;">
+                            <label class="btn btn-secondary" style="cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; height: 48px;">
+                                <input type="radio" th:field="*{paymentMethod}" value="CARD" id="payMethodCard" checked onchange="togglePaymentFields('card')" />
+                                <span>Credit / Debit Card</span>
+                            </label>
+                            <label class="btn btn-secondary" style="cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; height: 48px;">
+                                <input type="radio" th:field="*{paymentMethod}" value="UPI" id="payMethodUpi" onchange="togglePaymentFields('upi')" />
+                                <span>Instant UPI</span>
+                            </label>
+                        </div>
+
+                        <!-- Card Fields -->
+                        <div id="cardFieldsSection">
+                            <div class="form-group" style="margin-bottom: 1rem;">
+                                <label class="form-label" for="cardHolderName">Name on Card</label>
+                                <input type="text" th:field="*{cardHolderName}" id="cardHolderName" class="form-control" placeholder="Aaditya Sharma" />
+                            </div>
+                            <div class="form-group" style="margin-bottom: 1rem;">
+                                <label class="form-label" for="cardNumber">Card Number</label>
+                                <input type="text" th:field="*{cardNumber}" id="cardNumber" class="form-control" placeholder="4111 2222 3333 4444" />
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div class="form-group">
+                                    <label class="form-label" for="cardExpiry">Expiry (MM/YY)</label>
+                                    <input type="text" th:field="*{cardExpiry}" id="cardExpiry" class="form-control" placeholder="12/28" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="cardCvv">CVV</label>
+                                    <input type="password" th:field="*{cardCvv}" id="cardCvv" class="form-control" placeholder="•••" maxlength="4" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- UPI Fields -->
+                        <div id="upiFieldsSection" style="display: none;">
+                            <div class="form-group">
+                                <label class="form-label" for="upiId">Virtual Payment Address (VPA)</label>
+                                <input type="text" th:field="*{upiId}" id="upiId" class="form-control" placeholder="username@okhdfcbank" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Controls -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle);">
+                        <button type="button" class="btn btn-secondary" id="btnPrevStep" style="display: none;">
+                            Previous Step
+                        </button>
+                        <div></div>
+                        <button type="button" class="btn btn-primary" id="btnNextStep">
+                            Continue
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-lg" id="btnSubmitBooking" style="display: none;">
+                            CONFIRM RESERVATION
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Right: Trustworthy Price Breakdown (Requirement 15) -->
+            <div style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 2.5rem; position: sticky; top: 96px; box-shadow: var(--shadow-sm);">
+                <!-- Vehicle Header -->
+                <div style="display: flex; align-items: center; gap: 1.25rem; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-subtle);">
+                    <div style="width: 90px; height: 64px; border-radius: var(--radius-md); overflow: hidden; background-color: var(--bg-subtle);">
+                        <img th:src="${car.imageUrl}" th:alt="${car.displayName}" style="width: 100%; height: 100%; object-fit: cover;" />
+                    </div>
+                    <div>
+                        <div style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted);" th:text="${car.brand}">
+                            HYUNDAI
+                        </div>
+                        <h4 style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary);" th:text="${car.model}">
+                            Creta SX(O)
+                        </h4>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);" th:text="${car.seats + ' Seats • ' + car.transmission}">
+                            5 Seats • Automatic
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.25rem;">
+                    Price Presentation
+                </h3>
+
+                <!-- Trustworthy Tabular Pricing Breakdown -->
+                <table class="price-table">
+                    <tbody>
+                        <tr>
+                            <td>Base rental</td>
+                            <td id="previewBaseAmount" th:text="${'₹' + #numbers.formatDecimal(priceBreakdown.baseAmount, 0, 'COMMA', 0, 'POINT')}">₹7,000</td>
+                        </tr>
+
+                        <!-- Dynamic Surcharges list -->
+                        <th:block th:each="s : ${priceBreakdown.surcharges}">
+                            <tr>
+                                <td th:text="${s.name}">Weekend surcharge</td>
+                                <td th:text="${'+₹' + #numbers.formatDecimal(s.amount, 0, 'COMMA', 0, 'POINT')}">+₹700</td>
+                            </tr>
+                        </th:block>
+
+                        <!-- Dynamic Discounts list -->
+                        <th:block th:each="d : ${priceBreakdown.discounts}">
+                            <tr class="discount-row">
+                                <td th:text="${d.name}">Long rental discount</td>
+                                <td th:text="${'−₹' + #numbers.formatDecimal(d.amount, 0, 'COMMA', 0, 'POINT')}">−₹385</td>
+                            </tr>
+                        </th:block>
+
+                        <!-- Extras placeholder if any -->
+                        <tr id="previewExtrasRow" style="display: none;">
+                            <td>Extras</td>
+                            <td id="previewExtrasAmount">₹0</td>
+                        </tr>
+
+                        <!-- GST Tax -->
+                        <tr>
+                            <td>GST (18%)</td>
+                            <td id="previewGst" th:text="${'₹' + #numbers.formatDecimal(priceBreakdown.gstAmount, 0, 'COMMA', 0, 'POINT')}">₹1,323</td>
+                        </tr>
+
+                        <!-- Dominant Total Row -->
+                        <tr class="total-row">
+                            <td>TOTAL</td>
+                            <td id="previewTotal" th:text="${'₹' + #numbers.formatDecimal(priceBreakdown.totalAmount, 0, 'COMMA', 0, 'POINT')}">₹9,138</td>
+                        </tr>
+
+                        <!-- Refundable Security Deposit -->
+                        <tr class="deposit-row">
+                            <td>Refundable Deposit</td>
+                            <td id="previewDeposit" th:text="${priceBreakdown.depositAmount == 0 ? '₹0 (Waived)' : '₹' + #numbers.formatDecimal(priceBreakdown.depositAmount, 0, 'COMMA', 0, 'POINT')}">₹5,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Trip Carbon Rating -->
+                <div style="margin-top: 1.75rem; padding: 1rem; border-radius: var(--radius-md); background-color: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; justify-content: space-between;">
+                    <span>Carbon Footprint</span>
+                    <strong style="color: var(--text-primary);" id="previewCo2" th:text="${priceBreakdown.estCo2Kg + ' kg CO₂'}">14.2 kg CO₂</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script>
+function togglePaymentFields(type) {
+    document.getElementById('cardFieldsSection').style.display = type === 'card' ? 'block' : 'none';
+    document.getElementById('upiFieldsSection').style.display = type === 'upi' ? 'block' : 'none';
+}
+</script>
+<script th:src="@{/js/main.js}"></script>
+<script th:src="@{/js/booking.js}"></script>
+</body>
+</html>

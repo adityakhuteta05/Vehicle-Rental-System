@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Management | DriveSense Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body style="background-color: var(--bg-primary);">
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="admin-shell">
+    <div th:replace="~{fragments/admin-sidebar :: admin-sidebar}"></div>
+
+    <main class="admin-body">
+        <!-- Top Title Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <div class="section-eyebrow">
+                    <i class="fa-solid fa-circle" style="font-size: 0.45rem;"></i> Fleet Operations
+                </div>
+                <h1 style="font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em;">Booking Management</h1>
+                <p style="color: var(--text-secondary); font-size: 0.92rem;">
+                    Approve reservations, execute pickup and return inspections, and supervise trip lifecycles.
+                </p>
+            </div>
+
+            <!-- Filters (Requirement 27) -->
+            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+                <a th:href="@{/admin/bookings}" class="filter-chip" th:classappend="${selectedStatus == null ? 'active' : ''}">All</a>
+                <a th:each="st : ${statuses}"
+                   th:href="@{/admin/bookings(status=${st})}"
+                   class="filter-chip"
+                   th:classappend="${selectedStatus == st ? 'active' : ''}"
+                   th:text="${st.displayName}">Status</a>
+            </div>
+        </div>
+
+        <!-- Booking Table (Requirement 27) -->
+        <div class="data-table-card">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Customer</th>
+                        <th>Vehicle</th>
+                        <th>Pickup</th>
+                        <th>Return</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th style="text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="b : ${bookings}">
+                        <!-- Booking ID -->
+                        <td style="font-family: monospace; font-weight: 700;" th:text="${b.bookingCode}">DS-2026-000123</td>
+
+                        <!-- Customer -->
+                        <td>
+                            <strong style="color: var(--text-primary);" th:text="${b.user.fullName}">Customer Name</strong>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);" th:text="${b.user.email}">user@example.com</div>
+                        </td>
+
+                        <!-- Vehicle -->
+                        <td>
+                            <strong style="color: var(--text-primary);" th:text="${b.car.displayName}">Hyundai Creta</strong>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);" th:text="${b.car.regNumber}">DL04-CC-1024</div>
+                        </td>
+
+                        <!-- Pickup -->
+                        <td th:text="${#temporals.format(b.startTime, 'dd MMM yyyy, HH:mm')}">10 Oct 2026, 09:00</td>
+
+                        <!-- Return -->
+                        <td th:text="${#temporals.format(b.endTime, 'dd MMM yyyy, HH:mm')}">12 Oct 2026, 18:00</td>
+
+                        <!-- Amount -->
+                        <td style="font-weight: 700; font-variant-numeric: tabular-nums;" th:text="${'₹' + #numbers.formatDecimal(b.totalAmount, 0, 'COMMA', 0, 'POINT')}">
+                            ₹9,138
+                        </td>
+
+                        <!-- Status -->
+                        <td>
+                            <span class="status-pill"
+                                  th:classappend="${b.status.name() == 'CONFIRMED' || b.status.name() == 'ACTIVE' ? 'available' : (b.status.name() == 'COMPLETED' ? 'rented' : 'retired')}"
+                                  th:text="${b.status}">CONFIRMED</span>
+                        </td>
+
+                        <!-- Actions (Approve, Start Trip, Complete, Cancel) -->
+                        <td style="text-align: right;">
+                            <div style="display: flex; gap: 0.4rem; justify-content: flex-end; align-items: center;">
+                                <!-- Approve -->
+                                <form th:if="${b.status.name() == 'PENDING'}" th:action="@{/admin/bookings/{id}/approve(id=${b.id})}" method="post" style="margin: 0;">
+                                    <button type="submit" class="btn btn-primary btn-sm">Approve</button>
+                                </form>
+
+                                <!-- Start Trip via Pickup DCR -->
+                                <a th:if="${b.status.name() == 'CONFIRMED'}" th:href="@{/admin/bookings/{id}/dcr/pickup(id=${b.id})}" class="btn btn-primary btn-sm">
+                                    Start Trip (DCR)
+                                </a>
+
+                                <!-- Complete Trip via Return DCR -->
+                                <a th:if="${b.status.name() == 'ACTIVE'}" th:href="@{/admin/bookings/{id}/dcr/return(id=${b.id})}" class="btn btn-primary btn-sm">
+                                    Complete (DCR)
+                                </a>
+
+                                <!-- Invoice View -->
+                                <a th:href="@{'/bookings/' + ${b.id} + '/invoice'}" class="btn btn-secondary btn-sm" title="View Invoice">
+                                    Invoice
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

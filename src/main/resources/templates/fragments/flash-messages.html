@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="flash-messages" class="flash-container">
+    <div th:if="${successMessage != null}" class="alert alert-success glass-card">
+        <i class="fa-solid fa-circle-check" style="font-size: 1.1rem;"></i>
+        <span th:text="${successMessage}">Operation completed successfully!</span>
+    </div>
+    <div th:if="${errorMessage != null}" class="alert alert-danger glass-card">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.1rem;"></i>
+        <span th:text="${errorMessage}">An error occurred.</span>
+    </div>
+    <div th:if="${warningMessage != null}" class="alert alert-warning glass-card">
+        <i class="fa-solid fa-circle-exclamation" style="font-size: 1.1rem;"></i>
+        <span th:text="${warningMessage}">Notice alert</span>
+    </div>
+</div>
+</body>
+</html>

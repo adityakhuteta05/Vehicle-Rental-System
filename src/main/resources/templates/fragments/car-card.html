@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="car-card(car)" class="vehicle-card" th:if="${car != null}">
+    <!-- 55-60% Clean Photography Frame -->
+    <div class="vehicle-img-frame">
+        <img th:src="${car.imageUrl != null ? car.imageUrl : 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80'}"
+             th:alt="${car.displayName}"
+             class="vehicle-img"
+             loading="lazy" />
+
+        <div class="vehicle-badge-overlay">
+            <span class="badge-tag" th:text="${car.type != null ? car.type.displayName : 'Premium'}">SUV</span>
+            <span th:if="${car.ecoFriendly}" class="badge-tag">Zero CO2</span>
+        </div>
+
+        <div class="vehicle-rating-badge">
+            <i class="fa-solid fa-star" style="font-size: 0.75rem;"></i>
+            <span th:text="${car.avgRating != null ? #numbers.formatDecimal(car.avgRating, 1, 1) : '4.8'}">4.8</span>
+        </div>
+    </div>
+
+    <!-- Body Information -->
+    <div class="vehicle-card-body">
+        <div class="vehicle-brand" th:text="${car.brand}">HYUNDAI</div>
+        <h3 class="vehicle-name" th:text="${car.model}">Creta SX(O)</h3>
+
+        <!-- Minimal Specs Row -->
+        <div class="vehicle-specs">
+            <div class="spec-item">
+                <i class="fa-solid fa-user"></i>
+                <span th:text="${car.seats + ' Seats'}">5 Seats</span>
+            </div>
+            <div class="spec-item">
+                <i class="fa-solid fa-gear"></i>
+                <span th:text="${car.transmission}">Auto</span>
+            </div>
+            <div class="spec-item">
+                <i class="fa-solid fa-gas-pump"></i>
+                <span th:text="${car.fuelType != null ? car.fuelType.displayName : 'Petrol'}">Petrol</span>
+            </div>
+        </div>
+
+        <!-- Pricing & Actions Footer -->
+        <div class="vehicle-pricing-footer">
+            <div class="price-display">
+                <span class="price-main" th:text="${'₹' + #numbers.formatDecimal(car.pricePerDay, 0, 'COMMA', 0, 'POINT')}">₹2,900</span>
+                <span class="price-sub">per day</span>
+            </div>
+
+            <div class="card-actions">
+                <a th:href="@{'/cars/' + ${car.id}}" class="btn btn-secondary btn-sm">VIEW DETAILS</a>
+                <a th:href="@{'/book/' + ${car.id}}" class="btn btn-primary btn-sm">BOOK NOW</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

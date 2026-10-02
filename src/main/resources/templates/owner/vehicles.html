@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Managed Fleet Vehicles | DriveSense Fleet Command</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="admin-layout">
+    <div th:replace="~{fragments/owner-sidebar :: owner-sidebar}"></div>
+
+    <main class="admin-main">
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">
+                    FLEET INVENTORY &amp; TELEMETRY
+                </div>
+                <h1 style="font-size: 2.25rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 0.4rem;">
+                    Managed Vehicles
+                </h1>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">
+                    Manage vehicle operational statuses, technical specifications, and commercial pricing.
+                </p>
+            </div>
+
+            <a th:href="@{/owner/vehicles/add}" class="btn btn-primary btn-sm">
+                <i class="fa-solid fa-plus"></i> List New Vehicle
+            </a>
+        </div>
+
+        <!-- Success Flash Message -->
+        <div th:if="${successMessage}" class="ds-card" style="padding: 1rem 1.25rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; border-left: 3px solid var(--text-primary);">
+            <i class="fa-solid fa-circle-check"></i>
+            <span style="font-size: 0.88rem; color: var(--text-primary);" th:text="${successMessage}"></span>
+        </div>
+
+        <!-- Vehicles Table (Requirement 26) -->
+        <div class="ds-card" style="padding: 1.5rem; overflow-x: auto;">
+            <table class="ds-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem;">
+                <thead>
+                    <tr style="border-bottom: 1px solid var(--border-medium); color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em;">
+                        <th style="padding: 1rem;">Vehicle</th>
+                        <th style="padding: 1rem;">Registration</th>
+                        <th style="padding: 1rem;">Type</th>
+                        <th style="padding: 1rem;">Status</th>
+                        <th style="padding: 1rem;">Current Booking</th>
+                        <th style="padding: 1rem;">Price</th>
+                        <th style="padding: 1rem;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="car : ${vehicles}" style="border-bottom: 1px solid var(--border-subtle);">
+                        <!-- Vehicle Column -->
+                        <td style="padding: 1.1rem 1rem;">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <div style="width: 64px; height: 44px; border-radius: 6px; overflow: hidden; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); flex-shrink: 0;">
+                                    <img th:src="${car.imageUrl != null ? car.imageUrl : 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=200&q=80'}"
+                                         alt="car"
+                                         style="width: 100%; height: 100%; object-fit: cover;" />
+                                </div>
+                                <div>
+                                    <div style="font-weight: 700; color: var(--text-primary);" th:text="${car.displayName}">Hyundai Creta</div>
+                                    <div style="font-size: 0.75rem; color: var(--text-muted);" th:text="${car.fuelType.displayName + ' • ' + car.transmission}">Petrol • AUTOMATIC</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- Registration Column -->
+                        <td style="padding: 1.1rem 1rem; font-family: 'SF Mono', Consolas, Monaco, monospace; font-size: 0.82rem; font-weight: 600; color: var(--text-secondary);" th:text="${car.regNumber}">
+                            DL04-CC-1024
+                        </td>
+
+                        <!-- Type Column -->
+                        <td style="padding: 1.1rem 1rem; font-size: 0.85rem; color: var(--text-secondary);" th:text="${car.type.displayName}">
+                            SUV
+                        </td>
+
+                        <!-- Status Neutral Badges (Requirement 26) -->
+                        <td style="padding: 1.1rem 1rem;">
+                            <form th:action="@{/owner/vehicles/{id}/status(id=${car.id})}" method="post" style="display: inline-block;">
+                                <select name="status" onchange="this.form.submit()" 
+                                        class="ds-input"
+                                        style="padding: 0.35rem 0.65rem; font-size: 0.78rem; text-transform: uppercase; font-weight: 600; border-radius: 6px; cursor: pointer;"
+                                        th:classappend="${car.status.name() == 'AVAILABLE' ? 'status-available' : (car.status.name() == 'RENTED' ? 'status-rented' : (car.status.name() == 'MAINTENANCE' ? 'status-maintenance' : 'status-retired'))}">
+                                    <option value="AVAILABLE" th:selected="${car.status.name() == 'AVAILABLE'}">AVAILABLE</option>
+                                    <option value="RENTED" th:selected="${car.status.name() == 'RENTED'}">RENTED</option>
+                                    <option value="MAINTENANCE" th:selected="${car.status.name() == 'MAINTENANCE'}">MAINTENANCE</option>
+                                    <option value="RETIRED" th:selected="${car.status.name() == 'RETIRED'}">RETIRED</option>
+                                </select>
+                            </form>
+                        </td>
+
+                        <!-- Current Booking Column -->
+                        <td style="padding: 1.1rem 1rem; font-size: 0.82rem;">
+                            <div th:if="${car.status.name() == 'RENTED'}" style="color: var(--text-primary); font-family: 'SF Mono', Consolas, monospace;">
+                                <span>Active Reservation</span>
+                            </div>
+                            <div th:unless="${car.status.name() == 'RENTED'}" style="color: var(--text-muted);">
+                                <span>None (Showroom Ready)</span>
+                            </div>
+                        </td>
+
+                        <!-- Price Column -->
+                        <td style="padding: 1.1rem 1rem; font-weight: 700; color: var(--text-primary);" th:text="${'₹' + #numbers.formatDecimal(car.pricePerDay, 0, 'COMMA', 0, 'POINT') + ' / day'}">
+                            ₹2,900 / day
+                        </td>
+
+                        <!-- Actions Column -->
+                        <td style="padding: 1.1rem 1rem;">
+                            <div style="display: flex; gap: 0.4rem;">
+                                <a th:href="@{/owner/vehicles/{id}/edit(id=${car.id})}" class="btn btn-secondary btn-sm" style="padding: 0.35rem 0.7rem; font-size: 0.78rem;" title="Edit Details">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                <a th:href="@{/cars/{id}(id=${car.id})}" target="_blank" class="btn btn-secondary btn-sm" style="padding: 0.35rem 0.7rem; font-size: 0.78rem;" title="View in Showroom">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${vehicles.empty}">
+                        <td colspan="7" style="text-align: center; padding: 4rem 1rem; color: var(--text-muted);">
+                            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;"><i class="fa-solid fa-car"></i></div>
+                            <div style="font-size: 0.95rem; color: var(--text-primary); margin-bottom: 0.25rem;">No vehicles registered yet</div>
+                            <div style="font-size: 0.82rem; margin-bottom: 1.5rem;">List your first vehicle to begin accepting reservations.</div>
+                            <a th:href="@{/owner/vehicles/add}" class="btn btn-primary btn-sm">
+                                <i class="fa-solid fa-plus"></i> List Vehicle
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

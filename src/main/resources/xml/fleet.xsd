@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xs:element name="fleet">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="car" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="brand" type="xs:string"/>
+                            <xs:element name="model" type="xs:string"/>
+                            <xs:element name="regNumber" type="xs:string"/>
+                            <xs:element name="type" type="xs:string"/>
+                            <xs:element name="fuelType" type="xs:string"/>
+                            <xs:element name="transmission" type="xs:string"/>
+                            <xs:element name="seats" type="xs:int"/>
+                            <xs:element name="bootSize" type="xs:string"/>
+                            <xs:element name="pricePerDay" type="xs:decimal"/>
+                            <xs:element name="pricePerHour" type="xs:decimal" minOccurs="0"/>
+                            <xs:element name="kmPerDayLimit" type="xs:int" minOccurs="0"/>
+                            <xs:element name="extraKmRate" type="xs:decimal" minOccurs="0"/>
+                            <xs:element name="co2GPerKm" type="xs:int" minOccurs="0"/>
+                            <xs:element name="imageUrl" type="xs:string" minOccurs="0"/>
+                            <xs:element name="features" minOccurs="0">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="feature" type="xs:string" maxOccurs="unbounded"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

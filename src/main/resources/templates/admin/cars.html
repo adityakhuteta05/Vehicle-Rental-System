@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Fleet Management | DriveSense Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body style="background-color: var(--bg-primary);">
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="admin-shell">
+    <div th:replace="~{fragments/admin-sidebar :: admin-sidebar}"></div>
+
+    <main class="admin-body">
+        <!-- Top Title Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <div class="section-eyebrow">
+                    <i class="fa-solid fa-circle" style="font-size: 0.45rem;"></i> Fleet Inventory
+                </div>
+                <h1 style="font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em;">Vehicles</h1>
+                <p style="color: var(--text-secondary); font-size: 0.92rem;">
+                    Monitor availability, update maintenance statuses, and inspect active fleet records.
+                </p>
+            </div>
+
+            <button type="button" class="btn btn-primary" onclick="document.getElementById('addCarModal').style.display='block';">
+                Add Vehicle
+            </button>
+        </div>
+
+        <!-- Vehicles Table Card (Requirement 26) -->
+        <div class="data-table-card">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Vehicle</th>
+                        <th>Registration</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Price / Day</th>
+                        <th style="text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="c : ${cars}">
+                        <!-- Vehicle Column (Image + Brand + Model) -->
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <div style="width: 60px; height: 42px; border-radius: 6px; overflow: hidden; background-color: var(--bg-subtle);">
+                                    <img th:src="${c.imageUrl}" th:alt="${c.displayName}" style="width: 100%; height: 100%; object-fit: cover;" />
+                                </div>
+                                <div>
+                                    <strong style="color: var(--text-primary); font-size: 0.95rem;" th:text="${c.displayName}">Hyundai Creta</strong>
+                                    <div style="font-size: 0.75rem; color: var(--text-muted);" th:text="${c.fuelType.displayName + ' • ' + c.transmission}">Petrol Automatic</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- Registration -->
+                        <td style="font-family: monospace; font-weight: 600;" th:text="${c.regNumber}">DL04-CC-1024</td>
+
+                        <!-- Type -->
+                        <td th:text="${c.type.displayName}">SUV</td>
+
+                        <!-- Status with Neutral Badges -->
+                        <td>
+                            <span class="status-pill"
+                                  th:classappend="${c.status.name() == 'AVAILABLE' ? 'available' : (c.status.name() == 'RENTED' ? 'rented' : (c.status.name() == 'MAINTENANCE' ? 'maintenance' : 'retired'))}"
+                                  th:text="${c.status}">AVAILABLE</span>
+                        </td>
+
+                        <!-- Price -->
+                        <td style="font-weight: 700; font-variant-numeric: tabular-nums;" th:text="${'₹' + #numbers.formatDecimal(c.pricePerDay, 0, 'COMMA', 0, 'POINT')}">
+                            ₹2,900
+                        </td>
+
+                        <!-- Actions -->
+                        <td style="text-align: right;">
+                            <form th:action="@{/admin/cars/{id}/status(id=${c.id})}" method="post" style="display: inline-flex; gap: 0.5rem; align-items: center;">
+                                <select name="status" class="form-control" style="height: 34px; padding: 0 1.5rem 0 0.6rem; font-size: 0.78rem; width: auto;" onchange="this.form.submit()">
+                                    <option th:each="st : ${carStatuses}" th:value="${st}" th:text="${st.displayName}" th:selected="${c.status == st}"></option>
+                                </select>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Add Car Modal -->
+        <div id="addCarModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; backdrop-filter: blur(8px); overflow-y: auto;">
+            <div style="background-color: var(--bg-surface); max-width: 620px; margin: 4rem auto; padding: 2.5rem; border-radius: var(--radius-xl); border: 1px solid var(--border-subtle); box-shadow: var(--shadow-lg); position: relative;">
+                <button type="button" style="position: absolute; top: 1.5rem; right: 1.5rem; background: transparent; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer;"
+                        onclick="document.getElementById('addCarModal').style.display='none';">&times;</button>
+                
+                <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.35rem;">Add Vehicle to Fleet</h3>
+                <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 2rem;">Register vehicle specifications and base rental pricing.</p>
+
+                <form th:action="@{/admin/cars/add}" method="post">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">Brand</label>
+                            <input type="text" name="brand" class="form-control" placeholder="e.g. BMW" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Model</label>
+                            <input type="text" name="model" class="form-control" placeholder="e.g. 530d M-Sport" required />
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">Registration Number</label>
+                            <input type="text" name="regNumber" class="form-control" placeholder="DL01-AB-1234" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Vehicle Category</label>
+                            <select name="type" class="form-control">
+                                <option th:each="t : ${carTypes}" th:value="${t}" th:text="${t.displayName}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">Powertrain</label>
+                            <select name="fuelType" class="form-control">
+                                <option th:each="f : ${fuelTypes}" th:value="${f}" th:text="${f.displayName}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Transmission</label>
+                            <select name="transmission" class="form-control">
+                                <option th:each="tr : ${transmissions}" th:value="${tr}" th:text="${tr.displayName}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">Daily Price (₹)</label>
+                            <input type="number" name="pricePerDay" class="form-control" placeholder="2900" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Hourly Price (₹)</label>
+                            <input type="number" name="pricePerHour" class="form-control" placeholder="165" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label class="form-label">Image URL</label>
+                        <input type="url" name="imageUrl" class="form-control" placeholder="https://..." />
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 2rem;">
+                        <label class="form-label">Features (comma separated)</label>
+                        <input type="text" name="featuresInput" class="form-control" placeholder="Sunroof, Leather Seats, GPS" />
+                    </div>
+
+                    <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('addCarModal').style.display='none';">Cancel</button>
+                        <button type="submit" class="btn btn-primary">SAVE VEHICLE</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

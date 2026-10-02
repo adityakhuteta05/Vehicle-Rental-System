@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<nav th:fragment="navbar" class="navbar">
+    <div class="container navbar-inner">
+        <!-- Minimal Automotive Wordmark / Emblem -->
+        <a th:href="@{/}" class="brand-logo" aria-label="DriveSense Home">
+            <span class="brand-emblem"><i class="fa-solid fa-compass"></i></span>
+            <span>DriveSense</span>
+        </a>
+
+        <!-- Center Links -->
+        <ul class="nav-links">
+            <li>
+                <a th:href="@{/cars}" class="nav-link" th:classappend="${activeNav == 'catalogue' ? 'active' : ''}">Cars</a>
+            </li>
+            <li>
+                <a th:href="@{/vibe-match}" class="nav-link" th:classappend="${activeNav == 'vibe-match' ? 'active' : ''}">Vibe Match</a>
+            </li>
+            <li>
+                <a th:href="@{/how-it-works}" class="nav-link" th:classappend="${activeNav == 'how-it-works' ? 'active' : ''}">How It Works</a>
+            </li>
+
+            <!-- Vehicle Owner Link (Only when owner or guest looking to list) -->
+            <li sec:authorize="hasRole('OWNER')">
+                <a th:href="@{/owner/dashboard}" class="nav-link" th:classappend="${activeNav == 'dashboard' ? 'active' : ''}">Owner Dashboard</a>
+            </li>
+
+            <!-- Platform Admin Link -->
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin}" class="nav-link" th:classappend="${activeNav == 'admin' ? 'active' : ''}">Admin Portal</a>
+            </li>
+        </ul>
+
+        <!-- Right Side Actions & Authentication -->
+        <div class="nav-actions">
+            <!-- Theme Toggle (Showroom Light / Cockpit Dark) -->
+            <button type="button" class="theme-toggle-btn" aria-label="Toggle visual theme">
+                <i class="fa-regular fa-moon"></i>
+            </button>
+
+            <!-- Guest State: Two Distinct Login Options -->
+            <th:block sec:authorize="!isAuthenticated()">
+                <a th:href="@{/login}" class="btn btn-ghost btn-sm" title="Sign in to rent vehicles" style="font-size: 0.82rem; padding: 0.45rem 0.75rem;">
+                    <i class="fa-solid fa-car" style="margin-right: 0.35rem; font-size: 0.8rem;"></i> Rent a Car
+                </a>
+                <a th:href="@{/owner/login}" class="btn btn-secondary btn-sm" title="Vehicle Owner & Fleet Host Portal" style="font-size: 0.82rem; padding: 0.45rem 0.85rem; border-color: rgba(212, 160, 23, 0.4);">
+                    <i class="fa-solid fa-key" style="margin-right: 0.35rem; color: #D4A017; font-size: 0.75rem;"></i> Owner Login
+                </a>
+                <a th:href="@{/cars}" class="btn btn-primary btn-sm btn-book-cta">BOOK A CAR</a>
+            </th:block>
+
+            <!-- Authenticated State -->
+            <th:block sec:authorize="isAuthenticated()">
+                <!-- Vehicle Owner Controls -->
+                <th:block sec:authorize="hasRole('OWNER')">
+                    <a th:href="@{/owner/dashboard}" class="btn btn-secondary btn-sm" th:classappend="${activeNav == 'dashboard' ? 'active' : ''}" style="border-color: rgba(212, 160, 23, 0.4); font-size: 0.82rem;">
+                        <i class="fa-solid fa-gauge-high" style="color: #D4A017; margin-right: 0.35rem;"></i> Fleet Command
+                    </a>
+                    <a th:href="@{/owner/profile}" class="btn btn-ghost btn-sm" style="gap: 0.4rem; font-size: 0.82rem;">
+                        <i class="fa-solid fa-user-tie"></i>
+                        <span sec:authentication="name" style="max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Host Account</span>
+                    </a>
+                    <form th:action="@{/logout}" method="post" style="display: inline; margin: 0;">
+                        <button type="submit" class="btn btn-ghost btn-sm" title="Sign Out Command" aria-label="Sign Out" style="padding: 0.5rem 0.75rem;">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        </button>
+                    </form>
+                    <a th:href="@{/owner/vehicles/add}" class="btn btn-primary btn-sm btn-book-cta" style="background: linear-gradient(135deg, #1C1917 0%, #292524 100%); border-color: rgba(251, 191, 36, 0.4); color: #FBBF24;">
+                        <i class="fa-solid fa-plus" style="margin-right: 0.25rem;"></i> ENROL CAR
+                    </a>
+                </th:block>
+
+                <!-- Renter Controls (When not an owner) -->
+                <th:block sec:authorize="!hasRole('OWNER')">
+                    <a th:href="@{/my-bookings}" class="btn btn-ghost btn-sm" th:classappend="${activeNav == 'bookings' ? 'active' : ''}">My Bookings</a>
+                    <a th:href="@{/renter/profile}" class="btn btn-secondary btn-sm" style="gap: 0.5rem;">
+                        <i class="fa-regular fa-user"></i>
+                        <span sec:authentication="name" style="max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Account</span>
+                    </a>
+                    <form th:action="@{/logout}" method="post" style="display: inline; margin: 0;">
+                        <button type="submit" class="btn btn-ghost btn-sm" title="Sign Out" aria-label="Sign Out" style="padding: 0.5rem 0.75rem;">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        </button>
+                    </form>
+                    <a th:href="@{/cars}" class="btn btn-primary btn-sm btn-book-cta">BOOK A CAR</a>
+                </th:block>
+            </th:block>
+
+            <!-- Mobile Hamburger Toggle -->
+            <button type="button" class="mobile-nav-toggle" aria-label="Toggle navigation menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer">
+        <ul class="mobile-nav-list">
+            <li><a th:href="@{/cars}" class="nav-link">Explore Cars</a></li>
+            <li><a th:href="@{/vibe-match}" class="nav-link">Vibe Match Recommender</a></li>
+            <li><a th:href="@{/how-it-works}" class="nav-link">How It Works</a></li>
+
+            <!-- Guest Distinct Role Actions -->
+            <th:block sec:authorize="!isAuthenticated()">
+                <li style="padding: 0.6rem 0.5rem 0.2rem; font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; border-top: 1px solid var(--border-subtle); margin-top: 0.5rem;">
+                    For Renters (Drivers)
+                </li>
+                <li><a th:href="@{/login}" class="nav-link"><i class="fa-solid fa-car" style="width: 20px;"></i> Sign In to Rent</a></li>
+                <li><a th:href="@{/register}" class="nav-link"><i class="fa-regular fa-id-card" style="width: 20px;"></i> Create Driver Account</a></li>
+
+                <li style="padding: 0.6rem 0.5rem 0.2rem; font-size: 0.7rem; font-weight: 700; color: #D4A017; text-transform: uppercase; letter-spacing: 0.1em; border-top: 1px solid var(--border-subtle); margin-top: 0.5rem;">
+                    For Vehicle Owners (Hosts)
+                </li>
+                <li><a th:href="@{/owner/login}" class="nav-link"><i class="fa-solid fa-key" style="width: 20px; color: #D4A017;"></i> Vehicle Owner Login</a></li>
+                <li><a th:href="@{/owner/register}" class="nav-link"><i class="fa-solid fa-warehouse" style="width: 20px;"></i> Register Vehicle Fleet</a></li>
+            </th:block>
+
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/my-bookings}" class="nav-link">My Bookings</a></li>
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/renter/profile}" class="nav-link">My Profile & Trust Score</a></li>
+            <li sec:authorize="hasRole('OWNER')"><a th:href="@{/owner/dashboard}" class="nav-link">Owner Fleet Command</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin}" class="nav-link">Admin Portal</a></li>
+        </ul>
+        <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;">
+            <a th:href="@{/cars}" class="btn btn-primary btn-block">BOOK A CAR</a>
+        </div>
+    </div>
+</nav>
+</body>
+</html>

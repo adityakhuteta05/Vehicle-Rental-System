@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleet Account Settings | DriveSense Fleet Command</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="admin-layout">
+    <div th:replace="~{fragments/owner-sidebar :: owner-sidebar}"></div>
+
+    <main class="admin-main">
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">
+                    COMMERCIAL CREDENTIALS
+                </div>
+                <h1 style="font-size: 2.25rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 0.4rem;">
+                    Fleet Profile &amp; Settings
+                </h1>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">
+                    Manage host entity registration, direct deposit banking, and operating licenses.
+                </p>
+            </div>
+
+            <span style="font-size: 0.78rem; color: var(--text-muted); padding: 0.4rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-subtle); background: var(--bg-surface-elevated);">
+                Verified Fleet Entity
+            </span>
+        </div>
+
+        <!-- Flash Messages -->
+        <div th:if="${successMessage}" class="ds-card" style="padding: 1rem 1.25rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; border-left: 3px solid var(--text-primary);">
+            <i class="fa-solid fa-circle-check"></i>
+            <span style="font-size: 0.88rem; color: var(--text-primary);" th:text="${successMessage}"></span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: start;">
+            
+            <!-- Left Profile Card -->
+            <div class="ds-card" style="padding: 2.5rem 2rem; text-align: center;">
+                <div style="width: 88px; height: 88px; margin: 0 auto 1.25rem auto; border-radius: 50%; overflow: hidden; border: 1px solid var(--border-medium); background: var(--bg-surface-elevated);">
+                    <img th:src="${owner.profileImage != null ? owner.profileImage : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'}"
+                         alt="Partner Avatar" 
+                         style="width: 100%; height: 100%; object-fit: cover;" />
+                </div>
+
+                <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.25rem;" th:text="${owner.fullName}">Rajesh Singhania</h2>
+                <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500; margin-bottom: 1.5rem;" 
+                     th:text="${profile != null && profile.businessName != null ? profile.businessName : 'Apex Mobility Partners'}">
+                    Apex Mobility Partners
+                </div>
+
+                <div style="border-top: 1px solid var(--border-subtle); padding-top: 1.25rem; display: flex; flex-direction: column; gap: 0.85rem; text-align: left; font-size: 0.85rem;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-muted);">Email</span>
+                        <strong style="color: var(--text-primary);" th:text="${owner.email}">owner@drivesense.com</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-muted);">Phone</span>
+                        <strong style="color: var(--text-primary);" th:text="${owner.phone != null ? owner.phone : '+91 98200 11223'}">+91 98200 11223</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-muted);">Operating City</span>
+                        <strong style="color: var(--text-primary);" th:text="${owner.city != null ? owner.city : 'Jaipur, RJ'}">Jaipur, RJ</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-muted);">GSTIN ID</span>
+                        <span style="font-family: 'SF Mono', Consolas, monospace; color: var(--text-secondary);" 
+                              th:text="${profile != null && profile.governmentId != null ? profile.governmentId : (owner.governmentId != null ? owner.governmentId : 'GSTIN08AAAAA0000A1Z5')}">
+                            GSTIN08AAAAA0000A1Z5
+                        </span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-muted);">Partner Status</span>
+                        <span class="badge status-available" style="font-size: 0.72rem;">ACTIVE HOST</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Profile Form & Verification -->
+            <div style="display: flex; flex-direction: column; gap: 2rem;">
+                <!-- Edit Information -->
+                <div class="ds-card" style="padding: 2.25rem;">
+                    <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1.5rem;">
+                        Commercial Contact Details
+                    </h3>
+
+                    <form th:action="@{/owner/profile}" method="post">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
+                            <div class="form-group" style="margin: 0;">
+                                <label class="ds-label">Contact Person</label>
+                                <input type="text" name="fullName" class="ds-input" th:value="${owner.fullName}" required />
+                            </div>
+
+                            <div class="form-group" style="margin: 0;">
+                                <label class="ds-label">Phone Number</label>
+                                <input type="tel" name="phone" class="ds-input" th:value="${owner.phone != null ? owner.phone : '+91 98200 11223'}" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 1.25rem;">
+                            <label class="ds-label">Operating Entity Name</label>
+                            <input type="text" name="businessName" class="ds-input" 
+                                   th:value="${profile != null && profile.businessName != null ? profile.businessName : 'Apex Mobility Partners'}" required />
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem; margin-bottom: 1.75rem;">
+                            <div class="form-group" style="margin: 0;">
+                                <label class="ds-label">Headquarters Address</label>
+                                <input type="text" name="address" class="ds-input" 
+                                       th:value="${owner.address != null ? owner.address : 'Plot 42, Malviya Industrial Area'}" required />
+                            </div>
+
+                            <div class="form-group" style="margin: 0;">
+                                <label class="ds-label">City</label>
+                                <input type="text" name="city" class="ds-input" 
+                                       th:value="${owner.city != null ? owner.city : 'Jaipur'}" required />
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: flex-end;">
+                            <button type="submit" class="btn btn-primary">
+                                Save Profile Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Verified Banking Documents -->
+                <div class="ds-card" style="padding: 2.25rem;">
+                    <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1.25rem;">
+                        Verified Banking &amp; Escrow
+                    </h3>
+
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: 8px;">
+                            <div>
+                                <div style="font-weight: 700; color: var(--text-primary);">Settlement Account</div>
+                                <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.2rem;">HDFC Bank &bull; A/C ending in **** 4892 &bull; IFSC: HDFC0001234</div>
+                            </div>
+                            <span class="badge status-available" style="font-size: 0.72rem;">VERIFIED</span>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: 8px;">
+                            <div>
+                                <div style="font-weight: 700; color: var(--text-primary);">Commercial Fleet Insurance</div>
+                                <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.2rem;">Comprehensive self-drive coverage policy &bull; Active through Dec 2026</div>
+                            </div>
+                            <span class="badge status-available" style="font-size: 0.72rem;">ACTIVE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

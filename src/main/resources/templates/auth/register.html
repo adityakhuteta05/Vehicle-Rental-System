@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Driver Account | Rent a Vehicle | DriveSense</title>
+    <meta name="description" content="Create your DriveSense driver account to rent premium vehicles with zero deposit and transparent pricing.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body style="background-color: var(--bg-primary);">
+
+<!-- Split Screen Layout -->
+<div class="auth-split-wrapper">
+    <!-- LEFT: Automotive Driving Experience -->
+    <div class="auth-media-pane">
+        <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1600&q=85"
+             alt="DriveSense Luxury Fleet" />
+        
+        <div class="auth-media-overlay">
+            <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.5rem; color: #CACBCA;">
+                DRIVESENSE • PERSONAL MOBILITY
+            </div>
+            <h2 style="font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.75rem; color: #FFFFFF;">
+                A simpler way to rent.
+            </h2>
+            <p style="font-size: 0.95rem; color: #A7AAAD; max-width: 440px;">
+                Earn verified trust standing on every completed journey to unlock zero-deposit vehicle reservations.
+            </p>
+
+            <ul class="auth-perks-list">
+                <li class="auth-perk-item">
+                    <span class="auth-perk-icon"><i class="fa-solid fa-award"></i></span>
+                    <span>Starting Trust Score of 50 awarded upon initial onboarding</span>
+                </li>
+                <li class="auth-perk-item">
+                    <span class="auth-perk-icon"><i class="fa-solid fa-shield-halved"></i></span>
+                    <span>Fair digital liability with dual photo condition checks</span>
+                </li>
+                <li class="auth-perk-item">
+                    <span class="auth-perk-icon"><i class="fa-solid fa-key"></i></span>
+                    <span>Access to premium sedans, executive SUVs, and performance EVs</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- RIGHT: Driver Registration Form -->
+    <div class="auth-form-pane">
+        <div class="auth-form-box">
+            <!-- Brand Wordmark -->
+            <a th:href="@{/}" class="brand-logo" style="margin-bottom: 1.75rem; display: inline-flex;">
+                <span class="brand-emblem"><i class="fa-solid fa-compass"></i></span>
+                <span>DriveSense</span>
+            </a>
+
+            <!-- TWO-PORTAL ROLE SWITCHER: Renter vs Owner -->
+            <div class="auth-role-tabs">
+                <a th:href="@{/register}" class="auth-role-tab active" title="Register as a driver renting vehicles">
+                    <i class="fa-solid fa-car"></i>
+                    <span>Rent a Vehicle</span>
+                </a>
+                <a th:href="@{/owner/register}" class="auth-role-tab" title="Register as a vehicle owner / host">
+                    <i class="fa-solid fa-key"></i>
+                    <span>Vehicle Owner</span>
+                </a>
+            </div>
+
+            <!-- Header & Badge -->
+            <div style="margin-bottom: 1.5rem;">
+                <div class="auth-badge auth-badge-renter">
+                    <i class="fa-solid fa-id-card"></i> Driver Registration
+                </div>
+                <h1 style="font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.35rem;">
+                    Create driver account.
+                </h1>
+                <p style="font-size: 0.92rem; color: var(--text-secondary);">
+                    Enter your legal credentials for verified driving status and instant booking.
+                </p>
+            </div>
+
+            <!-- Error Alerts -->
+            <div th:if="${errorMessage != null}" style="padding: 0.85rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.85rem; background-color: var(--status-danger-bg); color: var(--status-danger-text); border: 1px solid var(--status-danger-border);">
+                <i class="fa-solid fa-triangle-exclamation" style="margin-right: 0.35rem;"></i>
+                <span th:text="${errorMessage}">Error</span>
+            </div>
+
+            <!-- Form -->
+            <form th:action="@{/register}" method="post">
+                <div class="form-group" style="margin-bottom: 1.15rem;">
+                    <label class="form-label" for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" class="form-control" placeholder="Aaditya Sharma" required autofocus />
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.15rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="user@example.com" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone" class="form-control" placeholder="+91 98765 43210" required />
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.15rem;">
+                    <label class="form-label" for="regPassword">Password</label>
+                    <input type="password" id="regPassword" name="password" class="form-control" placeholder="Minimum 8 characters" required />
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.75rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="licenceNo">Driving Licence</label>
+                        <input type="text" id="licenceNo" name="licenceNo" class="form-control" placeholder="DL-042015001234" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="dob">Date of Birth</label>
+                        <input type="date" id="dob" name="dob" class="form-control" value="2000-01-01" required />
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg" style="height: 50px; font-weight: 700; letter-spacing: 0.04em;">
+                    <i class="fa-solid fa-car" style="margin-right: 0.4rem;"></i> CREATE DRIVER ACCOUNT
+                </button>
+            </form>
+
+            <!-- Links & Role Switching -->
+            <div class="auth-switch-box">
+                <div>
+                    <span>Already have a driver account?</span>
+                    <a th:href="@{/login}" style="color: var(--text-primary); font-weight: 700; text-decoration: underline; margin-left: 0.25rem;">Sign In to Rent</a>
+                </div>
+                <div style="padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); font-size: 0.83rem; background: var(--bg-surface-elevated); padding: 0.85rem; border-radius: var(--radius-md);">
+                    <span style="color: var(--text-secondary); display: block; margin-bottom: 0.35rem;">Are you looking to list a vehicle instead?</span>
+                    <a th:href="@{/owner/register}" style="color: #B45309; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
+                        <i class="fa-solid fa-key"></i> Register as Vehicle Owner &rarr;
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

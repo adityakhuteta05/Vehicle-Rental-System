@@ -16,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -27,23 +26,11 @@ public class OwnerController {
 
     private final OwnerService ownerService;
     private final UserRepository userRepository;
-    private final CarRepository carRepository;
-    private final LocationRepository locationRepository;
-    private final ReviewRepository reviewRepository;
-    private final DcrService dcrService;
 
     public OwnerController(OwnerService ownerService,
-                           UserRepository userRepository,
-                           CarRepository carRepository,
-                           LocationRepository locationRepository,
-                           ReviewRepository reviewRepository,
-                           DcrService dcrService) {
+                           UserRepository userRepository) {
         this.ownerService = ownerService;
         this.userRepository = userRepository;
-        this.carRepository = carRepository;
-        this.locationRepository = locationRepository;
-        this.reviewRepository = reviewRepository;
-        this.dcrService = dcrService;
     }
 
     private User getAuthenticatedOwner(UserDetails userDetails) {

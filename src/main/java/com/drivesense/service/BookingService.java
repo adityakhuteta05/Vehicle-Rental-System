@@ -10,7 +10,6 @@ import com.drivesense.entity.User;
 import com.drivesense.enums.BookingStatus;
 import com.drivesense.enums.CarStatus;
 import com.drivesense.event.BookingCancelledEvent;
-import com.drivesense.event.BookingCompletedEvent;
 import com.drivesense.exception.CarNotAvailableException;
 import com.drivesense.exception.ResourceNotFoundException;
 import com.drivesense.pricing.PriceBreakdown;
@@ -31,7 +30,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service

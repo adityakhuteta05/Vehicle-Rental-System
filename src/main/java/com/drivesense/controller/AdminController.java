@@ -1,7 +1,6 @@
 package com.drivesense.controller;
 
 import com.drivesense.dto.DcrComparisonDto;
-import com.drivesense.dto.xml.FleetXml;
 import com.drivesense.entity.Booking;
 import com.drivesense.entity.Car;
 import com.drivesense.entity.ConditionReport;
@@ -17,7 +16,6 @@ import com.drivesense.enums.BootSize;
 import com.drivesense.repository.BookingRepository;
 import com.drivesense.repository.CarRepository;
 import com.drivesense.repository.UserRepository;
-import com.drivesense.service.CarService;
 import com.drivesense.service.DcrService;
 import com.drivesense.service.FleetImportService;
 import org.springframework.stereotype.Controller;
@@ -38,20 +36,17 @@ public class AdminController {
     private final CarRepository carRepository;
     private final BookingRepository bookingRepository;
     private final UserRepository userRepository;
-    private final CarService carService;
     private final DcrService dcrService;
     private final FleetImportService fleetImportService;
 
     public AdminController(CarRepository carRepository,
                            BookingRepository bookingRepository,
                            UserRepository userRepository,
-                           CarService carService,
                            DcrService dcrService,
                            FleetImportService fleetImportService) {
         this.carRepository = carRepository;
         this.bookingRepository = bookingRepository;
         this.userRepository = userRepository;
-        this.carService = carService;
         this.dcrService = dcrService;
         this.fleetImportService = fleetImportService;
     }

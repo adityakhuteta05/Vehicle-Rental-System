@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,7 +117,7 @@ public class FleetImportService {
         }
 
         BigDecimal pricePerHour = item.getPricePerHour() != null ? item.getPricePerHour()
-                : item.getPricePerDay().divide(new BigDecimal("15"), 2, BigDecimal.ROUND_HALF_UP);
+                : item.getPricePerDay().divide(new BigDecimal("15"), 2, RoundingMode.HALF_UP);
         int kmLimit = item.getKmPerDayLimit() != null ? item.getKmPerDayLimit() : 300;
         BigDecimal extraKmRate = item.getExtraKmRate() != null ? item.getExtraKmRate() : new BigDecimal("15.00");
         int co2 = item.getCo2GPerKm() != null ? item.getCo2GPerKm() : fuelType.getDefaultCo2PerKm();

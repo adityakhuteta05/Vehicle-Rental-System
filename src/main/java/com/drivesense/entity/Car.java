@@ -119,7 +119,7 @@ public class Car {
     }
 
     public boolean isEcoFriendly() {
-        return fuelType == FuelType.EV || fuelType == FuelType.CNG;
+        return fuelType == FuelType.EV || fuelType == FuelType.CNG || co2GPerKm <= 110;
     }
 
     // Getters and Setters
@@ -289,10 +289,6 @@ public class Car {
 
     public void setSecurityDeposit(BigDecimal securityDeposit) {
         this.securityDeposit = securityDeposit;
-    }
-
-    public boolean isEcoFriendly() {
-        return fuelType == FuelType.EV || (co2GPerKm <= 110);
     }
 
     public int getReviewCount() {

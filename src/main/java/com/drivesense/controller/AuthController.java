@@ -1,8 +1,6 @@
 package com.drivesense.controller;
 
-import com.drivesense.entity.TrustEvent;
 import com.drivesense.entity.User;
-import com.drivesense.service.TrustScoreService;
 import com.drivesense.service.UserService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,17 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Controller
 public class AuthController {
 
     private final UserService userService;
-    private final TrustScoreService trustScoreService;
 
-    public AuthController(UserService userService, TrustScoreService trustScoreService) {
+    public AuthController(UserService userService) {
         this.userService = userService;
-        this.trustScoreService = trustScoreService;
     }
 
     @GetMapping("/login")

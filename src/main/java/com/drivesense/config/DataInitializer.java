@@ -65,9 +65,9 @@ public class DataInitializer implements CommandLineRunner {
         // 1. Seed Locations
         Location loc1 = locationRepository.save(new Location("Airport T3 Mobility Hub", "New Delhi", "Terminal 3 Arrival Lane 4, IGI Airport"));
         Location loc2 = locationRepository.save(new Location("Connaught Place Flagship", "New Delhi", "Inner Circle, Block C, CP"));
-        Location loc3 = locationRepository.save(new Location("Cyber City Hub", "Gurugram", "Building 10 DLF Cyber City"));
-        Location loc4 = locationRepository.save(new Location("Koramangala Station", "Bengaluru", "80 Feet Road, 4th Block"));
-        Location loc5 = locationRepository.save(new Location("BKC Executive Lounge", "Mumbai", "G Block, Bandra Kurla Complex"));
+        locationRepository.save(new Location("Cyber City Hub", "Gurugram", "Building 10 DLF Cyber City"));
+        locationRepository.save(new Location("Koramangala Station", "Bengaluru", "80 Feet Road, 4th Block"));
+        locationRepository.save(new Location("BKC Executive Lounge", "Mumbai", "G Block, Bandra Kurla Complex"));
 
         // 2. Seed Users & Marketplace Actors
         // Admin
@@ -168,70 +168,70 @@ public class DataInitializer implements CommandLineRunner {
                 new BigDecimal("4.9"),
                 Arrays.asList("Zero Tailpipe Emissions", "Autopilot", "15-inch Touchscreen", "Glass Roof", "Supercharger Network"));
 
-        Car car4 = createCar(owner, "Hyundai", "Ioniq 5 Lounge", "KA05-EV-9999", CarType.EV, FuelType.EV,
+        createCar(owner, "Hyundai", "Ioniq 5 Lounge", "KA05-EV-9999", CarType.EV, FuelType.EV,
                 Transmission.AUTOMATIC, 5, BootSize.L, new BigDecimal("6800.00"), new BigDecimal("360.00"),
                 350, new BigDecimal("20.00"), 0,
                 "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=900&q=80",
                 new BigDecimal("4.9"),
                 Arrays.asList("Ultra-Fast 800V Charging", "Relaxation Comfort Seats", "V2L Power Output", "Augmented Reality HUD"));
 
-        Car car5 = createCar(owner, "BMW", "530d M-Sport Executive", "MH01-BM-5050", CarType.LUXURY, FuelType.DIESEL,
+        createCar(owner, "BMW", "530d M-Sport Executive", "MH01-BM-5050", CarType.LUXURY, FuelType.DIESEL,
                 Transmission.AUTOMATIC, 5, BootSize.L, new BigDecimal("11200.00"), new BigDecimal("620.00"),
                 250, new BigDecimal("30.00"), 168,
                 "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=900&q=80",
                 new BigDecimal("5.0"),
                 Arrays.asList("Executive Chauffeur Grade", "Harman Kardon Surround", "Adaptive M Suspension", "Gesture Control"));
 
-        Car car6 = createCar(owner, "Mercedes-Benz", "C200 Avantgarde", "DL03-MB-2211", CarType.LUXURY, FuelType.PETROL,
+        createCar(owner, "Mercedes-Benz", "C200 Avantgarde", "DL03-MB-2211", CarType.LUXURY, FuelType.PETROL,
                 Transmission.AUTOMATIC, 5, BootSize.L, new BigDecimal("9800.00"), new BigDecimal("520.00"),
                 250, new BigDecimal("28.00"), 155,
                 "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=900&q=80",
                 new BigDecimal("4.8"),
                 Arrays.asList("Burmester 3D Sound", "Ambient Lighting 64 Colors", "Executive Leather", "Sunroof"));
 
-        Car car7 = createCar(admin, "Honda", "City ZX e:HEV Hybrid", "DL09-HC-4400", CarType.SEDAN, FuelType.PETROL,
+        createCar(admin, "Honda", "City ZX e:HEV Hybrid", "DL09-HC-4400", CarType.SEDAN, FuelType.PETROL,
                 Transmission.AUTOMATIC, 5, BootSize.L, new BigDecimal("2700.00"), new BigDecimal("150.00"),
                 300, new BigDecimal("12.00"), 98,
                 "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=900&q=80",
                 new BigDecimal("4.7"),
                 Arrays.asList("Strong Hybrid 27 km/l", "Honda Sensing ADAS", "LaneWatch Camera", "Electric Sunroof"));
 
-        Car car8 = createCar(admin, "Skoda", "Slavia 1.5 TSI Style", "MH12-SK-8812", CarType.SEDAN, FuelType.PETROL,
+        createCar(admin, "Skoda", "Slavia 1.5 TSI Style", "MH12-SK-8812", CarType.SEDAN, FuelType.PETROL,
                 Transmission.AUTOMATIC, 5, BootSize.L, new BigDecimal("2950.00"), new BigDecimal("165.00"),
                 300, new BigDecimal("14.00"), 132,
                 "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=900&q=80",
                 new BigDecimal("4.7"),
                 Arrays.asList("521L Massive Boot", "5-Star Global NCAP Safety", "Ventilated Seats", "DSG Paddle Shifters"));
 
-        Car car9 = createCar(admin, "Toyota", "Fortuner Legender 4x4", "UP16-TF-9900", CarType.SUV, FuelType.DIESEL,
+        createCar(admin, "Toyota", "Fortuner Legender 4x4", "UP16-TF-9900", CarType.SUV, FuelType.DIESEL,
                 Transmission.AUTOMATIC, 7, BootSize.L, new BigDecimal("5900.00"), new BigDecimal("320.00"),
                 300, new BigDecimal("18.00"), 192,
                 "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=900&q=80",
                 new BigDecimal("4.9"),
                 Arrays.asList("4x4 High/Low Range", "Hill Descent Control", "7 Seats", "JBL 11 Speaker System"));
 
-        Car car10 = createCar(owner, "Tata", "Nexon EV Empowered+", "DL08-EV-4411", CarType.EV, FuelType.EV,
+        createCar(owner, "Tata", "Nexon EV Empowered+", "DL08-EV-4411", CarType.EV, FuelType.EV,
                 Transmission.AUTOMATIC, 5, BootSize.M, new BigDecimal("3300.00"), new BigDecimal("190.00"),
                 300, new BigDecimal("12.00"), 0,
                 "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=900&q=80",
                 new BigDecimal("4.8"),
                 Arrays.asList("465 km Long Range", "360-Degree Camera", "Fast DC Charging", "Ventilated Front Seats"));
 
-        Car car11 = createCar(admin, "Hyundai", "i20 N-Line DCT", "DL07-IN-7007", CarType.HATCHBACK, FuelType.PETROL,
+        createCar(admin, "Hyundai", "i20 N-Line DCT", "DL07-IN-7007", CarType.HATCHBACK, FuelType.PETROL,
                 Transmission.AUTOMATIC, 5, BootSize.S, new BigDecimal("2100.00"), new BigDecimal("120.00"),
                 300, new BigDecimal("10.00"), 125,
                 "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=900&q=80",
                 new BigDecimal("4.6"),
                 Arrays.asList("Sport Tuned Exhaust", "Paddle Shifters", "Bose Audio", "All 4 Disc Brakes"));
 
-        Car car12 = createCar(admin, "Maruti Suzuki", "Swift ZXi AMT", "DL02-SW-3322", CarType.HATCHBACK, FuelType.PETROL,
+        createCar(admin, "Maruti Suzuki", "Swift ZXi AMT", "DL02-SW-3322", CarType.HATCHBACK, FuelType.PETROL,
                 Transmission.AUTOMATIC, 5, BootSize.S, new BigDecimal("1650.00"), new BigDecimal("95.00"),
                 300, new BigDecimal("9.00"), 110,
                 "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=80",
                 new BigDecimal("4.5"),
                 Arrays.asList("25 km/l High Mileage", "Keyless Smart Entry", "Apple CarPlay", "Compact City Agility"));
 
-        Car car13 = createCar(owner, "Maruti Suzuki", "Ertiga ZXi CNG", "DL05-ER-5511", CarType.SUV, FuelType.CNG,
+        createCar(owner, "Maruti Suzuki", "Ertiga ZXi CNG", "DL05-ER-5511", CarType.SUV, FuelType.CNG,
                 Transmission.MANUAL, 7, BootSize.M, new BigDecimal("2350.00"), new BigDecimal("130.00"),
                 300, new BigDecimal("10.00"), 105,
                 "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=900&q=80",

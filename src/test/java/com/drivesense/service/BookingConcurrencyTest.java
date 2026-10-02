@@ -1,7 +1,6 @@
 package com.drivesense.service;
 
 import com.drivesense.dto.BookingRequest;
-import com.drivesense.entity.Booking;
 import com.drivesense.entity.Car;
 import com.drivesense.entity.User;
 import com.drivesense.enums.BootSize;

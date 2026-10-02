@@ -63,7 +63,7 @@ public class TrustScoreService {
     @Transactional
     public void handleDamageReported(DamageReportedEvent event) {
         int count = event.getNewDamageZones() != null ? event.getNewDamageZones().size() : 1;
-        adjustScore(event.getBooking().getUser(), -10, "New exterior/interior damage reported on return (-10)");
+        adjustScore(event.getBooking().getUser(), -10, "New exterior/interior damage reported across " + count + " zone(s) (-10)");
     }
 
     @EventListener

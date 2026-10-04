@@ -1,0 +1,7 @@
+.git
+.gitignore
+.vscode
+target/
+*.log
+scratch/
+*.txt

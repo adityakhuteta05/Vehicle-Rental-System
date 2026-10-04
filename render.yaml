@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: drivesense-platform
+    runtime: docker
+    plan: free
+    region: oregon
+    branch: main
+    autoDeploy: true
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: 8080

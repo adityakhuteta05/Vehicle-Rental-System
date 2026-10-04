@@ -34,7 +34,7 @@
                 <select name="car1Id" class="ds-input">
                     <option th:each="c : ${allCars}"
                             th:value="${c.id}"
-                            th:text="${c.displayName + ' — ₹' + #numbers.formatDecimal(c.pricePerDay, 0, 'COMMA', 0, 'POINT') + ' / day'}"
+                            th:text="${c.displayName + ' : ₹' + #numbers.formatDecimal(c.pricePerDay, 0, 'COMMA', 0, 'POINT') + ' / day'}"
                             th:selected="${car1 != null && car1.id == c.id}"></option>
                 </select>
             </div>
@@ -44,7 +44,7 @@
                 <select name="car2Id" class="ds-input">
                     <option th:each="c : ${allCars}"
                             th:value="${c.id}"
-                            th:text="${c.displayName + ' — ₹' + #numbers.formatDecimal(c.pricePerDay, 0, 'COMMA', 0, 'POINT') + ' / day'}"
+                            th:text="${c.displayName + ' : ₹' + #numbers.formatDecimal(c.pricePerDay, 0, 'COMMA', 0, 'POINT') + ' / day'}"
                             th:selected="${car2 != null && car2.id == c.id}"></option>
                 </select>
             </div>

@@ -12,20 +12,20 @@
 
 <!-- Split Screen Layout -->
 <div class="auth-split-wrapper">
-    <!-- LEFT: Automotive Driving Experience (Personal Mobility) -->
+    <!-- LEFT: Automotive Driving Experience -->
     <div class="auth-media-pane">
         <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1600&q=85"
              alt="DriveSense Personal Automotive Rental" />
         
         <div class="auth-media-overlay">
-            <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.5rem; color: #CACBCA;">
-                DRIVESENSE • PERSONAL MOBILITY
+            <div style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.5rem; color: #CACBCA;">
+                DRIVESENSE PERSONAL MOBILITY
             </div>
             <h2 style="font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.75rem; color: #FFFFFF;">
                 Drive your way.
             </h2>
             <p style="font-size: 0.95rem; color: #A7AAAD; max-width: 440px;">
-                Verified luxury & executive vehicles, transparent pricing, and seamless automotive rentals across every journey.
+                Verified luxury and executive vehicles, transparent pricing, and seamless automotive rentals across every journey.
             </p>
 
             <ul class="auth-perks-list">
@@ -61,7 +61,7 @@
                     <span>Rent a Vehicle</span>
                 </a>
                 <a th:href="@{/owner/login}" class="auth-role-tab" title="Switch to Vehicle Owner / Host Portal">
-                    <i class="fa-solid fa-key"></i>
+                    <i class="fa-solid fa-key" style="color: var(--host-accent);"></i>
                     <span>Vehicle Owner</span>
                 </a>
             </div>
@@ -69,9 +69,9 @@
             <!-- Header & Badge -->
             <div style="margin-bottom: 1.5rem;">
                 <div class="auth-badge auth-badge-renter">
-                    <i class="fa-solid fa-circle-check"></i> Driver & Renter Portal
+                    <i class="fa-solid fa-circle-check"></i> Driver Portal
                 </div>
-                <h1 style="font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.35rem;">
+                <h1 style="font-size: 2rem; font-weight: 800; letter-spacing: -0.025em; margin-bottom: 0.35rem; color: var(--text-primary);">
                     Sign in to rent.
                 </h1>
                 <p style="font-size: 0.92rem; color: var(--text-secondary);">
@@ -85,28 +85,28 @@
                     <span style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted);">
                         Demo Driver Profiles
                     </span>
-                    <span style="font-size: 0.7rem; color: var(--text-muted);">1-Click Fill</span>
+                    <span style="font-size: 0.7rem; color: var(--text-muted);">One-Click Fill</span>
                 </div>
                 <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                    <button type="button" class="btn btn-secondary btn-sm" onclick="setDemo('user@example.com', 'user123')" style="font-size: 0.8rem; padding: 0.35rem 0.75rem;">
-                        <i class="fa-solid fa-user-check" style="margin-right: 0.3rem;"></i> Gold Customer
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="setDemo('user@example.com', 'user123')">
+                        <i class="fa-solid fa-user-check" style="font-size: 0.75rem;"></i> Gold Customer
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm" onclick="setDemo('vip@example.com', 'vip123')" style="font-size: 0.8rem; padding: 0.35rem 0.75rem;">
-                        <i class="fa-solid fa-crown" style="margin-right: 0.3rem; color: #D4A017;"></i> Platinum VIP
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="setDemo('vip@example.com', 'vip123')">
+                        <i class="fa-solid fa-crown" style="font-size: 0.75rem; color: var(--host-accent);"></i> Platinum VIP
                     </button>
                 </div>
             </div>
 
             <!-- Flash Error / Success Alerts -->
-            <div th:if="${param.error}" style="padding: 0.85rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.85rem; background-color: var(--status-danger-bg); color: var(--status-danger-text); border: 1px solid var(--status-danger-border);">
-                <i class="fa-solid fa-circle-exclamation" style="margin-right: 0.35rem;"></i>
-                Invalid email address or password. Please try again.
+            <div th:if="${param.error}" class="alert alert-danger">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span>Invalid email address or password. Please try again.</span>
             </div>
-            <div th:if="${param.logout}" style="padding: 0.85rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.85rem; background-color: var(--bg-subtle); color: var(--text-primary); border: 1px solid var(--border-strong);">
-                <i class="fa-solid fa-circle-check" style="margin-right: 0.35rem;"></i>
-                You have been safely signed out.
+            <div th:if="${param.logout}" class="alert alert-success">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>You have been safely signed out.</span>
             </div>
-            <div th:if="${successMessage}" style="padding: 0.85rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.85rem; background-color: var(--status-success-bg); color: var(--status-success-text); border: 1px solid var(--status-success-border);" th:text="${successMessage}">
+            <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}">
                 Account created successfully.
             </div>
 
@@ -119,27 +119,25 @@
                 </div>
 
                 <div class="form-group" style="margin-bottom: 1.75rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-                        <label class="form-label" for="password" style="margin-bottom: 0;">Password</label>
-                    </div>
+                    <label class="form-label" for="password">Password</label>
                     <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" value="user123" required />
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block btn-lg" style="height: 50px; font-weight: 700; letter-spacing: 0.04em;">
-                    <i class="fa-solid fa-car" style="margin-right: 0.4rem;"></i> SIGN IN TO RENT
+                <button type="submit" class="btn btn-primary btn-block btn-lg" style="height: 48px;">
+                    <i class="fa-solid fa-car" style="font-size: 0.8rem;"></i> Sign in to Rent
                 </button>
             </form>
 
             <!-- Links & Role Switching -->
-            <div class="auth-switch-box">
+            <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.88rem;">
                 <div>
-                    <span>New driver?</span>
-                    <a th:href="@{/register}" style="color: var(--text-primary); font-weight: 700; text-decoration: underline; margin-left: 0.25rem;">Create Driver Account</a>
+                    <span style="color: var(--text-secondary);">New driver?</span>
+                    <a th:href="@{/register}" style="color: var(--text-primary); font-weight: 700; margin-left: 0.35rem;">Create Driver Account</a>
                 </div>
-                <div style="padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); font-size: 0.83rem; background: var(--bg-surface-elevated); padding: 0.85rem; border-radius: var(--radius-md);">
-                    <span style="color: var(--text-secondary); display: block; margin-bottom: 0.35rem;">Are you a vehicle owner or host?</span>
-                    <a th:href="@{/owner/login}" style="color: #B45309; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
-                        <i class="fa-solid fa-key"></i> Switch to Vehicle Owner Portal &rarr;
+                <div style="padding: 1rem; border-radius: var(--radius-md); background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); font-size: 0.82rem;">
+                    <span style="color: var(--text-secondary); display: block; margin-bottom: 0.35rem;">Are you a vehicle host or fleet owner?</span>
+                    <a th:href="@{/owner/login}" style="color: var(--host-accent); font-weight: 700; display: inline-flex; align-items: center; gap: 0.35rem;">
+                        <i class="fa-solid fa-key"></i> Switch to Host Portal &rarr;
                     </a>
                 </div>
             </div>

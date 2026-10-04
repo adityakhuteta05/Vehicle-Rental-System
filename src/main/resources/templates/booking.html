@@ -14,32 +14,32 @@
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <main class="section-spacing">
-    <div class="container" style="max-width: 1140px;">
+    <div class="container" style="max-width: 1160px;">
         
         <!-- Header -->
         <div style="margin-bottom: 2.5rem;">
             <div class="section-eyebrow">
-                <i class="fa-solid fa-circle" style="font-size: 0.45rem;"></i> Secure Reservation
+                <i class="fa-solid fa-circle" style="font-size: 0.4rem; color: var(--text-muted);"></i> Secure Reservation
             </div>
             <h1 class="section-title">Reservation Checkout</h1>
-            <p class="section-subtitle">Complete your booking details and review transparent pricing.</p>
+            <p class="section-subtitle">Complete your reservation details with instant database lock protection.</p>
         </div>
 
-        <!-- 3-Step Progress Stepper (Minimal Black / Grey) -->
+        <!-- 3-Step Progress Stepper -->
         <div class="stepper-header">
             <div class="step-node active" id="stepNode1">
                 <div class="step-number">01</div>
-                <div>DETAILS</div>
+                <div class="step-node-text">Details</div>
             </div>
-            <div style="flex: 1; height: 1px; background-color: var(--border-subtle); margin: 0 1rem;"></div>
+            <div style="flex: 1; height: 1px; background-color: var(--border-subtle); margin: 0 1.25rem;"></div>
             <div class="step-node" id="stepNode2">
                 <div class="step-number">02</div>
-                <div>EXTRAS</div>
+                <div class="step-node-text">Extras</div>
             </div>
-            <div style="flex: 1; height: 1px; background-color: var(--border-subtle); margin: 0 1rem;"></div>
+            <div style="flex: 1; height: 1px; background-color: var(--border-subtle); margin: 0 1.25rem;"></div>
             <div class="step-node" id="stepNode3">
                 <div class="step-number">03</div>
-                <div>PAYMENT</div>
+                <div class="step-node-text">Payment</div>
             </div>
         </div>
 
@@ -47,17 +47,17 @@
         <div style="display: grid; grid-template-columns: 1.25fr 0.95fr; gap: 3rem; align-items: start;">
             
             <!-- Left: Form Steps -->
-            <div style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 2.5rem; box-shadow: var(--shadow-sm);">
+            <div class="ds-card" style="padding: clamp(1.75rem, 3.5vw, 2.5rem);">
                 <!-- Live Availability Banner -->
-                <div id="availabilityAlert" style="display: none; padding: 0.85rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.85rem; font-weight: 500;"></div>
+                <div id="availabilityAlert" style="display: none; padding: 0.85rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1.5rem; font-size: 0.85rem; font-weight: 500;"></div>
 
                 <form th:action="@{/book/{id}(id=${car.id})}" th:object="${bookingRequest}" method="post" id="bookingForm" th:data-car-id="${car.id}">
                     <input type="hidden" th:field="*{tripType}" />
 
                     <!-- STEP 01: DETAILS -->
                     <div class="step-content" data-step="1">
-                        <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.35rem;">
-                            Step 01 — Schedule & Pickup Point
+                        <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--text-primary);">
+                            Step 01: Schedule and Pickup Hub
                         </h3>
                         <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 2rem;">
                             Define your reservation window. Our database locks this slot during confirmation.
@@ -65,11 +65,11 @@
 
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
                             <div class="form-group">
-                                <label class="form-label" for="startTime">Pickup Date & Time</label>
+                                <label class="form-label" for="startTime">Pickup Date &amp; Time</label>
                                 <input type="datetime-local" th:field="*{startTime}" id="startTime" class="form-control" required />
                             </div>
                             <div class="form-group">
-                                <label class="form-label" for="endTime">Return Date & Time</label>
+                                <label class="form-label" for="endTime">Return Date &amp; Time</label>
                                 <input type="datetime-local" th:field="*{endTime}" id="endTime" class="form-control" required />
                             </div>
                         </div>
@@ -81,22 +81,22 @@
                             </select>
                         </div>
 
-                        <div style="background-color: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem; font-size: 0.82rem; color: var(--text-muted); display: flex; align-items: flex-start; gap: 0.75rem;">
+                        <div style="background-color: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem; font-size: 0.82rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 0.75rem;">
                             <i class="fa-solid fa-lock" style="color: var(--text-primary); margin-top: 2px;"></i>
                             <div>
-                                <strong style="color: var(--text-primary);">Pessimistic DB Row Lock Protection:</strong>
-                                Overlapping reservation checks occur atomically within an exclusive transaction. Accidental double bookings are completely impossible.
+                                <strong style="color: var(--text-primary);">Pessimistic Database Row Lock:</strong>
+                                Overlapping reservation checks occur atomically within an exclusive transaction. Accidental double-bookings are guaranteed impossible.
                             </div>
                         </div>
                     </div>
 
                     <!-- STEP 02: EXTRAS -->
                     <div class="step-content" data-step="2" style="display: none;">
-                        <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.35rem;">
-                            Step 02 — Optional Extras & Protection
+                        <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--text-primary);">
+                            Step 02: Optional Extras and Protection
                         </h3>
                         <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 2rem;">
-                            Select optional additions. Price breakdowns recalculate instantly.
+                            Select optional additions. Price breakdowns recalculate dynamically.
                         </p>
 
                         <!-- Comprehensive Insurance -->
@@ -104,8 +104,8 @@
                             <input type="checkbox" th:field="*{insuranceRequired}" id="insuranceRequired" style="margin-top: 0.3rem;" />
                             <div style="flex: 1;">
                                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                                    <span style="font-weight: 700; color: var(--text-primary);">Zero-Liability Comprehensive Insurance</span>
-                                    <span style="font-size: 0.85rem; font-weight: 700;">+₹350 / day</span>
+                                    <span style="font-weight: 700; color: var(--text-primary); font-size: 0.92rem;">Zero-Liability Comprehensive Insurance</span>
+                                    <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary);">+₹350 / day</span>
                                 </div>
                                 <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.35rem;">
                                     Complete accidental and body blemish coverage. Reduces financial liability to ₹0.
@@ -118,8 +118,8 @@
                             <input type="checkbox" th:field="*{driverRequired}" id="driverRequired" style="margin-top: 0.3rem;" />
                             <div style="flex: 1;">
                                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                                    <span style="font-weight: 700; color: var(--text-primary);">Professional Chauffeur</span>
-                                    <span style="font-size: 0.85rem; font-weight: 700;">+₹800 / day</span>
+                                    <span style="font-weight: 700; color: var(--text-primary); font-size: 0.92rem;">Professional Chauffeur</span>
+                                    <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary);">+₹800 / day</span>
                                 </div>
                                 <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.35rem;">
                                     Background-verified driver assigned for the full rental duration.
@@ -132,11 +132,11 @@
                             <input type="checkbox" th:field="*{childSeatRequired}" id="childSeatRequired" style="margin-top: 0.3rem;" />
                             <div style="flex: 1;">
                                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                                    <span style="font-weight: 700; color: var(--text-primary);">Certified Child Safety Seat</span>
-                                    <span style="font-size: 0.85rem; font-weight: 700;">+₹200 / day</span>
+                                    <span style="font-weight: 700; color: var(--text-primary); font-size: 0.92rem;">Certified Child Safety Seat</span>
+                                    <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary);">+₹200 / day</span>
                                 </div>
                                 <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.35rem;">
-                                    ISOFIX compliant toddler car seat sanitised and fitted prior to collection.
+                                    ISOFIX compliant toddler car seat sanitized and fitted prior to vehicle collection.
                                 </p>
                             </div>
                         </label>
@@ -144,17 +144,17 @@
 
                     <!-- STEP 03: PAYMENT -->
                     <div class="step-content" data-step="3" style="display: none;">
-                        <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.35rem;">
-                            Step 03 — Payment
+                        <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--text-primary);">
+                            Step 03: Payment and Verification
                         </h3>
                         <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
-                            Select payment method.
+                            Select your payment method.
                         </p>
 
-                        <!-- Required notice -->
+                        <!-- Notice -->
                         <div style="background-color: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.75rem; font-size: 0.85rem; color: var(--text-secondary);">
                             <i class="fa-solid fa-circle-info" style="color: var(--text-primary); margin-right: 0.35rem;"></i>
-                            <strong>Demo payment — no real money will be charged.</strong>
+                            <strong>Demo simulation: no real charge will be processed.</strong>
                         </div>
 
                         <!-- Method Switcher -->
@@ -210,24 +210,24 @@
                             Continue
                         </button>
                         <button type="submit" class="btn btn-primary btn-lg" id="btnSubmitBooking" style="display: none;">
-                            CONFIRM RESERVATION
+                            Confirm Reservation
                         </button>
                     </div>
                 </form>
             </div>
 
-            <!-- Right: Trustworthy Price Breakdown (Requirement 15) -->
-            <div style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 2.5rem; position: sticky; top: 96px; box-shadow: var(--shadow-sm);">
+            <!-- Right: Trustworthy Price Breakdown -->
+            <div class="checkout-summary-box" style="position: sticky; top: 96px;">
                 <!-- Vehicle Header -->
                 <div style="display: flex; align-items: center; gap: 1.25rem; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-subtle);">
-                    <div style="width: 90px; height: 64px; border-radius: var(--radius-md); overflow: hidden; background-color: var(--bg-subtle);">
+                    <div style="width: 86px; height: 60px; border-radius: var(--radius-sm); overflow: hidden; background-color: var(--bg-surface-elevated);">
                         <img th:src="${car.imageUrl}" th:alt="${car.displayName}" style="width: 100%; height: 100%; object-fit: cover;" />
                     </div>
                     <div>
                         <div style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted);" th:text="${car.brand}">
                             HYUNDAI
                         </div>
-                        <h4 style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary);" th:text="${car.model}">
+                        <h4 style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem;" th:text="${car.model}">
                             Creta SX(O)
                         </h4>
                         <div style="font-size: 0.8rem; color: var(--text-secondary);" th:text="${car.seats + ' Seats • ' + car.transmission}">
@@ -236,8 +236,8 @@
                     </div>
                 </div>
 
-                <h3 style="font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.25rem;">
-                    Price Presentation
+                <h3 style="font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem;">
+                    Fare Summary
                 </h3>
 
                 <!-- Trustworthy Tabular Pricing Breakdown -->
@@ -259,14 +259,14 @@
                         <!-- Dynamic Discounts list -->
                         <th:block th:each="d : ${priceBreakdown.discounts}">
                             <tr class="discount-row">
-                                <td th:text="${d.name}">Long rental discount</td>
-                                <td th:text="${'−₹' + #numbers.formatDecimal(d.amount, 0, 'COMMA', 0, 'POINT')}">−₹385</td>
+                                <td th:text="${d.name}">Duration discount</td>
+                                <td th:text="${'-₹' + #numbers.formatDecimal(d.amount, 0, 'COMMA', 0, 'POINT')}">-₹385</td>
                             </tr>
                         </th:block>
 
                         <!-- Extras placeholder if any -->
                         <tr id="previewExtrasRow" style="display: none;">
-                            <td>Extras</td>
+                            <td>Selected Extras</td>
                             <td id="previewExtrasAmount">₹0</td>
                         </tr>
 
@@ -276,9 +276,9 @@
                             <td id="previewGst" th:text="${'₹' + #numbers.formatDecimal(priceBreakdown.gstAmount, 0, 'COMMA', 0, 'POINT')}">₹1,323</td>
                         </tr>
 
-                        <!-- Dominant Total Row -->
+                        <!-- Total Row -->
                         <tr class="total-row">
-                            <td>TOTAL</td>
+                            <td>Total Fare</td>
                             <td id="previewTotal" th:text="${'₹' + #numbers.formatDecimal(priceBreakdown.totalAmount, 0, 'COMMA', 0, 'POINT')}">₹9,138</td>
                         </tr>
 
@@ -291,8 +291,8 @@
                 </table>
 
                 <!-- Trip Carbon Rating -->
-                <div style="margin-top: 1.75rem; padding: 1rem; border-radius: var(--radius-md); background-color: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; justify-content: space-between;">
-                    <span>Carbon Footprint</span>
+                <div style="margin-top: 1.5rem; padding: 0.85rem 1rem; border-radius: var(--radius-sm); background-color: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); font-size: 0.8rem; color: var(--text-secondary); display: flex; align-items: center; justify-content: space-between;">
+                    <span>Carbon Rating</span>
                     <strong style="color: var(--text-primary);" id="previewCo2" th:text="${priceBreakdown.estCo2Kg + ' kg CO₂'}">14.2 kg CO₂</strong>
                 </div>
             </div>

@@ -37,20 +37,20 @@
 
                 <!-- Brand, Model & Subtitle -->
                 <div style="margin-bottom: 2.5rem;">
-                    <div class="vehicle-brand" style="font-size: 0.85rem; margin-bottom: 0.35rem;" th:text="${car.brand}">
+                    <div class="vehicle-brand" style="font-size: 0.82rem; margin-bottom: 0.35rem;" th:text="${car.brand}">
                         HYUNDAI
                     </div>
-                    <h1 style="font-size: 2.8rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.5rem;" th:text="${car.model}">
+                    <h1 style="font-size: clamp(2rem, 3.5vw, 2.75rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.5rem;" th:text="${car.model}">
                         Creta SX(O) Turbo
                     </h1>
-                    <p style="font-size: 1.1rem; color: var(--text-secondary);">
-                        Designed for comfortable everyday journeys.
+                    <p style="font-size: 1.05rem; color: var(--text-secondary);">
+                        Exclusively maintained and inspected for your journey.
                     </p>
                 </div>
 
                 <!-- Technical Specifications -->
                 <div style="margin-bottom: 2.5rem;">
-                    <h3 style="font-size: 1.15rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1.25rem;">
+                    <h3 style="font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 1.25rem;">
                         Specifications
                     </h3>
                     <div class="specs-table-grid">
@@ -80,20 +80,20 @@
                     </div>
                 </div>
 
-                <!-- Features & Equipment (Monochrome Line Icons) -->
+                <!-- Features & Equipment -->
                 <div style="margin-bottom: 3rem;">
-                    <h3 style="font-size: 1.15rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1.25rem;">
-                        Features
+                    <h3 style="font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 1.25rem;">
+                        Equipment &amp; Highlights
                     </h3>
                     <div class="features-list">
                         <div class="feature-item">
                             <i class="fa-solid fa-snowflake"></i> Climate Control / AC
                         </div>
                         <div class="feature-item">
-                            <i class="fa-solid fa-shield-halved"></i> ABS & Electronic Stability
+                            <i class="fa-solid fa-shield-halved"></i> ABS &amp; Electronic Stability
                         </div>
                         <div class="feature-item">
-                            <i class="fa-solid fa-bluetooth"></i> Bluetooth Audio & Wireless Connect
+                            <i class="fa-solid fa-bluetooth"></i> Bluetooth Audio &amp; Apple CarPlay
                         </div>
                         <div class="feature-item">
                             <i class="fa-solid fa-location-crosshairs"></i> GPS Satellite Navigation
@@ -102,7 +102,7 @@
                             <i class="fa-solid fa-plug"></i> High-Speed USB-C Ports
                         </div>
                         <div class="feature-item">
-                            <i class="fa-solid fa-car-on"></i> Airbags & Passenger Safety Suite
+                            <i class="fa-solid fa-car-on"></i> Airbags &amp; Safety Suite
                         </div>
                         <th:block th:each="feat : ${car.features}">
                             <div class="feature-item">
@@ -115,11 +115,11 @@
                 <!-- Verified Customer Reviews -->
                 <div>
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-subtle);">
-                        <h3 style="font-size: 1.15rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;">
+                        <h3 style="font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted);">
                             Verified Reviews
                         </h3>
-                        <div style="display: flex; align-items: center; gap: 0.4rem; font-weight: 700; font-size: 1.1rem;">
-                            <i class="fa-solid fa-star" style="font-size: 0.85rem;"></i>
+                        <div style="display: flex; align-items: center; gap: 0.4rem; font-weight: 700; font-size: 1.05rem;">
+                            <i class="fa-solid fa-star" style="font-size: 0.85rem; color: #F5B942;"></i>
                             <span th:text="${car.avgRating != null ? car.avgRating : '4.8'}">4.8</span>
                             <span style="font-size: 0.8rem; font-weight: 400; color: var(--text-muted);">/ 5.0</span>
                         </div>
@@ -149,7 +149,7 @@
                     <!-- Daily Rate Header -->
                     <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.75rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border-subtle);">
                         <div>
-                            <span style="font-size: 2.2rem; font-weight: 800; font-family: var(--font-heading); color: var(--text-primary);"
+                            <span style="font-size: 2.2rem; font-weight: 800; font-family: var(--font-heading); color: var(--text-primary); font-variant-numeric: tabular-nums;"
                                   th:text="${'₹' + #numbers.formatDecimal(car.pricePerDay, 0, 'COMMA', 0, 'POINT')}">₹2,900</span>
                             <span style="font-size: 0.85rem; color: var(--text-muted);">/ day</span>
                         </div>
@@ -157,26 +157,26 @@
                     </div>
 
                     <!-- Live Availability Alert -->
-                    <div id="availabilityAlert" style="display: none; padding: 0.85rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.85rem; font-weight: 500;"></div>
+                    <div id="availabilityAlert" style="display: none; padding: 0.85rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1.5rem; font-size: 0.85rem; font-weight: 500;"></div>
 
                     <!-- Form to Proceed to Booking Checkout -->
                     <form th:action="@{/book/{id}(id=${car.id})}" method="get" id="detailsBookingForm">
                         <div class="form-group" style="margin-bottom: 1.25rem;">
                             <label class="form-label" for="widgetStart">
-                                <i class="fa-regular fa-calendar"></i> Pickup Date & Time
+                                <i class="fa-regular fa-calendar"></i> Pickup Date &amp; Time
                             </label>
                             <input type="datetime-local" id="widgetStart" name="start" class="form-control" required />
                         </div>
 
                         <div class="form-group" style="margin-bottom: 1.75rem;">
                             <label class="form-label" for="widgetEnd">
-                                <i class="fa-regular fa-calendar-check"></i> Return Date & Time
+                                <i class="fa-regular fa-calendar-check"></i> Return Date &amp; Time
                             </label>
                             <input type="datetime-local" id="widgetEnd" name="end" class="form-control" required />
                         </div>
 
                         <button type="submit" id="btnBookNow" class="btn btn-primary btn-block btn-lg">
-                            BOOK NOW
+                            Proceed to Reservation
                         </button>
                     </form>
 
@@ -184,11 +184,11 @@
                     <div style="margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.82rem; color: var(--text-muted);">
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
                             <i class="fa-solid fa-shield-halved" style="color: var(--text-primary);"></i>
-                            <span>Pessimistic row lock — double booking impossible</span>
+                            <span>Pessimistic row lock: double booking impossible</span>
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
                             <i class="fa-solid fa-clipboard-check" style="color: var(--text-primary);"></i>
-                            <span>6-Zone digital inspection report at pickup & return</span>
+                            <span>6-Zone digital inspection report at pickup &amp; return</span>
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
                             <i class="fa-solid fa-clock-rotate-left" style="color: var(--text-primary);"></i>

@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DriveSense — Premium Automotive Rental & Marketplace</title>
+    <title>DriveSense | Premium Automotive Rental and Fleet Marketplace</title>
     <meta name="description" content="Premium cars. Transparent pricing. A simpler way to rent. Verified vehicles, real-time availability, and digital condition protection.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
-<!-- Minimal Luxury Navbar -->
+<!-- Navigation Bar -->
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <main>
@@ -21,15 +21,15 @@
                 <!-- Left Content -->
                 <div class="hero-content">
                     <div class="section-eyebrow">
-                        <i class="fa-solid fa-circle" style="font-size: 0.45rem;"></i> DRIVESENSE
+                        <i class="fa-solid fa-circle" style="font-size: 0.4rem; color: var(--text-muted);"></i> DRIVESENSE FLEET
                     </div>
                     <h1 class="hero-heading">Drive your way.</h1>
                     <p class="hero-subtext">
                         Premium cars. Transparent pricing. A simpler way to rent.
                     </p>
                     <div class="hero-ctas">
-                        <a th:href="@{/cars}" class="btn btn-primary btn-lg">EXPLORE CARS</a>
-                        <a th:href="@{/vibe-match}" class="btn btn-secondary btn-lg">FIND YOUR MATCH</a>
+                        <a th:href="@{/cars}" class="btn btn-primary btn-lg">Explore Fleet</a>
+                        <a th:href="@{/vibe-match}" class="btn btn-secondary btn-lg">Find Your Match</a>
                     </div>
                 </div>
 
@@ -93,14 +93,14 @@
                 </div>
 
                 <!-- Search Button -->
-                <button type="submit" class="btn btn-primary btn-search" style="height: 48px; padding: 0 1.75rem;">
-                    SEARCH CARS
+                <button type="submit" class="btn btn-primary btn-search">
+                    Search Cars
                 </button>
             </form>
 
             <div id="searchLiveStatus" style="margin-top: 1rem; font-size: 0.82rem; color: var(--text-secondary); display: flex; align-items: center; gap: 0.5rem;">
                 <i class="fa-solid fa-circle-check" style="color: var(--status-success-text);"></i>
-                <span>13 verified vehicles ready for booking with guaranteed zero double-bookings.</span>
+                <span>Verified fleet ready for booking with guaranteed zero double-bookings.</span>
             </div>
         </div>
     </div>
@@ -122,7 +122,7 @@
                             <i class="fa-solid fa-users"></i>
                         </div>
                         <h3 class="journey-type-title">Family</h3>
-                        <p class="journey-type-desc">Comfortable space for everyone.</p>
+                        <p class="journey-type-desc">Generous cabin room and boot volume for everyone.</p>
                     </div>
                 </a>
 
@@ -133,7 +133,7 @@
                             <i class="fa-solid fa-award"></i>
                         </div>
                         <h3 class="journey-type-title">Wedding</h3>
-                        <p class="journey-type-desc">Arrive in style.</p>
+                        <p class="journey-type-desc">Executive presence and white-glove presentation.</p>
                     </div>
                 </a>
 
@@ -155,7 +155,7 @@
                             <i class="fa-solid fa-briefcase"></i>
                         </div>
                         <h3 class="journey-type-title">Business</h3>
-                        <p class="journey-type-desc">Professional travel, without the hassle.</p>
+                        <p class="journey-type-desc">Punctual transfers with silent, refined cabins.</p>
                     </div>
                 </a>
 
@@ -166,7 +166,7 @@
                             <i class="fa-solid fa-mountain"></i>
                         </div>
                         <h3 class="journey-type-title">Hills</h3>
-                        <p class="journey-type-desc">Confident performance on winding roads.</p>
+                        <p class="journey-type-desc">AWD stability and torque for winding mountain routes.</p>
                     </div>
                 </a>
 
@@ -177,24 +177,24 @@
                             <i class="fa-solid fa-plane-departure"></i>
                         </div>
                         <h3 class="journey-type-title">Airport</h3>
-                        <p class="journey-type-desc">Punctual, stress-free transfers.</p>
+                        <p class="journey-type-desc">Terminal pickup bays with streamlined key handovers.</p>
                     </div>
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- 4. Featured Vehicles ("Selected for you.") -->
+    <!-- 4. Featured Vehicles -->
     <section class="section-spacing" style="background-color: var(--bg-surface-elevated); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
         <div class="container">
-            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.75rem; flex-wrap: wrap; gap: 1rem;">
                 <div>
                     <div class="section-eyebrow">Featured Fleet</div>
                     <h2 class="section-title">Selected for you.</h2>
                     <p class="section-subtitle">Exclusively maintained vehicles ready for immediate reservation.</p>
                 </div>
                 <a th:href="@{/cars}" class="btn btn-secondary">
-                    VIEW ALL VEHICLES (<span th:text="${featuredCars.size()}">13</span>)
+                    View all vehicles (<span th:text="${featuredCars.size()}">13</span>)
                 </a>
             </div>
 
@@ -206,105 +206,105 @@
         </div>
     </section>
 
-    <!-- 5. Technical Integrity & Standards -->
+    <!-- 5. Platform Integrity & Standards -->
     <section class="section-spacing">
         <div class="container">
             <div class="section-header">
                 <div class="section-eyebrow">Platform Integrity</div>
                 <h2 class="section-title">Built on trust. Backed by code.</h2>
-                <p class="section-subtitle">We engineered DriveSense to eliminate friction points common to conventional rentals.</p>
+                <p class="section-subtitle">Engineered to eliminate the friction and uncertainty of traditional car rentals.</p>
             </div>
 
             <div class="stat-kpi-grid">
                 <div class="kpi-tile">
                     <div class="kpi-num">0</div>
                     <div class="kpi-lbl">Double Bookings</div>
-                    <p style="font-size: 0.82rem; margin-top: 0.5rem; color: var(--text-secondary);">
-                        Pessimistic database row locks prevent simultaneous reservations.
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55;">
+                        Pessimistic database row locks prevent simultaneous reservations on every checkout.
                     </p>
                 </div>
 
                 <div class="kpi-tile">
                     <div class="kpi-num">100%</div>
                     <div class="kpi-lbl">Transparent Rules</div>
-                    <p style="font-size: 0.82rem; margin-top: 0.5rem; color: var(--text-secondary);">
-                        Dynamic XML rules unmarshaled at runtime with itemized breakdowns.
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55;">
+                        Dynamic XML rules unmarshaled at runtime with itemized breakdowns and zero hidden fees.
                     </p>
                 </div>
 
                 <div class="kpi-tile">
                     <div class="kpi-num">6-Zone</div>
                     <div class="kpi-lbl">Condition Inspection</div>
-                    <p style="font-size: 0.82rem; margin-top: 0.5rem; color: var(--text-secondary);">
-                        Top-view pickup vs return diagrams protect customers and owners.
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55;">
+                        Top-view pickup vs return diagrams protect customers and vehicle hosts alike.
                     </p>
                 </div>
 
                 <div class="kpi-tile">
                     <div class="kpi-num"><span class="counter-val" data-target="100">100</span></div>
                     <div class="kpi-lbl">Trust Scoring</div>
-                    <p style="font-size: 0.82rem; margin-top: 0.5rem; color: var(--text-secondary);">
-                        Reliable returns unlock gold & platinum zero-deposit waivers.
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55;">
+                        Verified on-time returns unlock Gold and Platinum zero-deposit booking privileges.
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 6. Vibe Match Teaser Banner -->
+    <!-- 6. Vibe Match Consultation Banner -->
     <section class="section-spacing-sm" style="border-top: 1px solid var(--border-subtle); background-color: var(--bg-surface);">
         <div class="container">
-            <div style="background-color: var(--bg-primary); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 3.5rem; display: flex; align-items: center; justify-content: space-between; gap: 3rem; flex-wrap: wrap;">
-                <div style="max-width: 600px;">
+            <div style="background-color: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: clamp(2rem, 4vw, 3.5rem); display: flex; align-items: center; justify-content: space-between; gap: 2.5rem; flex-wrap: wrap;">
+                <div style="max-width: 620px;">
                     <div class="section-eyebrow">Trip Consultation</div>
-                    <h2 style="font-size: 2.2rem; margin-bottom: 0.85rem;">Find the car that fits your journey.</h2>
-                    <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.6;">
-                        Our vector matching algorithm scores party size, terrain, boot space, and budget to recommend the exact vehicle suited for your route.
+                    <h2 style="font-size: clamp(1.8rem, 3vw, 2.3rem); margin-bottom: 0.75rem;">Find the car that fits your journey.</h2>
+                    <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+                        Our matching algorithm evaluates passenger count, terrain roughness, luggage volume, and target budget to recommend the exact vehicle engineered for your route.
                     </p>
                 </div>
                 <div>
-                    <a th:href="@{/vibe-match}" class="btn btn-primary btn-lg">LAUNCH VIBE MATCH</a>
+                    <a th:href="@{/vibe-match}" class="btn btn-primary btn-lg">Launch Vibe Match</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 7. Dual Portals: Rent a Vehicle vs Vehicle Owner Host -->
+    <!-- 7. Dual Portals: Rent a Vehicle vs Vehicle Host -->
     <section class="section-spacing" style="border-top: 1px solid var(--border-subtle); background-color: var(--bg-surface-elevated);">
         <div class="container">
             <div class="section-header text-center" style="max-width: 680px; margin: 0 auto 3rem;">
-                <div class="section-eyebrow">Two Dedicated Portals</div>
-                <h2 class="section-title">Designed for drivers. Built for owners.</h2>
-                <p class="section-subtitle">Whether you are setting out on the open road or listing your luxury vehicle, DriveSense provides specialized portals with purpose-built tools.</p>
+                <div class="section-eyebrow" style="justify-content: center;">Two Dedicated Portals</div>
+                <h2 class="section-title">Designed for drivers. Built for hosts.</h2>
+                <p class="section-subtitle">Whether setting out on a journey or listing executive fleet assets, DriveSense provides purpose-built tools for each role.</p>
             </div>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
                 <!-- Renter Portal Showcase -->
-                <div style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 2.75rem 2.25rem; display: flex; flex-direction: column; justify-content: space-between; box-shadow: var(--shadow-sm); transition: transform 0.2s ease;">
+                <div class="ds-card" style="padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
                         <div class="auth-badge auth-badge-renter" style="margin-bottom: 1.25rem;">
-                            <i class="fa-solid fa-car"></i> Driver & Renter Portal
+                            <i class="fa-solid fa-car"></i> Driver Portal
                         </div>
-                        <h3 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.75rem;">Rent a Vehicle</h3>
-                        <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
-                            Browse vetted sedans, executive SUVs, and luxury EVs. Unlock zero-deposit privileges through verified Trust Score standing and 6-zone condition inspection.
+                        <h3 style="font-size: 1.55rem; font-weight: 700; margin-bottom: 0.75rem;">Rent a Vehicle</h3>
+                        <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
+                            Browse vetted sedans, executive SUVs, and luxury electric vehicles. Unlock zero-deposit privileges through verified Trust Score standing and 6-zone condition inspection.
                         </p>
                         <ul style="list-style: none; padding: 0; margin-bottom: 2rem; display: flex; flex-direction: column; gap: 0.65rem;">
                             <li style="display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; color: var(--text-primary);">
-                                <i class="fa-solid fa-check" style="color: #20572F;"></i> Zero security deposit with high Trust Score
+                                <i class="fa-solid fa-check" style="color: var(--status-success-text);"></i> Zero security deposit with high Trust Score
                             </li>
                             <li style="display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; color: var(--text-primary);">
-                                <i class="fa-solid fa-check" style="color: #20572F;"></i> Transparent XML pricing with no hidden charges
+                                <i class="fa-solid fa-check" style="color: var(--status-success-text);"></i> Transparent XML pricing with itemized GST breakdowns
                             </li>
                             <li style="display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; color: var(--text-primary);">
-                                <i class="fa-solid fa-check" style="color: #20572F;"></i> Airport terminal and flagship hub collection
+                                <i class="fa-solid fa-check" style="color: var(--status-success-text);"></i> Airport terminal and flagship hub collection
                             </li>
                         </ul>
                     </div>
                     <div>
                         <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
                             <a th:href="@{/login}" class="btn btn-primary" style="flex: 1; text-align: center;">
-                                <i class="fa-solid fa-car" style="margin-right: 0.35rem;"></i> Sign In to Rent
+                                <i class="fa-solid fa-car" style="font-size: 0.8rem;"></i> Sign In to Rent
                             </a>
                             <a th:href="@{/register}" class="btn btn-secondary" style="flex: 1; text-align: center;">
                                 Register Driver
@@ -314,33 +314,33 @@
                 </div>
 
                 <!-- Vehicle Owner Portal Showcase -->
-                <div style="background-color: var(--bg-surface); border: 1px solid rgba(212, 160, 23, 0.35); border-radius: var(--radius-xl); padding: 2.75rem 2.25rem; display: flex; flex-direction: column; justify-content: space-between; box-shadow: var(--shadow-sm); transition: transform 0.2s ease;">
+                <div class="ds-card" style="padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: space-between; border-color: var(--host-accent-border);">
                     <div>
                         <div class="auth-badge auth-badge-owner" style="margin-bottom: 1.25rem;">
-                            <i class="fa-solid fa-key"></i> Vehicle Owner & Fleet Host
+                            <i class="fa-solid fa-key"></i> Vehicle Host & Fleet Command
                         </div>
-                        <h3 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.75rem;">Vehicle Owner Command</h3>
-                        <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
-                            List your personal or fleet vehicles on DriveSense. Retain 90% net revenue, approve booking requests, and enjoy guaranteed digital condition protection.
+                        <h3 style="font-size: 1.55rem; font-weight: 700; margin-bottom: 0.75rem;">Fleet Host Command</h3>
+                        <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
+                            List personal or commercial fleet assets on DriveSense. Retain 90% net revenue, approve booking requests, and enjoy guaranteed digital condition protection.
                         </p>
                         <ul style="list-style: none; padding: 0; margin-bottom: 2rem; display: flex; flex-direction: column; gap: 0.65rem;">
                             <li style="display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; color: var(--text-primary);">
-                                <i class="fa-solid fa-check" style="color: #B45309;"></i> 90% Net payout direct to host bank accounts
+                                <i class="fa-solid fa-check" style="color: var(--host-accent);"></i> 90% Net payout direct to host accounts
                             </li>
                             <li style="display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; color: var(--text-primary);">
-                                <i class="fa-solid fa-check" style="color: #B45309;"></i> 6-Zone top-view damage audits on departure & return
+                                <i class="fa-solid fa-check" style="color: var(--host-accent);"></i> 6-Zone top-view damage audits on departure and return
                             </li>
                             <li style="display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; color: var(--text-primary);">
-                                <i class="fa-solid fa-check" style="color: #B45309;"></i> Full blackout calendar & dynamic tier pricing control
+                                <i class="fa-solid fa-check" style="color: var(--host-accent);"></i> Full blackout calendar and dynamic tier pricing control
                             </li>
                         </ul>
                     </div>
                     <div>
                         <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-                            <a th:href="@{/owner/login}" class="btn btn-secondary" style="flex: 1; text-align: center; border-color: rgba(212, 160, 23, 0.5); font-weight: 700;">
-                                <i class="fa-solid fa-key" style="margin-right: 0.35rem; color: #D4A017;"></i> Owner Sign In
+                            <a th:href="@{/owner/login}" class="btn btn-secondary" style="flex: 1; text-align: center; border-color: var(--host-accent-border);">
+                                <i class="fa-solid fa-key" style="font-size: 0.75rem; color: var(--host-accent);"></i> Host Sign In
                             </a>
-                            <a th:href="@{/owner/register}" class="btn btn-primary" style="flex: 1; text-align: center; background: linear-gradient(135deg, #1C1917 0%, #292524 100%); border-color: rgba(251, 191, 36, 0.4); color: #FBBF24;">
+                            <a th:href="@{/owner/register}" class="btn btn-primary" style="flex: 1; text-align: center;">
                                 List Vehicle
                             </a>
                         </div>

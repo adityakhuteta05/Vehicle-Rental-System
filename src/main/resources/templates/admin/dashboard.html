@@ -126,7 +126,7 @@
                             <div style="font-size: 0.75rem; color: var(--text-muted);" th:text="${b.car.regNumber}">DL04-CC-1024</div>
                         </td>
                         <td th:text="${b.pickupLocation != null ? b.pickupLocation.name : 'Executive Hub'}">Hub</td>
-                        <td th:text="${#temporals.format(b.startTime, 'dd MMM') + ' – ' + #temporals.format(b.endTime, 'dd MMM yyyy')}">Dates</td>
+                        <td th:text="${#temporals.format(b.startTime, 'dd MMM') + ' to ' + #temporals.format(b.endTime, 'dd MMM yyyy')}">Dates</td>
                         <td style="font-weight: 700; font-variant-numeric: tabular-nums;" th:text="${'₹' + #numbers.formatDecimal(b.totalAmount, 0, 'COMMA', 0, 'POINT')}">₹9,138</td>
                         <td>
                             <span class="status-pill"

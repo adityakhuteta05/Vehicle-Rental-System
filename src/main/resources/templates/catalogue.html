@@ -16,23 +16,23 @@
 <main class="section-spacing">
     <div class="container">
         <!-- Header Section -->
-        <div style="margin-bottom: 3.5rem;">
+        <div style="margin-bottom: 3rem;">
             <div class="section-eyebrow">
-                <i class="fa-solid fa-circle" style="font-size: 0.45rem;"></i> Fleet Catalogue
+                <i class="fa-solid fa-circle" style="font-size: 0.4rem; color: var(--text-muted);"></i> Fleet Catalogue
             </div>
             <h1 class="section-title">Find your next drive.</h1>
-            <p class="section-subtitle">Browse vehicles by style, capacity and price.</p>
+            <p class="section-subtitle">Browse vetted vehicles by category, powertrain, seating, and daily rate.</p>
         </div>
 
         <!-- Main Layout: Left Filters + Right Vehicles -->
         <div class="catalogue-layout">
             <!-- LEFT: Filters Sidebar -->
             <aside class="filter-sidebar">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-subtle);">
-                    <h3 style="font-size: 0.95rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 0.85rem; border-bottom: 1px solid var(--border-subtle);">
+                    <h3 style="font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-primary);">
                         Filters
                     </h3>
-                    <a th:href="@{/cars}" style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-decoration: underline;">
+                    <a th:href="@{/cars}" style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">
                         Reset
                     </a>
                 </div>
@@ -62,7 +62,7 @@
 
                     <!-- Fuel Filter -->
                     <div class="filter-group">
-                        <div class="filter-title">Fuel & Powertrain</div>
+                        <div class="filter-title">Fuel &amp; Powertrain</div>
                         <div class="filter-chip-group">
                             <a th:href="@{/cars(type=${selectedType}, fuelType='', transmission=${selectedTransmission}, minSeats=${selectedSeats}, maxPrice=${selectedMaxPrice}, sort=${sort})}"
                                class="filter-chip"
@@ -110,10 +110,10 @@
 
                     <!-- Price Filter -->
                     <div class="filter-group">
-                        <label class="filter-title" for="maxPriceInput">Max Price / Day</label>
+                        <label class="filter-title" for="maxPriceInput">Max Daily Rate</label>
                         <div style="display: flex; gap: 0.5rem;">
-                            <input type="number" id="maxPriceInput" name="maxPrice" th:value="${selectedMaxPrice}" placeholder="₹ Max" class="form-control" style="height: 40px; font-size: 0.85rem;" />
-                            <button type="submit" class="btn btn-secondary btn-sm" style="padding: 0 1rem;">Go</button>
+                            <input type="number" id="maxPriceInput" name="maxPrice" th:value="${selectedMaxPrice}" placeholder="₹ Max Price" class="form-control" style="height: 40px; font-size: 0.85rem;" />
+                            <button type="submit" class="btn btn-secondary btn-sm" style="padding: 0 1rem;">Filter</button>
                         </div>
                     </div>
                 </form>
@@ -122,16 +122,16 @@
             <!-- RIGHT: Vehicle Results Grid -->
             <div>
                 <!-- Top Status & Sorting Bar -->
-                <div style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                <div class="catalogue-toolbar">
                     <div style="font-size: 0.9rem; color: var(--text-secondary);">
                         Showing <strong style="color: var(--text-primary);" th:text="${carPage.totalElements}">12</strong> verified vehicles
                     </div>
 
-                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                        <label for="sortSelect" style="font-size: 0.82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted);">
-                            Sort:
+                    <div style="display: flex; align-items: center; gap: 0.65rem;">
+                        <label for="sortSelect" style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted);">
+                            Sort by:
                         </label>
-                        <select id="sortSelect" class="form-control" style="width: auto; height: 38px; padding: 0 2rem 0 0.85rem; font-size: 0.85rem;"
+                        <select id="sortSelect" class="form-control" style="width: auto; height: 38px; padding: 0 1.5rem 0 0.85rem; font-size: 0.85rem;"
                                 onchange="location.href = updateQueryStringParameter(location.href, 'sort', this.value);">
                             <option value="price_asc" th:selected="${sort == 'price_asc'}">Price: Low to High</option>
                             <option value="price_desc" th:selected="${sort == 'price_desc'}">Price: High to Low</option>
@@ -142,26 +142,26 @@
                 </div>
 
                 <!-- Empty State -->
-                <div th:if="${cars.empty}" style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 4.5rem 2rem; text-align: center;">
+                <div th:if="${cars.empty}" style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 4.5rem 2rem; text-align: center; box-shadow: var(--shadow-xs);">
                     <div style="font-size: 2.5rem; color: var(--text-muted); margin-bottom: 1rem;">
                         <i class="fa-solid fa-car-side"></i>
                     </div>
-                    <h3 style="font-size: 1.4rem; margin-bottom: 0.5rem;">No vehicles found</h3>
-                    <p style="color: var(--text-secondary); max-width: 440px; margin: 0 auto 1.5rem auto;">
-                        No vehicles matched your selected filter criteria. Try resetting or adjusting your search parameters.
+                    <h3 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">No vehicles matched your filter</h3>
+                    <p style="color: var(--text-secondary); max-width: 440px; margin: 0 auto 1.5rem auto; font-size: 0.92rem;">
+                        Try resetting your search filters or choosing a different powertrain or seating configuration.
                     </p>
-                    <a th:href="@{/cars}" class="btn btn-secondary">Clear All Filters</a>
+                    <a th:href="@{/cars}" class="btn btn-secondary">Reset Filters</a>
                 </div>
 
                 <!-- Vehicle Cards Grid -->
-                <div class="vehicle-grid" style="grid-template-columns: repeat(2, 1fr);" th:unless="${cars.empty}">
+                <div class="vehicle-grid" th:unless="${cars.empty}">
                     <th:block th:each="car : ${cars}">
                         <div th:replace="~{fragments/car-card :: car-card(car=${car})}"></div>
                     </th:block>
                 </div>
 
-                <!-- Clean Minimalist Pagination -->
-                <div th:if="${carPage.totalPages > 1}" style="display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin-top: 3.5rem;">
+                <!-- Pagination -->
+                <div th:if="${carPage.totalPages > 1}" style="display: flex; justify-content: center; align-items: center; gap: 0.4rem; margin-top: 3.5rem;">
                     <a th:if="${carPage.hasPrevious()}"
                        th:href="@{/cars(page=${carPage.number - 1}, type=${selectedType}, fuelType=${selectedFuel}, transmission=${selectedTransmission}, minSeats=${selectedSeats}, maxPrice=${selectedMaxPrice}, query=${query}, sort=${sort})}"
                        class="btn btn-secondary btn-sm">

@@ -1,5 +1,5 @@
 /**
- * DRIVESENSE — Luxury Automotive Client Experience & Theme Engine
+ * DRIVESENSE | Luxury Automotive Client Experience & Theme Engine
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -42,7 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileToggle = document.querySelector('.mobile-nav-toggle');
     const mobileDrawer = document.querySelector('.mobile-drawer');
     if (mobileToggle && mobileDrawer) {
-        mobileToggle.addEventListener('click', () => {
+        mobileToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
             mobileDrawer.classList.toggle('open');
             const icon = mobileToggle.querySelector('i');
             if (icon) {
@@ -51,6 +52,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     icon.className = 'fa-solid fa-bars';
                 }
+            }
+        });
+
+        // Close drawer on outside click
+        document.addEventListener('click', (e) => {
+            if (mobileDrawer.classList.contains('open') && !mobileDrawer.contains(e.target) && !mobileToggle.contains(e.target)) {
+                mobileDrawer.classList.remove('open');
+                const icon = mobileToggle.querySelector('i');
+                if (icon) icon.className = 'fa-solid fa-bars';
             }
         });
     }
@@ -116,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Monochromatic Toast Notification Engine
+ * Toast Notification System
  */
 function showToast(message, type = 'info') {
     let container = document.getElementById('drivesense-toast-container');
@@ -142,7 +152,7 @@ function showToast(message, type = 'info') {
     toast.style.fontSize = '0.88rem';
     toast.style.fontWeight = '500';
     toast.style.color = 'var(--text-primary)';
-    toast.style.borderRadius = '12px';
+    toast.style.borderRadius = 'var(--radius-md)';
     toast.style.display = 'flex';
     toast.style.alignItems = 'center';
     toast.style.gap = '0.75rem';

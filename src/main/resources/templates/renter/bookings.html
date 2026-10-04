@@ -27,7 +27,7 @@
             </div>
 
             <a th:href="@{/cars}" class="btn btn-primary">
-                EXPLORE CARS
+                Explore Fleet
             </a>
         </div>
 
@@ -69,12 +69,12 @@
             <p style="color: var(--text-secondary); max-width: 440px; margin: 0 auto 1.5rem auto;">
                 You don't have any bookings matching this status. Explore our fleet to plan your next drive.
             </p>
-            <a th:href="@{/cars}" class="btn btn-primary">SEARCH CARS</a>
+            <a th:href="@{/cars}" class="btn btn-primary">Search Fleet</a>
         </div>
 
         <!-- Reservations List -->
         <div th:unless="${#lists.isEmpty(bookings)}" style="display: flex; flex-direction: column; gap: 1.75rem;">
-            <div th:each="b : ${bookings}" style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 2rem; box-shadow: var(--shadow-sm); display: grid; grid-template-columns: 200px 1fr auto; gap: 2rem; align-items: center;">
+            <div th:each="b : ${bookings}" class="journey-card-grid" style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 2rem; box-shadow: var(--shadow-sm); display: grid; grid-template-columns: 200px 1fr auto; gap: 2rem; align-items: center;">
                 
                 <!-- Vehicle Image -->
                 <div style="height: 130px; border-radius: var(--radius-md); overflow: hidden; background-color: var(--bg-subtle);">
@@ -93,8 +93,8 @@
                     </div>
 
                     <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem;">
-                        Booking ID: <strong style="color: var(--text-primary); font-family: monospace;" th:text="${b.bookingCode}">DS-2026-000123</strong>
-                        &bull; Plate: <span style="font-family: monospace; color: var(--text-secondary);" th:text="${b.car.regNumber}">DL04-CC-1024</span>
+                        Booking ID: <strong style="color: var(--text-primary); font-family: var(--font-mono);" th:text="${b.bookingCode}">DS-2026-000123</strong>
+                        &bull; Plate: <span style="font-family: var(--font-mono); color: var(--text-secondary);" th:text="${b.car.regNumber}">DL04-CC-1024</span>
                     </div>
 
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; font-size: 0.85rem; padding: 0.85rem 1rem; border-radius: var(--radius-md); background-color: var(--bg-surface-elevated); border: 1px solid var(--border-subtle);">
@@ -118,14 +118,14 @@
                     </div>
                 </div>
 
-                <!-- Actions (VIEW DETAILS, INVOICE, CANCEL) -->
+                <!-- Actions (View Details, Tax Invoice, Cancel) -->
                 <div style="display: flex; flex-direction: column; gap: 0.6rem; min-width: 150px; text-align: right;">
-                    <a th:href="@{'/cars/' + ${b.car.id}}" class="btn btn-secondary btn-sm" style="justify-content: center;">
-                        VIEW DETAILS
+                    <a th:href="@{'/cars/' + ${b.car.id}}" class="btn btn-secondary btn-sm" style="justify-content: center; min-height: 40px;">
+                        View Details
                     </a>
 
-                    <a th:href="@{'/bookings/' + ${b.id} + '/invoice'}" class="btn btn-secondary btn-sm" style="justify-content: center;">
-                        INVOICE
+                    <a th:href="@{'/bookings/' + ${b.id} + '/invoice'}" class="btn btn-secondary btn-sm" style="justify-content: center; min-height: 40px;">
+                        Tax Invoice
                     </a>
 
                     <form th:if="${b.status.name() == 'CONFIRMED' || b.status.name() == 'PENDING'}"
@@ -133,8 +133,8 @@
                           method="post"
                           onsubmit="return confirm('Confirm cancellation of this reservation?');"
                           style="margin: 0;">
-                        <button type="submit" class="btn btn-ghost btn-sm" style="width: 100%; color: var(--status-danger-text);">
-                            CANCEL
+                        <button type="submit" class="btn btn-ghost btn-sm" style="width: 100%; color: var(--status-danger-text); min-height: 40px;">
+                            Cancel Booking
                         </button>
                     </form>
                 </div>

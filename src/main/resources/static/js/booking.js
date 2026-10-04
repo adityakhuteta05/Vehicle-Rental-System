@@ -1,5 +1,5 @@
 /**
- * DRIVESENSE — Interactive 3-Step Checkout & Trustworthy Live Pricing
+ * DRIVESENSE: Interactive 3-Step Checkout & Trustworthy Live Pricing
  */
 
 document.addEventListener('DOMContentLoaded', () => {

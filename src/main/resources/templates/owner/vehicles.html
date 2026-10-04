@@ -73,7 +73,7 @@
                         </td>
 
                         <!-- Registration Column -->
-                        <td style="padding: 1.1rem 1rem; font-family: 'SF Mono', Consolas, Monaco, monospace; font-size: 0.82rem; font-weight: 600; color: var(--text-secondary);" th:text="${car.regNumber}">
+                        <td style="padding: 1.1rem 1rem; font-family: var(--font-mono); font-size: 0.82rem; font-weight: 600; color: var(--text-secondary);" th:text="${car.regNumber}">
                             DL04-CC-1024
                         </td>
 
@@ -99,7 +99,7 @@
 
                         <!-- Current Booking Column -->
                         <td style="padding: 1.1rem 1rem; font-size: 0.82rem;">
-                            <div th:if="${car.status.name() == 'RENTED'}" style="color: var(--text-primary); font-family: 'SF Mono', Consolas, monospace;">
+                            <div th:if="${car.status.name() == 'RENTED'}" style="color: var(--text-primary); font-family: var(--font-mono);">
                                 <span>Active Reservation</span>
                             </div>
                             <div th:unless="${car.status.name() == 'RENTED'}" style="color: var(--text-muted);">

@@ -63,7 +63,7 @@
                             </div>
                             <div>
                                 <strong style="color: var(--text-primary); font-size: 0.95rem;" th:text="${car.displayName}">Hyundai Creta</strong>
-                                <span style="font-size: 0.75rem; font-family: 'SF Mono', Consolas, monospace; color: var(--text-muted); margin-left: 0.5rem;" th:text="${car.regNumber}">DL04-CC-1024</span>
+                                <span style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--text-muted); margin-left: 0.5rem;" th:text="${car.regNumber}">DL04-CC-1024</span>
                             </div>
                         </div>
 
@@ -75,15 +75,17 @@
                         </span>
                     </div>
 
-                    <!-- 15-Day Timeline Bar -->
-                    <div style="display: grid; grid-template-columns: repeat(15, 1fr); gap: 0.35rem; text-align: center; font-size: 0.72rem;">
-                        <th:block th:each="day : ${#numbers.sequence(1, 15)}">
-                            <div style="border-radius: 6px; padding: 0.5rem 0.2rem; transition: all 0.15s ease;"
-                                 th:styleappend="${day >= 10 and day <= 12 and car.id == 1 ? 'background: var(--text-primary); color: var(--bg-primary); font-weight: 700;' : 'background: var(--bg-surface); border: 1px solid var(--border-subtle); color: var(--text-muted);'}">
-                                <div th:text="${'Oct ' + day}">Oct 1</div>
-                                <div style="font-size: 0.65rem; margin-top: 0.15rem;" th:text="${day >= 10 and day <= 12 and car.id == 1 ? 'BOOKED' : 'OPEN'}">OPEN</div>
-                            </div>
-                        </th:block>
+                    <!-- 15-Day Timeline Bar (Mobile Scrollable) -->
+                    <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 0.25rem;">
+                        <div style="min-width: 620px; display: grid; grid-template-columns: repeat(15, 1fr); gap: 0.35rem; text-align: center; font-size: 0.72rem;">
+                            <th:block th:each="day : ${#numbers.sequence(1, 15)}">
+                                <div style="border-radius: 6px; padding: 0.5rem 0.2rem; transition: all 0.15s ease;"
+                                     th:styleappend="${day >= 10 and day <= 12 and car.id == 1 ? 'background: var(--text-primary); color: var(--bg-primary); font-weight: 700;' : 'background: var(--bg-surface); border: 1px solid var(--border-subtle); color: var(--text-muted);'}">
+                                    <div th:text="${'Oct ' + day}">Oct 1</div>
+                                    <div style="font-size: 0.65rem; margin-top: 0.15rem;" th:text="${day >= 10 and day <= 12 and car.id == 1 ? 'BOOKED' : 'OPEN'}">OPEN</div>
+                                </div>
+                            </th:block>
+                        </div>
                     </div>
                 </div>
             </div>

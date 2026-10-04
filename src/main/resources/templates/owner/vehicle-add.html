@@ -41,7 +41,7 @@
                         <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
                             1. Vehicle Identity
                         </h3>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem;">
                             <div class="form-group">
                                 <label class="ds-label">Brand / Make</label>
                                 <input type="text" th:field="*{brand}" class="ds-input" placeholder="e.g. Audi, BMW, Hyundai" required />
@@ -66,7 +66,7 @@
                         <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
                             2. Technical Specifications
                         </h3>
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem;">
                             <div class="form-group">
                                 <label class="ds-label">Vehicle Class</label>
                                 <select th:field="*{type}" class="ds-input" required>
@@ -107,7 +107,7 @@
                         <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
                             3. Commercial Pricing
                         </h3>
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem;">
                             <div class="form-group">
                                 <label class="ds-label">Daily Rental Rate (₹)</label>
                                 <input type="number" step="50" th:field="*{pricePerDay}" class="ds-input" placeholder="2900" required />
@@ -143,7 +143,7 @@
                         </div>
 
                         <label class="ds-label" style="margin-bottom: 0.75rem; display: block;">Standard Amenities</label>
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; font-size: 0.88rem; color: var(--text-secondary);">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.8rem; font-size: 0.88rem; color: var(--text-secondary);">
                             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
                                 <input type="checkbox" name="featureList" value="Panoramic Sunroof" checked /> Sunroof
                             </label>

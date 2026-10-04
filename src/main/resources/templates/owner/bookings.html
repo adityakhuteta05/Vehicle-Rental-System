@@ -83,7 +83,7 @@
                 <tbody>
                     <tr th:each="b : ${bookings}" style="border-bottom: 1px solid var(--border-subtle);">
                         <!-- Booking ID -->
-                        <td style="padding: 1.1rem 1rem; font-family: 'SF Mono', Consolas, Monaco, monospace; font-size: 0.82rem; font-weight: 700; color: var(--text-primary);" th:text="${b.bookingCode}">
+                        <td style="padding: 1.1rem 1rem; font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; color: var(--text-primary);" th:text="${b.bookingCode}">
                             DS-2026-000123
                         </td>
 

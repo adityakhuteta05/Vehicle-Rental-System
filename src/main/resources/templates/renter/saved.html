@@ -3,42 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saved Vehicles & Wishlist | DriveSense</title>
+    <title>Saved Vehicles &amp; Wishlist | DriveSense</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body style="background: var(--bg-dark); color: var(--text-primary);">
+<body style="background-color: var(--bg-primary);">
 
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<div class="container" style="padding-top: 2.5rem; padding-bottom: 4rem;">
+<div class="container section-spacing-sm">
 
     <!-- Header -->
-    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
         <div>
-            <div style="font-size: 0.85rem; font-weight: 600; color: #F43F5E; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem;">
-                <i class="fa-solid fa-heart"></i> Personal Wishlist
+            <div style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">
+                <i class="fa-solid fa-heart" style="color: var(--status-danger-text);"></i> Personal Wishlist
             </div>
-            <h1 style="font-size: 2.2rem; font-weight: 800; color: #fff;">Saved Vehicles</h1>
-            <p style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 0.2rem;">
+            <h1 style="font-size: 2.25rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 0.4rem;">
+                Saved Vehicles
+            </h1>
+            <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">
                 Keep track of your favorite cars for weekend getaways, business trips, and road journeys.
             </p>
         </div>
 
-        <a th:href="@{/cars}" class="btn btn-secondary">
-            <i class="fa-solid fa-car"></i> Explore More Cars
+        <a th:href="@{/cars}" class="btn btn-secondary btn-sm">
+            <i class="fa-solid fa-car"></i> Explore Fleet
         </a>
     </div>
 
     <!-- Empty State -->
-    <div th:if="${#lists.isEmpty(savedCars)}" class="card text-center" style="padding: 4rem 2rem; border: 1px solid var(--border-dark); background: var(--surface-dark);">
-        <i class="fa-regular fa-heart" style="font-size: 3.5rem; color: var(--text-muted); margin-bottom: 1.25rem;"></i>
-        <h3 style="color: #fff; font-size: 1.35rem; margin-bottom: 0.5rem;">No Saved Vehicles Yet</h3>
-        <p style="color: var(--text-muted); font-size: 0.92rem; max-width: 480px; margin: 0 auto 1.5rem auto;">
-            Tap the heart icon on any vehicle card in the fleet catalogue to save it here for fast booking.
+    <div th:if="${#lists.isEmpty(savedCars)}" class="ds-card text-center" style="padding: 4.5rem 2rem;">
+        <i class="fa-regular fa-heart" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1.25rem;"></i>
+        <h3 style="color: var(--text-primary); font-size: 1.35rem; margin-bottom: 0.5rem;">No Saved Vehicles Yet</h3>
+        <p style="color: var(--text-secondary); font-size: 0.92rem; max-width: 480px; margin: 0 auto 1.75rem auto;">
+            Save vehicles from the showroom to access and compare them quickly for your future reservations.
         </p>
         <a th:href="@{/cars}" class="btn btn-primary">
-            <i class="fa-solid fa-magnifying-glass"></i> Browse Vehicles
+            Browse Showroom
         </a>
     </div>
 

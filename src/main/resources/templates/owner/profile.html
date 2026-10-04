@@ -72,7 +72,7 @@
                     </div>
                     <div style="display: flex; justify-content: space-between;">
                         <span style="color: var(--text-muted);">GSTIN ID</span>
-                        <span style="font-family: 'SF Mono', Consolas, monospace; color: var(--text-secondary);" 
+                        <span style="font-family: var(--font-mono); color: var(--text-secondary);" 
                               th:text="${profile != null && profile.governmentId != null ? profile.governmentId : (owner.governmentId != null ? owner.governmentId : 'GSTIN08AAAAA0000A1Z5')}">
                             GSTIN08AAAAA0000A1Z5
                         </span>

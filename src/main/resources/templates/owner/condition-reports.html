@@ -65,8 +65,8 @@
                                       th:text="${booking.status}">COMPLETED</span>
                             </div>
                             <div style="font-size: 0.82rem; color: var(--text-muted);">
-                                ID: <span style="font-family: 'SF Mono', Consolas, monospace; color: var(--text-primary);" th:text="${booking.bookingCode}">DS-2026-000123</span> &bull;
-                                Reg: <span style="font-family: 'SF Mono', Consolas, monospace;" th:text="${booking.car.regNumber}">DL-01-AB-1234</span> &bull;
+                                ID: <span style="font-family: var(--font-mono); color: var(--text-primary);" th:text="${booking.bookingCode}">DS-2026-000123</span> &bull;
+                                Reg: <span style="font-family: var(--font-mono);" th:text="${booking.car.regNumber}">DL-01-AB-1234</span> &bull;
                                 Customer: <strong style="color: var(--text-primary);" th:text="${booking.user.fullName}">Aaditya Sharma</strong>
                             </div>
                         </div>

@@ -6,7 +6,7 @@
         <!-- Host Profile Card Header -->
         <div style="padding: 0 0.5rem 1.5rem; border-bottom: 1px solid var(--border-subtle); margin-bottom: 1.5rem;">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.65rem;">
-                <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #D4A017; background: rgba(212, 160, 23, 0.12); padding: 0.2rem 0.5rem; border-radius: 9999px; border: 1px solid rgba(212, 160, 23, 0.3);">
+                <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--host-accent); background: var(--host-accent-bg); padding: 0.2rem 0.6rem; border-radius: 9999px; border: 1px solid var(--host-accent-border);">
                     <i class="fa-solid fa-circle" style="font-size: 0.35rem;"></i> Host Partner
                 </span>
                 <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">90% Payout</span>
@@ -73,7 +73,7 @@
 
         <!-- Quick Action Button -->
         <div style="margin-top: 1.75rem; padding: 0 0.25rem;">
-            <a th:href="@{/owner/vehicles/add}" class="btn btn-primary btn-block btn-sm" style="height: 42px; font-weight: 700; background: linear-gradient(135deg, #1C1917 0%, #292524 100%); border-color: rgba(251, 191, 36, 0.4); color: #FBBF24;">
+            <a th:href="@{/owner/vehicles/add}" class="btn btn-primary btn-block btn-sm" style="min-height: 44px; font-weight: 700;">
                 <i class="fa-solid fa-plus" style="margin-right: 0.35rem;"></i> Enrol New Vehicle
             </a>
         </div>
@@ -88,7 +88,7 @@
         <form th:action="@{/logout}" method="post" style="margin: 0;">
             <button type="submit" class="admin-nav-item" style="background: none; border: none; width: 100%; text-align: left; cursor: pointer; color: var(--status-danger-text); font-size: 0.88rem; font-weight: 600; padding: 0.75rem 1rem; border-radius: var(--radius-md);">
                 <i class="fa-solid fa-arrow-right-from-bracket" style="color: var(--status-danger-text);"></i>
-                <span>Sign Out Command</span>
+                <span>Sign Out</span>
             </button>
         </form>
     </div>

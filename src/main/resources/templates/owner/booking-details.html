@@ -59,7 +59,7 @@
                         </div>
                         <div>
                             <strong style="font-size: 1.05rem; color: var(--text-primary);" th:text="${booking.car.displayName}">Hyundai Creta</strong>
-                            <div style="font-size: 0.78rem; font-family: 'SF Mono', Consolas, monospace; color: var(--text-muted); margin-top: 0.15rem;" th:text="${'Reg: ' + booking.car.regNumber}">DL04-CC-1024</div>
+                            <div style="font-size: 0.78rem; font-family: var(--font-mono); color: var(--text-muted); margin-top: 0.15rem;" th:text="${'Reg: ' + booking.car.regNumber}">DL04-CC-1024</div>
                             <span class="badge status-available" style="margin-top: 0.35rem; font-size: 0.7rem;" th:text="${booking.car.type.displayName}">SUV</span>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                             <span style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary);" th:text="${booking.user.trustScore + ' / 100 (' + booking.user.trustTier.name() + ')'}">78 / 100 (GOLD)</span>
                         </div>
                         <div style="font-size: 0.78rem; color: var(--text-muted);">
-                            Licence: <span style="font-family: 'SF Mono', Consolas, monospace; color: var(--text-primary);" th:text="${booking.user.licenceNo}">DL-042015001234</span>
+                            Licence: <span style="font-family: var(--font-mono); color: var(--text-primary);" th:text="${booking.user.licenceNo}">DL-042015001234</span>
                         </div>
                     </div>
                 </div>

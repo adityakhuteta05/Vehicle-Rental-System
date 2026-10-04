@@ -52,7 +52,7 @@
                             <div style="color: var(--text-primary);" th:text="${c.email}">user@example.com</div>
                             <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem;" th:text="${c.phone != null ? c.phone : 'Not provided'}">+91 98765 43210</div>
                         </td>
-                        <td style="padding: 1.1rem 1.25rem; font-family: 'SF Mono', Consolas, Monaco, monospace; font-size: 0.82rem; color: var(--text-secondary);" th:text="${c.licenceNo}">
+                        <td style="padding: 1.1rem 1.25rem; font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-secondary);" th:text="${c.licenceNo}">
                             DL-042015001234
                         </td>
                         <td style="padding: 1.1rem 1.25rem; color: var(--text-secondary);" th:text="${c.dob != null ? c.dob : 'N/A'}">

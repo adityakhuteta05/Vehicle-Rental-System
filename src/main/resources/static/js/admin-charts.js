@@ -1,5 +1,5 @@
 /**
- * DRIVESENSE — Monochromatic Executive Analytics & Chart Integration
+ * DRIVESENSE: Monochromatic Executive Analytics & Chart Integration
  * Strictly Monochromatic: Black, Charcoal, Graphite, Grey, Silver, White
  * Requirement 29:
  * - Monthly Revenue

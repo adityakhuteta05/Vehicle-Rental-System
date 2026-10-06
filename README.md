@@ -269,13 +269,12 @@ erDiagram
 - **Maven:** 3.8+ (convenient `mvn.cmd` / `mvnw.cmd` wrapper pre-installed in workspace)
 - **Browser:** Google Chrome, Firefox, or Microsoft Edge
 
-### 1-Click Launch (Zero-Setup In-Memory Mode)
-The default configuration runs an in-memory H2 database in MySQL compatibility mode with pre-seeded cars, users, active bookings, condition reports, and reviews.
-
-```bash
-# In the project root directory:
-.\mvn.cmd spring-boot:run
-```
+### 🚀 Deployment Options (See [DEPLOYMENT_GUIDE.md](file:///c:/Users/hp/Desktop/Vehical%20Rental%20System/DEPLOYMENT_GUIDE.md))
+- **1-Command Docker Compose (App + MySQL Database):**  
+  `docker compose up --build -d` (spins up MySQL 8 + Spring Boot with volume persistence)
+- **Local Dev / Evaluation (Zero-Setup Embedded Mode):**  
+  `.\mvn.cmd spring-boot:run` (or `./mvnw spring-boot:run`)
+- **Cloud Deployment:** Complete step-by-step instructions for **Railway**, **Render**, and **AWS/Linux VPS** are documented in [DEPLOYMENT_GUIDE.md](file:///c:/Users/hp/Desktop/Vehical%20Rental%20System/DEPLOYMENT_GUIDE.md).
 
 Once started, open your browser and navigate to:
 👉 **`http://localhost:8080/`**

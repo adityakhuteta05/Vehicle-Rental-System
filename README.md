@@ -5,10 +5,18 @@
 The platform controls availability, pricing and trust, so nobody argues about double booking, price or damage.
 
 - Live Demo: https://drivesense-platform.onrender.com/ (Render; first request after idle may take 30-60 seconds to spin up)
+- Video Explanation: https://youtu.be/Qxms8NXEPjs?si=-aLvsW6RW6gpMtSQ
 - Repository: https://github.com/adityakhuteta05/Vehicle-Rental-System
 - Academic Context: Advanced Java Project-Based Learning (PBL), 5th Semester, CSE / AI&DS / IT
 - Institution: Arya College of Engineering & I.T., Jaipur (Affiliated to RTU, Kota)
 - Project Period: 06-07-2026 to 27-09-2026 (12 weeks)
+
+### Team Members
+- Aditya Khuteta (24EARAD007) - Team Leader
+- Avi Maanju (24EARAD026)
+- Aryan Katariya (24EARAD022)
+- Gaurav Yadav (24EARAD053)
+- Aditya Gautam (24EARAD006)
 
 ---
 
@@ -595,11 +603,11 @@ mvn clean package -DskipTests
 
 | Member | Role | 5 Major Modules Assigned |
 | :--- | :--- | :--- |
-| Aryan Katariya | Booking Core Developer (Main integration merger) | 1. Project Setup & Configuration<br>2. Booking Management<br>3. Availability & Concurrency<br>4. Dynamic Pricing Engine<br>5. Payment & Booking Completion |
-| Aditya Khuteta | Team Leader; Authentication, Security & Trust Score | 1. User Registration & Profile<br>2. Authentication<br>3. Authorization & Application Security<br>4. Validation & Error Handling<br>5. Trust Score & Loyalty |
-| Gaurav Yadav | Fleet, Catalogue & Smart Features | 1. Vehicle Catalogue<br>2. Search, Filter & Comparison<br>3. Car Details & Availability Display<br>4. Vibe Match Recommender<br>5. Reviews & Carbon Estimator |
-| Avi Maanju | Admin, DCR & XML | 1. Admin Dashboard<br>2. Admin Fleet Management<br>3. Admin Booking Management<br>4. Digital Condition Report<br>5. Invoice, XML & Reporting |
-| Aditya Gautam | Frontend, QA & Documentation (QA Lead) | 1. UI/UX Design System<br>2. Customer Frontend<br>3. Booking & Checkout Frontend<br>4. Admin/Invoice Frontend & JavaScript Integration<br>5. QA, Testing & Documentation |
+| Aditya Khuteta (24EARAD007) | Team Leader; Authentication, Security & Trust Score | 1. User Registration & Profile<br>2. Authentication<br>3. Authorization & Application Security<br>4. Validation & Error Handling<br>5. Trust Score & Loyalty |
+| Avi Maanju (24EARAD026) | Admin, DCR & XML | 1. Admin Dashboard<br>2. Admin Fleet Management<br>3. Admin Booking Management<br>4. Digital Condition Report<br>5. Invoice, XML & Reporting |
+| Aryan Katariya (24EARAD022) | Booking Core Developer (Main integration merger) | 1. Project Setup & Configuration<br>2. Booking Management<br>3. Availability & Concurrency<br>4. Dynamic Pricing Engine<br>5. Payment & Booking Completion |
+| Gaurav Yadav (24EARAD053) | Fleet, Catalogue & Smart Features | 1. Vehicle Catalogue<br>2. Search, Filter & Comparison<br>3. Car Details & Availability Display<br>4. Vibe Match Recommender<br>5. Reviews & Carbon Estimator |
+| Aditya Gautam (24EARAD006) | Frontend, QA & Documentation (QA Lead) | 1. UI/UX Design System<br>2. Customer Frontend<br>3. Booking & Checkout Frontend<br>4. Admin/Invoice Frontend & JavaScript Integration<br>5. QA, Testing & Documentation |
 
 #### Team Governance and Milestones
 - Testing Responsibility: Every team member tests their own module components.

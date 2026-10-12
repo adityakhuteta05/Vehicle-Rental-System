@@ -11,6 +11,19 @@ The platform controls availability, pricing and trust, so nobody argues about do
 - Institution: Arya College of Engineering & I.T., Jaipur (Affiliated to RTU, Kota)
 - Project Period: 06-07-2026 to 27-09-2026 (12 weeks)
 
+### 📚 Project Documentation
+
+All academic documentation, research, software requirements, and presentation materials for the DriveSense project are available in the Google Drive folder below.
+
+📂 **[Access All Project Documents – Google Drive](https://drive.google.com/drive/folders/1AskUadGGHzbaiv3JICaixStV4u9IFe0J?usp=drive_link)**
+
+The folder contains:
+
+- 📄 **Project Report** – Detailed documentation of the DriveSense platform.
+- 🔬 **Research Paper** – Research and technical background related to the project.
+- 📋 **Software Requirements Specification (SRS)** – Functional and non-functional requirements.
+- 📊 **Project Presentation (PPT)** – Slides covering the project overview and implementation.
+
 ### Team Members
 - Aditya Khuteta (24EARAD007) - Team Leader
 - Avi Maanju (24EARAD026)
